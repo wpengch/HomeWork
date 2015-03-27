@@ -30,6 +30,8 @@
                             <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
                             <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
                             <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                            <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/home</prop>
+                            <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
                      </props>
               </property>
               <property name="packagesToScan" value="com.homework.entity"></property>
