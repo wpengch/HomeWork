@@ -1,64 +1,133 @@
-'use strict';
+/**
+ * 创建人：pengchao
+ * 创建时间：2015-3-23-0023
+ * 工厂名字：MainCtrl
+ * 作用：主页控制器
+ */
+(function () {
+  'use strict';
 
-angular.module('homework')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      {
-        'title': 'AngularJS',
-        'url': 'https://angularjs.org/',
-        'description': 'HTML enhanced for web apps!',
-        'logo': 'angular.png'
-      },
-      {
-        'title': 'BrowserSync',
-        'url': 'http://browsersync.io/',
-        'description': 'Time-saving synchronised browser testing.',
-        'logo': 'browsersync.png'
-      },
-      {
-        'title': 'GulpJS',
-        'url': 'http://gulpjs.com/',
-        'description': 'The streaming build system.',
-        'logo': 'gulp.png'
-      },
-      {
-        'title': 'Jasmine',
-        'url': 'http://jasmine.github.io/',
-        'description': 'Behavior-Driven JavaScript.',
-        'logo': 'jasmine.png'
-      },
-      {
-        'title': 'Karma',
-        'url': 'http://karma-runner.github.io/',
-        'description': 'Spectacular Test Runner for JavaScript.',
-        'logo': 'karma.png'
-      },
-      {
-        'title': 'Protractor',
-        'url': 'https://github.com/angular/protractor',
-        'description': 'End to end test framework for AngularJS applications built on top of WebDriverJS.',
-        'logo': 'protractor.png'
-      },
-      {
-        'title': 'jQuery',
-        'url': 'http://jquery.com/',
-        'description': 'jQuery is a fast, small, and feature-rich JavaScript library.',
-        'logo': 'jquery.jpg'
-      },
-      {
-        'title': 'Angular Material Design',
-        'url': 'https://material.angularjs.org/#/',
-        'description': 'The Angular reference implementation of the Google\'s Material Design specification.',
-        'logo': 'angular-material.png'
-      },
-      {
-        'title': 'Sass (Ruby)',
-        'url': 'http://sass-lang.com/',
-        'description': 'Original Syntactically Awesome StyleSheets implemented in Ruby',
-        'logo': 'ruby-sass.png'
+  angular.module('home').controller('MainCtrl', MainCtrl);
+
+  MainCtrl.$inject = ['$log', 'Config', '$timeout', 'MenuFactory', '$rootScope', '$location', '$mdSidenav','$state'];
+
+  function MainCtrl($log, Config, $timeout, MenuFactory, $rootScope, $location, $mdSidenav,$state) {
+    //接口定义
+    var vm = this;
+    vm.sections = MenuFactory.sections;
+    vm.openMenu = openMenu;
+    vm.closeMenu = closeMenu;
+    vm.path = path;
+    vm.goHome = goHome;
+    vm.openPage = openPage;
+    vm.isSectionSelected = isSectionSelected;
+    //$rootScope.$on('$locationChangeSuccess', openPage);
+    vm.focusMainContent = focusMainContent;
+
+    vm.isOpen = isOpen;
+    vm.isSelected = isSelected;
+    vm.toggleOpen = toggleOpen;
+    vm.autoFocusContent = false;
+    vm.goSelect = goSelect;
+
+    var mainContentArea = document.querySelector("[role='main']");
+
+    activate();
+    ////////////////////////////////////////////////
+    ////////////下面为私有函数定义////////////////////
+    ////////////////////////////////////////////////
+
+    /**
+     * 启动逻辑逻辑
+     */
+    function activate() {
+      $log.info('加载MainCtrl开始...');
+
+      MenuFactory.registerCallback(Config.Events.MenuInit, function () {
+        $timeout(function () {
+          vm.sections = MenuFactory.sections;
+        });
+      });
+      $log.info('加载MainCtrl结束');
+    }
+
+    function openMenu() {
+      $timeout(function () {
+        $mdSidenav('left').open();
+      });
+    }
+
+    function closeMenu() {
+      $timeout(function () {
+        try {
+          $mdSidenav('left').close();
+        } catch (e) {
+          $log.info(e);
+        }
+      });
+    }
+
+    function goHome($event) {
+      MenuFactory.selectPage(null, null);
+      return $state.go('login');
+    }
+
+    function openPage() {
+      //vm.closeMenu();
+      //
+      //if (self.autoFocusContent) {
+      //  focusMainContent();
+      //  self.autoFocusContent = false;
+      //}
+    }
+
+    function path() {
+      return $location.path();
+    }
+
+    function focusMainContent($event) {
+      //if ($event) {
+      //  $event.preventDefault();
+      //}
+      //
+      //$timeout(function () {
+      //  mainContentArea.focus();
+      //}, 90);
+    }
+
+    function isSelected(page) {
+      return MenuFactory.isPageSelected(page);
+    }
+
+    function goSelect(section,event) {
+      $log.info('goSelect');
+      $state.go(section.url);
+      event.stopPropagation();
+    }
+
+    function isSectionSelected(section) {
+      var selected = false;
+      var openedSection = MenuFactory.openedSection;
+      if (openedSection === section) {
+        selected = true;
+      } else if (section.children) {
+        section.children.forEach(function (childSection) {
+          if (childSection === openedSection) {
+            selected = true;
+          }
+        });
       }
-    ];
-    angular.forEach($scope.awesomeThings, function(awesomeThing) {
-      awesomeThing.rank = Math.random();
-    });
-  });
+
+      return selected;
+    }
+
+    function isOpen(section) {
+      return MenuFactory.isSectionSelected(section);
+    }
+
+    function toggleOpen(section) {
+      MenuFactory.toggleSelectSection(section);
+    }
+  }
+
+})();

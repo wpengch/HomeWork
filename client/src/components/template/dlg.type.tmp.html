@@ -1,0 +1,10 @@
+<md-dialog aria-label="选择类型">
+  <md-content>
+    <md-subheader class="md-sticky-no-effect">选择类型</md-subheader>
+    <md-list>
+      <md-item ng-repeat="item in items">
+        <md-button aria-label="{{item.name}}" ng-click="select(item)" style="width: 100%">{{item.name}}</md-button>
+      </md-item>
+    </md-list>
+  </md-content>
+</md-dialog>

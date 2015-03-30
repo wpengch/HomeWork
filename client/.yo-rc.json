@@ -47,10 +47,10 @@
         "module": "ngMaterial"
       },
       "cssPreprocessor": {
-        "key": "ruby-sass",
+        "key": "node-sass",
         "extension": "scss",
-        "module": "gulp-ruby-sass",
-        "version": "~0.7.1"
+        "module": "gulp-sass",
+        "version": "~1.1.0"
       },
       "jsPreprocessor": {
         "key": "none",

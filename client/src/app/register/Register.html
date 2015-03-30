@@ -1,0 +1,27 @@
+<md-content class="md-padding" layout="column" layout-align="center center">
+    <form name="vm.newForm" layout="column" layout-align="center center">
+        <md-input-container>
+            <label>账户</label>
+            <input required ng-model="vm.user.id" placeholder="请输入账号">
+        </md-input-container>
+        <md-input-container>
+            <label>名字</label>
+            <input required ng-model="vm.user.name" placeholder="请输入名字">
+        </md-input-container>
+        <md-input-container>
+            <label>{{vm.ssn}}</label>
+            <input required ng-model="vm.user.sn" placeholder="请输入编号">
+        </md-input-container>
+        <md-input-container>
+            <label>密码</label>
+            <input required type="password" ng-model="vm.user.password" placeholder="请输入密码">
+        </md-input-container>
+        <md-input-container>
+            <label>确认密码</label>
+            <input required type="password" ng-model="vm.password" placeholder="请输入确认密码">
+        </md-input-container>
+
+        <md-button class="md-primary" style="margin-top: 50px;min-width: 200px" ng-click="vm.submit($event)">提交
+        </md-button>
+    </form>
+</md-content>

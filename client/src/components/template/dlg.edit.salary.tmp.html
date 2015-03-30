@@ -1,0 +1,16 @@
+<md-dialog aria-label="输入">
+  <md-content>
+    <md-subheader class="md-sticky-no-effect" style="margin-left:-15px">{{vm.header || '请输入'}}
+    </md-subheader>
+    <form name="vm.inputForm" layout="column">
+      <md-input-container>
+        <label>{{vm.name}}</label>
+        <input required type="number" ng-model="vm.value">
+      </md-input-container>
+      <md-content layout="row" layout-align="space-around center">
+        <md-button ng-click="vm.cancel()" style="color: #999">取消</md-button>
+        <md-button ng-click="vm.submit()" style="color: #999">确定</md-button>
+      </md-content>
+    </form>
+  </md-content>
+</md-dialog>

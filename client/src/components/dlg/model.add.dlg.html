@@ -1,0 +1,24 @@
+<md-dialog>
+  <md-subheader>创建模型</md-subheader>
+  <form name="vm.addForm" layout="column">
+    <div class="md-padding">
+      <md-input-container>
+        <label>模型key</label>
+        <md-input required ng-model="vm.model.key"></md-input>
+      </md-input-container>
+      <md-input-container>
+        <label>模型名称</label>
+        <md-input required ng-model="vm.model.name"></md-input>
+      </md-input-container>
+      <md-input-container>
+        <label>模型描述</label>
+        <md-input required ng-model="vm.model.description"></md-input>
+      </md-input-container>
+    </div>
+
+    <div class="md-padding" layout="row">
+      <md-button ng-click="vm.submit()" flex>确定</md-button>
+      <md-button ng-click="vm.cancel()" flex>取消</md-button>
+    </div>
+  </form>
+</md-dialog>

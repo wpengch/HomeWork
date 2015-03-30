@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * ÓÉ Ìï»ÆÑ©Þ± ´´½¨ÓÚ 2015-3-27-0027.
+ * ç”± ç”°é»„é›ªè–‡ åˆ›å»ºäºŽ 2015-3-27-0027.
  */
 @RestController
 @RequestMapping("user")

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 由 田黄雪薇 创建于 2015-3-27-0027.
+ *  2015-3-27-0027.
  */
 @RestController
 @RequestMapping("department")

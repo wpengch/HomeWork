@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<param name="Threshold" value="DEBUG" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%-d{HH:mm:ss}][repair] %p [%t] %c{1}.%M(%L) | %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="DEBUG" />
+		<param name="File" value="${catalina.home}/logs/oa.log" />
+		<param name="Append" value="true" />
+
+		<!-- Rollover at midnight each day -->
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%-d{HH:mm:ss}][newhieght] %p [%t] %c{1}.%M(%L) | %m%n" />
+		</layout>
+	</appender>
+
+
+	<logger name="org.apache.ibatis">
+		 <level value="DEBUG"/>
+	</logger>
+
+	<logger name="org.apache">
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="org.springframework">
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="java.sql.PreparedStatement">
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="java.sql.Statement">
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="java.sql.Connection">
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="org.quartz">
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="org.directwebremoting">
+		<level value="DEBUG" />
+	</logger>
+
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+
+</log4j:configuration>

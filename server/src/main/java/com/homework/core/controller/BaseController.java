@@ -5,7 +5,7 @@ import com.homework.core.Result;
 import java.util.List;
 
 /**
- * ÓÉ Ìï»ÆÑ©Þ± ´´½¨ÓÚ 2015-3-27-0027.
+ * ç”± ç”°é»„é›ªè–‡ åˆ›å»ºäºŽ 2015-3-27-0027.
  */
 public interface BaseController<T,ID> {
     Result create(T entity);

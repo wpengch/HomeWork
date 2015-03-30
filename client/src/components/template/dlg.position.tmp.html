@@ -1,0 +1,12 @@
+<md-dialog aria-label="选择岗位">
+  <md-content layout="column" layout-align="center center">
+    <md-list>
+      <md-item ng-repeat="position in vm.positions" style="width: 100%">
+        <md-button ng-click="vm.answer(position)" style="width: 100%;color: #000000">{{position.name}}</md-button>
+      </md-item>
+    </md-list>
+    <label ng-if="vm.positions.length < 1">该部门下没有岗位</label>
+    <br>
+    <md-button ng-click="vm.cancel()">取消</md-button>
+  </md-content>
+</md-dialog>

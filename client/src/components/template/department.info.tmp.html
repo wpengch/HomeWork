@@ -1,0 +1,33 @@
+<md-whiteframe class="md-whiteframe-z2 md-padding" layout="column">
+  <md-whiteframe layout="row" layout-align="space-around start">
+    <div class="md-padding layout-form" style="margin: 30px 30px 0 30px;">
+      <div class="info">
+        <span>部 门 名 称:<b class="force_justify"></b></span>
+        <label>{{vm.selectDep.name | default}}</label>
+      </div>
+      <div class="info">
+        <span>部 门 简 称:<b class="force_justify"></b></span>
+        <label>{{vm.selectDep.shortName | default}}</label>
+      </div>
+      <div class="info">
+        <span>电        话:<b class="force_justify"></b></span>
+        <label>{{vm.selectDep.telephone | default}}</label>
+      </div>
+      <div class="info">
+        <span>传         真:<b class="force_justify"></b></span>
+        <label>{{vm.selectDep.fax | default}}</label>
+      </div>
+      <div class="info">
+        <span>地          址:<b class="force_justify"></b></span>
+        <label>{{vm.selectDep.address | default}}</label>
+      </div>
+    </div>
+  </md-whiteframe>
+  <md-whiteframe flex>
+    <md-content layout="column" class="dep-description">
+      <h2>部门介绍</h2>
+      <div ng-bind-html="vm.selectDep.description | trustHtml"></div>
+    </md-content>
+    <md-button class="more-info">查看完整信息</md-button>
+  </md-whiteframe>
+</md-whiteframe>

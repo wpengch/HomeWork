@@ -1,7 +1,9 @@
 package com.homework.core;
 
+import com.homework.common.constant.BaseException;
+
 /**
- * 由 田黄雪薇 创建于 2015-3-27-0027.
+ *  2015-3-27-0027.
  */
 public class Header {
     private int rc;
@@ -9,7 +11,12 @@ public class Header {
 
     public Header() {
         rc = 0;
-        rm = "成功";
+        rm = "鎴愬姛";
+    }
+
+    public Header(BaseException e) {
+        rc = e.getRc();
+        rm = e.getRm();
     }
 
     public Header(int rc, String rm) {

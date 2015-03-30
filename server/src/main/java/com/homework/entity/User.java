@@ -1,9 +1,10 @@
 package com.homework.entity;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
- * Created by pengchao on 2015-3-27-0027.
+ * 由 田黄雪薇 创建于 2015-3-27-0027.
  */
 @Entity
 @Table(name = "user")
@@ -12,9 +13,19 @@ public class User {
     private String name;
     private String password;
     private Integer type;
+    private Timestamp birthday;
+    private byte sex;
+    private String avatar;
+    private String address;
+    private Timestamp admissionTime;
+    private Timestamp createdate;
+    private Byte status;
+    private String token;
+    private String ip;
+    private String sn;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false, insertable = true, updatable = true, length = 255)
     public String getId() {
         return id;
     }
@@ -24,7 +35,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, insertable = true, updatable = true, length = 255)
     public String getName() {
         return name;
     }
@@ -34,7 +45,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, insertable = true, updatable = true, length = 255)
     public String getPassword() {
         return password;
     }
@@ -44,7 +55,7 @@ public class User {
     }
 
     @Basic
-    @Column(name = "type")
+    @Column(name = "type", nullable = true, insertable = true, updatable = true)
     public Integer getType() {
         return type;
     }
@@ -75,5 +86,105 @@ public class User {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "birthday", nullable = true, insertable = true, updatable = true)
+    public Timestamp getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Timestamp birthday) {
+        this.birthday = birthday;
+    }
+
+    @Basic
+    @Column(name = "sex", nullable = false, insertable = true, updatable = true)
+    public byte getSex() {
+        return sex;
+    }
+
+    public void setSex(byte sex) {
+        this.sex = sex;
+    }
+
+    @Basic
+    @Column(name = "avatar", nullable = true, insertable = true, updatable = true, length = 255)
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    @Basic
+    @Column(name = "address", nullable = true, insertable = true, updatable = true, length = 255)
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Basic
+    @Column(name = "admissionTime", nullable = true, insertable = true, updatable = true)
+    public Timestamp getAdmissionTime() {
+        return admissionTime;
+    }
+
+    public void setAdmissionTime(Timestamp admissionTime) {
+        this.admissionTime = admissionTime;
+    }
+
+    @Basic
+    @Column(name = "createdate", nullable = true, insertable = true, updatable = true)
+    public Timestamp getCreatedate() {
+        return createdate;
+    }
+
+    public void setCreatedate(Timestamp createdate) {
+        this.createdate = createdate;
+    }
+
+    @Basic
+    @Column(name = "status", nullable = true, insertable = true, updatable = true)
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    @Basic
+    @Column(name = "token", nullable = true, insertable = true, updatable = true, length = 255)
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    @Basic
+    @Column(name = "ip", nullable = true, insertable = true, updatable = true, length = 255)
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    @Basic
+    @Column(name = "sn", nullable = true, insertable = true, updatable = true, length = 255)
+    public String getSn() {
+        return sn;
+    }
+
+    public void setSn(String sn) {
+        this.sn = sn;
     }
 }

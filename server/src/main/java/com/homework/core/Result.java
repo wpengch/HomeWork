@@ -1,7 +1,11 @@
 package com.homework.core;
 
+import com.homework.common.constant.BaseException;
+
+import java.util.HashMap;
+
 /**
- * ÓÉ Ìï»ÆÑ©Þ± ´´½¨ÓÚ 2015-3-27-0027.
+ * ç”± ç”°é»„é›ªè–‡ åˆ›å»ºäºŽ 2015-3-27-0027.
  */
 public class Result {
     private Header header;
@@ -16,9 +20,34 @@ public class Result {
         try {
             r.data = result.query();
         } catch (Exception ex) {
-            r.header = new Header(1, "Ê§°Ü" + ex.getMessage());
+            if (ex instanceof BaseException) {
+                r.header = new Header((BaseException) ex);
+            } else {
+                r.header = new Header(1, "å¤±è´¥" + ex.getMessage());
+            }
         }
         return r;
+    }
+
+    public static Result getResult(String key, Object value) {
+        Result r = new Result();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        r.setData(map);
+        return r;
+    }
+
+    public static Result getResult(HashMap<String, Object> map) {
+        Result r = new Result();
+        r.setData(map);
+        return r;
+    }
+
+    public static Result getResult(int rc, String rm) {
+        Result result = new Result();
+        result.getHeader().setRc(rc);
+        result.getHeader().setRm(rm);
+        return result;
     }
 
     public static Result getResult(IResult result, int rc, String rm) {

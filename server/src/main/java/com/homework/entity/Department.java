@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- * 由 田黄雪薇 创建于 2015-3-28-0028.
+ *  2015-3-28-0028.
  */
 @Entity
 public class Department {

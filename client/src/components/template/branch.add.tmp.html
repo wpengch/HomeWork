@@ -1,0 +1,84 @@
+<md-whiteframe class="md-whiteframe-z2 md-padding" layout="row" layout-align="space-around start" style="padding: 20px">
+  <md-whiteframe layout="column" flex="30">
+    <div class="md-padding">
+      <md-input-container class="add-edit">
+        <label>名称</label>
+        <input required ng-model="vm.department.name" type="text">
+        <div ng-messages="vm.addForm.department.name.$error">
+          <div ng-message="required">公司名称不能为空</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="add-edit">
+        <label>企业简称</label>
+        <input  ng-model="vm.department.shortName" type="text">
+      </md-input-container>
+      <md-input-container class="add-edit">
+        <label>直接上级</label>
+        <input required ng-model="vm.department.name" type="text">
+        <div ng-messages="vm.addForm.department.name.$error">
+          <div ng-message="required">直接上级不能为空</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="add-edit">
+        <label>负责人</label>
+        <input required ng-model="vm.department.legalRep" type="text">
+        <div ng-messages="vm.addForm.department.legalRep.$error">
+          <div ng-message="required">负责人不能为空</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="add-edit">
+        <label>注册号</label>
+        <input required ng-model="vm.department.registeredNum" type="text">
+        <div ng-messages="vm.addForm.department.registeredNum.$error">
+          <div ng-message="required">注册号不能为空</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="add-edit">
+        <label>地址</label>
+        <input required ng-model="vm.department.address" type="text">
+        <div ng-messages="vm.addForm.department.address.$error">
+          <div ng-message="required">地址不能为空</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="add-edit">
+        <label>电话</label>
+        <input  ng-model="vm.department.telephone" type="text">
+      </md-input-container>
+      <!--<md-input-container>-->
+      <!--<label>{{pName}}</label>-->
+      <!--</md-input-container>-->
+      <md-input-container class="add-edit">
+        <label>传真</label>
+        <input  ng-model="vm.department.fax" type="text">
+      </md-input-container>
+      <md-input-container class="add-edit">
+        <label>邮编</label>
+        <input  ng-model="vm.department.pc" type="text">
+      </md-input-container>
+      <md-input-container class="add-edit">
+        <label>电子邮箱</label>
+        <input required ng-model="vm.department.email" type="email">
+        <div ng-messages="vm.addForm.department.email.$error">
+          <div ng-message="required">输入合法的电子邮箱</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="add-edit">
+        <label>官方网站</label>
+        <input required  ng-model="vm.department.website" type="text">
+        <div ng-messages="vm.addForm.department.website.$error">
+          <div ng-message="required">官方网站不能为空</div>
+        </div>
+      </md-input-container>
+    </div>
+  </md-whiteframe>
+  <md-whiteframe flex="70">
+    <md-content layout="column" class="editer-total content-border">
+      <md-content  class="md-toolbar-tools">分公司介绍</md-content>
+      <text-angular  ng-model="vm.department.description" ta-toolbar="{{Config.toolbars}}"></text-angular>
+      <md-content>
+        <md-button class="md-toolbar-tools" flex ng-model="vm.department.attachment">添加附件</md-button>
+      </md-content>
+    </md-content>
+  </md-whiteframe>
+</md-whiteframe>
+
