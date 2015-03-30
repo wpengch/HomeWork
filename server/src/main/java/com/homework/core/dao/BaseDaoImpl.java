@@ -33,20 +33,31 @@ public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
         idClass = (Class<ID>) params[1];
     }
 
+    public Session getSession() {
+        return sessionFactory.openSession();
+    }
+
     @Override
     public ID create(T entity) {
-        return (ID) sessionFactory.openSession().save(entity);
+        Session session = getSession();
+        ID id = (ID) session.save(entity);
+        session.flush();
+        return id;
     }
 
     @Override
     public boolean delete(T entity) {
-        sessionFactory.openSession().delete(entity);
+        Session session = getSession();
+        session.delete(entity);
+        session.flush();
         return true;
     }
 
     @Override
     public boolean update(T entity) {
-        sessionFactory.openSession().update(entity);
+        Session session = getSession();
+        session.update(entity);
+        session.flush();
         return true;
     }
 
@@ -143,6 +154,17 @@ public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
     @Override
     public T getById(ID id) {
         return (T) sessionFactory.openSession().get(entityClass.getName(), (Serializable) id);
+    }
+
+    @Override
+    public boolean deleteById(ID id) {
+        Session session = getSession();
+        String hql = "delete from " + entityClass.getName() + " where id=?";
+        Query query = session.createQuery(hql);
+        query.setParameter(0, id);
+        query.executeUpdate();
+        session.flush();
+        return true;
     }
 
     public SessionFactory getSessionFactory() {

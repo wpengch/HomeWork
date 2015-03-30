@@ -1,0 +1,22 @@
+<div layout="row">
+  <md-whiteframe layout="column" style="width: 300px;height: auto"  md-theme="altTheme">
+      <md-toolbar md-theme="altTheme"  layout="row" class="box-shadow-none toolbar-border">
+        <div class="md-toolbar-tools" style="width:120px;" flex>组织结构</div>
+        <md-button  ng-click="vm.addDepartment()" class="btn-ctrl">添加学校</md-button>
+      </md-toolbar>
+    <div  class="content-border" ng-include src="'components/template/department-add.tmp.html'">
+    </div>
+  </md-whiteframe>
+  <md-whiteframe  flex="98" style="margin-left: 2%;">
+    <md-toolbar layout="row" md-theme="altTheme" class="box-shadow-none toolbar-border">
+      <div class="md-toolbar-tools"  flex>{{vm.selectDep.name}}</div>
+      <md-button ng-click="vm.editDepartment($event)" ng-if="!!vm.selectDep" class="btn-ctrl">
+        编辑资料
+      </md-button>
+      <md-button ng-click="vm.deleteDepartment($event)" ng-if="!!vm.selectDep" class="btn-ctrl">
+        删除部门
+      </md-button>
+    </md-toolbar>
+    <md-content  ng-include src="vm.template.infoUrl" class="content-border"></md-content>
+  </md-whiteframe>
+</div>

@@ -10,6 +10,7 @@ import java.util.List;
 public interface BaseController<T,ID> {
     Result create(T entity);
     Result delete(T entity);
+    Result deleteById(ID id);
     Result update(T entity);
     Result getAll();
     Result getById(ID id);

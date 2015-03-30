@@ -62,5 +62,11 @@ public abstract class BaseServiceImpl<T,ID> implements BaseService<T, ID> {
         return getDao().getById(id);
     }
 
+    @Override
+    public boolean deleteById(ID id) {
+        return
+        getDao().deleteById(id);
+    }
+
     public abstract <D extends BaseDao<T,ID>> D getDao();
 }

@@ -9,19 +9,18 @@
 
   angular.module('home').controller('MainCtrl', MainCtrl);
 
-  MainCtrl.$inject = ['$log', 'Config', '$timeout', 'MenuFactory', '$rootScope', '$location', '$mdSidenav','$state'];
+  MainCtrl.$inject = ['$log', 'Config', '$timeout', 'MenuFactory', '$rootScope', '$location', '$mdSidenav','$state','Restangular'];
 
-  function MainCtrl($log, Config, $timeout, MenuFactory, $rootScope, $location, $mdSidenav,$state) {
+  function MainCtrl($log, Config, $timeout, MenuFactory, $rootScope, $location, $mdSidenav,$state,Restangular) {
     //接口定义
     var vm = this;
-    vm.sections = MenuFactory.sections;
+    vm.sections = MenuFactory.getSections();
     vm.openMenu = openMenu;
     vm.closeMenu = closeMenu;
     vm.path = path;
     vm.goHome = goHome;
     vm.openPage = openPage;
     vm.isSectionSelected = isSectionSelected;
-    //$rootScope.$on('$locationChangeSuccess', openPage);
     vm.focusMainContent = focusMainContent;
 
     vm.isOpen = isOpen;
@@ -42,12 +41,6 @@
      */
     function activate() {
       $log.info('加载MainCtrl开始...');
-
-      MenuFactory.registerCallback(Config.Events.MenuInit, function () {
-        $timeout(function () {
-          vm.sections = MenuFactory.sections;
-        });
-      });
       $log.info('加载MainCtrl结束');
     }
 
@@ -68,7 +61,6 @@
     }
 
     function goHome($event) {
-      MenuFactory.selectPage(null, null);
       return $state.go('login');
     }
 

@@ -1,0 +1,12 @@
+<form name="vm.addForm" layout="column" class="doc-content">
+  <md-whiteframe class="md-padding" layout="column">
+    <md-toolbar md-theme="altTheme" layout="row" class="box-shadow-none toolbar-border">
+      <div class="md-toolbar-tools"  flex>编辑{{vm.department.name}}资料</div>
+      <md-button  ng-click="vm.submit($event)" class="btn-ctrl">提交</md-button>
+      <md-button  ng-click="back()" class="btn-ctrl">取消</md-button>
+    </md-toolbar>
+    <md-content class="content-border">
+      <div ng-include src="vm.type.editUrl" class="info-border"></div>
+    </md-content>
+  </md-whiteframe>
+</form>

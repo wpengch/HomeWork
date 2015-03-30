@@ -92,38 +92,31 @@
       {id: '0', name: '未选择', infoUrl: 'components/template/department.no.info.tmp.html'},
       {
         id: '1',
-        name: '公司',
-        infoUrl: 'components/template/company.info.tmp.html',
-        addUrl: 'components/template/company.add.tmp.html',
-        editUrl: 'components/template/company.edit.tmp.html'
+        name: '学校',
+        infoUrl: 'components/template/school.info.tmp.html',
+        addUrl: 'components/template/school.add.tmp.html',
+        editUrl: 'components/template/school.edit.tmp.html'
       },
       {
         id: '2',
-        name: '部门',
-        infoUrl: 'components/template/department.info.tmp.html',
-        addUrl: 'components/template/department.add.tmp.html',
-        editUrl: 'components/template/department.edit.tmp.html'
+        name: '院系',
+        infoUrl: 'components/template/institute.info.tmp.html',
+        addUrl: 'components/template/institute.add.tmp.html',
+        editUrl: 'components/template/institute.edit.tmp.html'
       },
       {
         id: '3',
-        name: '分公司',
-        infoUrl: 'components/template/branch.info.tmp.html',
-        addUrl: 'components/template/branch.add.tmp.html',
-        editUrl: 'components/template/branch.edit.tmp.html'
+        name: '专业',
+        infoUrl: 'components/template/professional.info.tmp.html',
+        addUrl: 'components/template/professional.add.tmp.html',
+        editUrl: 'components/template/professional.edit.tmp.html'
       },
       {
         id: '4',
-        name: '子公司',
-        infoUrl: 'components/template/subsidiaries.info.tmp.html',
-        addUrl: 'components/template/subsidiaries.add.tmp.html',
-        editUrl: 'components/template/subsidiaries.edit.tmp.html'
-      },
-      {
-        id: '5',
-        name: '项目部',
-        infoUrl: 'components/template/pro.department.info.tmp.html',
-        addUrl: 'components/template/pro.department.add.tmp.html',
-        editUrl: 'components/template/pro.department.edit.tmp.html'
+        name: '班级',
+        infoUrl: 'components/template/classes.info.tmp.html',
+        addUrl: 'components/template/classes.add.tmp.html',
+        editUrl: 'components/template/classes.edit.tmp.html'
       }
     ],
     toolbars: [

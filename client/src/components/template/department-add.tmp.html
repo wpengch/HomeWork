@@ -7,7 +7,7 @@
       <md-button flex style="text-align: left" data-nodrag ng-click="vm.depClick(this)" aria-label="department.name">
         {{department.name}}
       </md-button>
-      <md-button aria-label="dd" ng-click="vm.addDialog(this,$event)">+</md-button>
+      <md-button aria-label="dd" ng-if="this.$modelValue.type !== 4" ng-click="vm.addDialog(this,$event)">+</md-button>
     </div>
     <ol ui-tree-nodes="" ng-model="department.children" ng-if="!collapsed">
       <li ng-repeat="department in department.children" ui-tree-node ng-include="'department_renderer.html'"

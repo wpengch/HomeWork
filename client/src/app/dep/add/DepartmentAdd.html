@@ -1,0 +1,12 @@
+<form name="vm.addForm" layout="column" class="doc-content">
+  <md-whiteframe class="md-padding" layout="column">
+    <md-toolbar layout="row" md-theme="altTheme" class="box-shadow-none toolbar-border">
+      <div class="md-toolbar-tools" flex>添加{{vm.type.name}}</div>
+      <md-button class="btn-ctrl" ng-click="vm.addDepartment($event)">提交</md-button>
+      <md-button class="btn-ctrl" ng-click="back()">取消</md-button>
+    </md-toolbar>
+    <md-content class="content-border">
+      <div ng-include src="vm.type.addUrl" class="info-border"></div>
+    </md-content>
+  </md-whiteframe>
+</form>

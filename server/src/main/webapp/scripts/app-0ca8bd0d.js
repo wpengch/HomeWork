@@ -546,6 +546,319 @@ module.directive('menuLink', function () {
 
 
 /**
+ * 创建人：pengchao
+ * 创建时间：2015-3-23-0023
+ * 工厂名字：DepartmentListCtrl
+ * 作用：管理部门列表控制器
+ */
+(function () {
+    'use strict';
+
+    angular.module('home').controller('DepartmentListCtrl', DepartmentListCtrl);
+
+    DepartmentListCtrl.$inject = ['$log', 'Config', 'UserFactory', '$state', 'Restangular', 'DialogFactory', '$timeout', '$mdDialog', 'Tree'];
+
+    function DepartmentListCtrl($log, Config, UserFactory, $state, Restangular, DialogFactory, $timeout, $mdDialog, Tree) {
+        //接口定义
+        var vm = this;
+        vm.departmentTree = Tree.all('department').getList().$object;
+        vm.depClick = depClick;
+        vm.toggleTree = toggleTree;
+        vm.addDepartment = addDepartment;
+        vm.getTypes = getTypes;
+        vm.type = '0';
+        vm.addDialog = addDialog;
+        vm.editDepartment = editDepartment;
+        vm.deleteDepartment = deleteDepartment;
+
+        activate();
+        ////////////////////////////////////////////////
+        ////////////下面为私有函数定义////////////////////
+        ////////////////////////////////////////////////
+
+        /**
+         * 启动逻辑逻辑
+         */
+        function activate() {
+            initSelectDep();
+            $log.info('加载DepartmentListCtrl');
+        }
+
+        /**
+         * 删除部门
+         * @param ev 事件
+         */
+        function deleteDepartment(ev) {
+            Restangular.one('department', vm.selectDep.id).remove()
+                .then(function () {
+                    DialogFactory.success('删除成功', ev);
+                    vm.departmentTree = Tree.all('department').getList().$object;
+                }).catch(function () {
+                    DialogFactory.success('删除失败', ev);
+                });
+        }
+
+        /**
+         * 添加部门的时候弹出的选择对话框
+         * @param scope 模型
+         * @param event 事件
+         */
+        function addDialog(scope, event) {
+            var types = getTypes(scope);
+            $mdDialog.show({
+                controller: TypeController,
+                templateUrl: 'components/template/dlg.type.tmp.html',
+                targetEvent: event,
+                locals: {
+                    types: types
+                }
+            })
+                .then(function (type) {
+                    vm.type = type.id;
+                    addDepartment(scope);
+                })
+                .catch();
+        }
+
+        /**
+         * 编辑部门
+         */
+        function editDepartment() {
+            if (!vm.selectDep || !vm.selectDep.id) {
+                alert("必须至少选择一个公司或者部门");
+                return;
+            }
+            $state.go('main.dep.change', {id: vm.selectDep.id});
+        }
+
+        /**
+         * 类型控制器，类型选择弹出框
+         * @param $scope
+         * @param types
+         * @constructor
+         */
+        function TypeController($scope, types) {
+            $scope.items = types;
+            $scope.select = function (type) {
+                $mdDialog.hide(type);
+            };
+        }
+        TypeController.$inject = ["$scope", "types"];
+
+        /**
+         * 根据类型选择能够添加的类型
+         * @param scope 模型
+         * @returns {Array} 类型数组
+         */
+        function getTypes(scope) {
+            var dep = scope.$modelValue;
+            var types = [];
+
+            switch (dep.type) {
+                case 1:
+                    types.push(Config.DepartmentTypes[2]);
+                    break;
+                case 2:
+                    types.push(Config.DepartmentTypes[2], Config.DepartmentTypes[3]);
+                    break;
+                case 3:
+                    types.push(Config.DepartmentTypes[4]);
+                    break;
+            }
+            return types;
+        }
+
+        /**
+         * 初始化选择的部门
+         */
+        function initSelectDep() {
+            vm.selectDep = (!vm.departmentTree || vm.departmentTree.length < 1) ? {} : vm.departmentTree[0];
+            initTemplate();
+        }
+
+        /**
+         * 初始化模板
+         */
+        function initTemplate() {
+            vm.template = (!vm.selectDep.type) ? Config.DepartmentTypes['0'] : Config.DepartmentTypes[vm.selectDep.type];
+        }
+
+        /**
+         * 属性展开与收缩
+         * @param scope 模型
+         */
+        function toggleTree(scope) {
+            scope.toggle();
+        }
+
+        /**
+         * 树形点击处理
+         * @param scope 模型
+         */
+        function depClick(scope) {
+            $timeout(function () {
+                vm.selectDep = scope.$modelValue;
+                initTemplate();
+            });
+        }
+
+        /**
+         * 添加部门
+         * @param scope 模型
+         */
+        function addDepartment(scope) {
+            if (!scope) {
+                $state.go('main.dep.add', {typeId: '1', depId: null});
+            } else {
+                var dep = scope.$modelValue;
+                $state.go('main.dep.add', {typeId: vm.type, depId: dep.id});
+            }
+        }
+    }
+
+})();
+
+/**
+ * 创建人：pengchao
+ * 创建时间：2015-3-23-0023
+ * 工厂名字：DepartmentChangeCtrl
+ * 作用：编辑部门控制器
+ */
+(function () {
+    'use strict';
+
+    angular.module('home').controller('DepartmentChangeCtrl', DepartmentChangeCtrl);
+
+    DepartmentChangeCtrl.$inject = ['$log', 'Config', '$state', '$stateParams', 'UserFactory', 'Restangular', '$timeout', 'DialogFactory'];
+
+    function DepartmentChangeCtrl($log, Config, $state, $stateParams, UserFactory, Restangular, $timeout, DialogFactory) {
+        //接口定义
+        var vm = this;
+        vm.origin = {};
+        vm.department = vm.origin;
+        vm.parentDepartment = {};
+        vm.submit = submit;
+        vm.department = {};
+        vm.type = {};
+
+        activate();
+        ////////////////////////////////////////////////
+        ////////////下面为私有函数定义////////////////////
+        ////////////////////////////////////////////////
+
+        /**
+         * 启动逻辑逻辑
+         */
+        function activate() {
+            $log.info('加载DepartmentChangeCtrl');
+            init();
+        }
+
+        /**
+         * 初始化函数
+         */
+        function init() {
+            Restangular.one('department', $stateParams.id).get()
+                .then(function (data) {
+                    $timeout(function () {
+                        vm.origin = data;
+                        vm.department = data;
+                        vm.type = Config.DepartmentTypes[vm.department.type];
+                    });
+                });
+        }
+
+        /**
+         * 提交
+         * @param event 事件
+         */
+        function submit(event) {
+            if (vm.addForm.$invalid) {
+                return;
+            }
+            vm.department.save()
+                .then(function () {
+                    DialogFactory.success('部门更新成功', event).then(function () {
+                        $state.go('main.dep.list');
+                    });
+                }).catch(function () {
+                    DialogFactory.success('部门更新失败', event);
+                });
+        }
+    }
+
+})();
+
+/**
+ * 创建人：pengchao
+ * 创建时间：2015-3-23-0023
+ * 工厂名字：DepartmentAddCtrl
+ * 作用：部门添加控制器
+ */
+(function () {
+    'use strict';
+
+    angular.module('home').controller('DepartmentAddCtrl', DepartmentAddCtrl);
+
+    DepartmentAddCtrl.$inject = ['$log', 'Config', '$state', '$stateParams', 'Restangular', 'DialogFactory'];
+
+    function DepartmentAddCtrl($log, Config, $state, $stateParams, Restangular, DialogFactory) {
+        //接口定义
+        var vm = this;
+        vm.depId = $stateParams.depId;
+        vm.type = Config.DepartmentTypes[$stateParams.typeId];
+        vm.parentDepartment = Restangular.one('department', vm.depId);
+        vm.pName = getParentName();
+        vm.department = {
+            pid: (!vm.depId) ? '0' : vm.depId,
+            type: vm.type.id
+        };
+        vm.addDepartment = addDepartment;
+        vm.cancel = cancel;
+        vm.addForm = {};
+
+        activate();
+        ////////////////////////////////////////////////
+        ////////////下面为私有函数定义////////////////////
+        ////////////////////////////////////////////////
+
+        /**
+         * 启动逻辑逻辑
+         */
+        function activate() {
+            $log.info('加载DepartmentAddCtrl');
+        }
+
+        function getParentName() {
+            if (!vm.parentDepartment) {
+                return '根节点';
+            }
+            return vm.parentDepartment.name;
+        }
+
+        function addDepartment(ev) {
+            if (vm.addForm.$invalid) {
+                return;
+            }
+            Restangular.all('department').post(vm.department)
+                .then(function (data) {
+                    DialogFactory.success('部门添加成功', ev)
+                        .finally(function () {
+                            $state.go('main.dep.list');
+                        });
+                }).catch(function () {
+                    DialogFactory.fail('部门添加失败', ev);
+                });
+        }
+
+        function cancel(event) {
+            $state.go('main.dep.list');
+        }
+    }
+
+})();
+
+/**
  * 登陆的factory
  */
 (function () {
@@ -1661,6 +1974,40 @@ module.directive('menuLink', function () {
 
 /**
  * 创建人：pengchao
+ * 创建时间：2015-3-30-0030
+ * 工厂名字：Tree
+ * 作用：树形结构获取
+ */
+(function () {
+    'use strict';
+
+    angular.module('home').factory('Tree', Tree);
+
+    Tree.$inject = ['$log', 'Config','Restangular'];
+
+    function Tree($log, Config,Restangular) {
+        //接口定义
+        var factory = Restangular.withConfig(function(RestangularConfigurer) {
+            RestangularConfigurer.setBaseUrl((Config.Urls.RestUrl || '') + 'tree');
+        });
+        activate();
+        return factory;
+
+        ////////////////////////////////////////////////
+        ////////////下面为私有函数定义////////////////////
+        ////////////////////////////////////////////////
+
+        /**
+         * 启动逻辑逻辑
+         */
+        function activate() {
+            $log.info('加载Repository');
+        }
+    }
+
+})();
+/**
+ * 创建人：pengchao
  * 创建时间：2015-3-23-0023
  * 工厂名字：MenuFactory
  * 作用：主页菜单工厂
@@ -1675,17 +2022,12 @@ module.directive('menuLink', function () {
   function MenuFactory($log, Config, Restangular, $q) {
     //接口定义
     var factory = {};
-    factory.registerCallback = registerCallback;
-    factory.sections = [];
-    factory.reload = reload;
+    factory.getSections = function(){return  Restangular.all('menu').getList().$object;};
     factory.selectPage = selectPage;
     factory.selectSection = function (section) { factory.openedSection = section; };
     factory.toggleSelectSection = function (section) { factory.openedSection = (factory.openedSection === section ? null : section); };
     factory.isSectionSelected = function (section) { return factory.openedSection === section; };
     factory.isPageSelected = function (page) { return factory.currentPage === page; };
-    factory.registerCallback = registerCallback;
-
-    var callbacks = {};
     activate();
     return factory;
 
@@ -1699,46 +2041,6 @@ module.directive('menuLink', function () {
     function activate() {
       $log.info('加载MenuFactory开始...');
       $log.info('加载MenuFactory结束');
-    }
-
-    function reload() {
-      var deferred = $q.defer();
-      Restangular.all('menu').getList()
-        .then(function (data) {
-          factory.sections = data;
-          deferred.resolve(0);
-          notify(Config.Events.MenuInit);
-        })
-        .catch(function (response) {
-          deferred.reject();
-        });
-      return deferred.promise;
-    }
-
-    /**
-     * 注册回调函数
-     * @param id  需要监听的事件
-     * @param callback 回调函数
-     */
-    function registerCallback(id, callback) {
-      if (!callbacks[id]) {
-        callbacks[id] = [];
-      }
-      callbacks[id].push(callback);
-    }
-
-    /**
-     * 发送一个事件通知
-     * @param id 事件ID
-     */
-    function notify(id) {
-      var calls = callbacks[id];
-      if (!calls) {
-        return;
-      }
-      angular.forEach(calls, function (call) {
-        call();
-      });
     }
 
     function selectPage(section, page) {
@@ -1830,130 +2132,121 @@ module.directive('menuLink', function () {
  * 作用：证明，鉴定;身份验证;认证;密押
  */
 (function () {
-  'use strict';
+    'use strict';
 
-  angular.module('home').factory('AuthFactory', AuthFactory);
+    angular.module('home').factory('AuthFactory', AuthFactory);
 
-  AuthFactory.$inject = ['$rootScope', '$log', 'Restangular', '$q', '$cookieStore', 'MenuFactory', '$location', 'md5Factory'];
+    AuthFactory.$inject = ['$rootScope', '$log', 'Restangular', '$q', '$cookieStore', 'MenuFactory', '$location', 'md5Factory'];
 
-  function AuthFactory($rootScope, $log, Restangular, $q, $cookieStore, MenuFactory, $location, md5Factory) {
-    //接口定义
-    var factory = {};
-    factory.auth = auth;
-    factory.quit = quit;
-    factory.login = login;
-    activate();
-    return factory;
+    function AuthFactory($rootScope, $log, Restangular, $q, $cookieStore, MenuFactory, $location, md5Factory) {
+        //接口定义
+        var factory = {};
+        factory.auth = auth;
+        factory.quit = quit;
+        factory.login = login;
+        activate();
+        return factory;
 
-    ////////////////////////////////////////////////
-    ////////////下面为私有函数定义////////////////////
-    ////////////////////////////////////////////////
+        ////////////////////////////////////////////////
+        ////////////下面为私有函数定义////////////////////
+        ////////////////////////////////////////////////
 
-    /**
-     * 启动逻辑逻辑
-     */
-    function activate() {
-      $log.info('加载AuthenticationFactory开始...');
-      $log.info('加载AuthenticationFactory结束');
-    }
-
-    /**
-     * 验证
-     * @returns {*} 验证是否成功
-     */
-    function auth() {
-      var def = $q.defer();
-      if ($rootScope.isLogin || $location.path() === '/' || $location.path() === '/register') {
-        def.resolve(0);
-      } else {
-        var query = $location.search();
-        var token = query.token || $cookieStore.get('auth_token');
-        if (!token || !angular.isString(token)) {
-          def.reject(0);
-          $rootScope.toLogin();
-        } else {
-          Restangular.one('auth').customPOST({token: token}, 'auth')
-            .then(function (data) {
-              setAuth(data.username, token, true);
-              MenuFactory.reload()
-                .finally(function () {
-                  def.resolve(0);
-                });
-            })
-            .catch(function (response) {
-              $rootScope.toLogin();
-              def.reject(response);
-            });
+        /**
+         * 启动逻辑逻辑
+         */
+        function activate() {
+            $log.info('加载AuthenticationFactory开始...');
+            $log.info('加载AuthenticationFactory结束');
         }
-      }
-      return def.promise;
+
+        /**
+         * 验证
+         * @returns {*} 验证是否成功
+         */
+        function auth() {
+            var def = $q.defer();
+            if ($rootScope.isLogin || $location.path() === '/' || $location.path() === '/register') {
+                def.resolve(0);
+            } else {
+                var query = $location.search();
+                var token = query.token || $cookieStore.get('auth_token');
+                if (!token || !angular.isString(token)) {
+                    def.reject(0);
+                    $rootScope.toLogin();
+                } else {
+                    Restangular.one('auth').customPOST({token: token}, 'auth')
+                        .then(function (data) {
+                            setAuth(data.username, token, true);
+                            def.resolve(0);
+                        })
+                        .catch(function (response) {
+                            $rootScope.toLogin();
+                            def.reject(response);
+                        });
+                }
+            }
+            return def.promise;
+        }
+
+        /**
+         * 登陆接口
+         * @param userName 用户名
+         * @param password 密码
+         * @returns {*} 登陆事件的promise
+         */
+        function login(userName, password) {
+            var deferred = $q.defer();
+            clearAuth();
+            if (!userName || !password) {
+                deferred.reject();
+            } else {
+                Restangular.one('auth').customGET('login', {username: userName, password: md5Factory(password)})
+                    .then(function (data) {
+                        setAuth(userName, data.token, true);
+                        deferred.resolve(data);
+                    }, function (response) {
+                        factory.isLogin = false;
+                        deferred.reject(response);
+                    });
+
+                return deferred.promise;
+            }
+        }
+
+        /**
+         * 退出登录
+         */
+        function quit() {
+            clearAuth();
+            $rootScope.toLogin();
+        }
+
+        /**
+         * 清除登陆信息
+         */
+        function clearAuth() {
+            setAuth();
+        }
+
+        /**
+         * 设置登录信息
+         * @param id  登陆ID
+         * @param token token
+         * @param login 是否登陆
+         */
+        function setAuth(id, token, login) {
+            $rootScope.token = token;
+            if (token) {
+                //$cookieStore.put('auth_token', token);
+            } else {
+                $cookieStore.remove('auth_token');
+            }
+            $rootScope.userId = id;
+            $rootScope.isLogin = login;
+        }
+
+
     }
-
-    /**
-     * 登陆接口
-     * @param userName 用户名
-     * @param password 密码
-     * @returns {*} 登陆事件的promise
-     */
-    function login(userName, password) {
-      var deferred = $q.defer();
-      clearAuth();
-      if (!userName || !password) {
-        deferred.reject();
-      } else {
-        Restangular.one('auth').customGET('login', {username: userName, password: md5Factory(password)})
-          .then(function (data) {
-            setAuth(userName, data.token, true);
-            MenuFactory.reload()
-              .then(function (data) {
-                deferred.resolve(data);
-              })
-              .catch(function (response) {
-                deferred.resolve(response);
-              });
-          }, function (response) {
-            factory.isLogin = false;
-            deferred.reject(response);
-          });
-
-        return deferred.promise;
-      }
-    }
-
-    /**
-     * 退出登录
-     */
-    function quit() {
-      clearAuth();
-      $rootScope.toLogin();
-    }
-
-    /**
-     * 清除登陆信息
-     */
-    function clearAuth() {
-      setAuth();
-    }
-
-    /**
-     * 设置登录信息
-     * @param id  登陆ID
-     * @param token token
-     * @param login 是否登陆
-     */
-    function setAuth(id, token, login) {
-      $rootScope.token = token;
-      if(token) {
-        //$cookieStore.put('auth_token', token);
-      }else{
-        $cookieStore.remove('auth_token');
-      }
-      $rootScope.userId = id;
-      $rootScope.isLogin = login;
-    }
-
-
-  }
 
 })();
 
@@ -2274,38 +2567,31 @@ module.directive('menuLink', function () {
       {id: '0', name: '未选择', infoUrl: 'components/template/department.no.info.tmp.html'},
       {
         id: '1',
-        name: '公司',
-        infoUrl: 'components/template/company.info.tmp.html',
-        addUrl: 'components/template/company.add.tmp.html',
-        editUrl: 'components/template/company.edit.tmp.html'
+        name: '学校',
+        infoUrl: 'components/template/school.info.tmp.html',
+        addUrl: 'components/template/school.add.tmp.html',
+        editUrl: 'components/template/school.edit.tmp.html'
       },
       {
         id: '2',
-        name: '部门',
-        infoUrl: 'components/template/department.info.tmp.html',
-        addUrl: 'components/template/department.add.tmp.html',
-        editUrl: 'components/template/department.edit.tmp.html'
+        name: '院系',
+        infoUrl: 'components/template/institute.info.tmp.html',
+        addUrl: 'components/template/institute.add.tmp.html',
+        editUrl: 'components/template/institute.edit.tmp.html'
       },
       {
         id: '3',
-        name: '分公司',
-        infoUrl: 'components/template/branch.info.tmp.html',
-        addUrl: 'components/template/branch.add.tmp.html',
-        editUrl: 'components/template/branch.edit.tmp.html'
+        name: '专业',
+        infoUrl: 'components/template/professional.info.tmp.html',
+        addUrl: 'components/template/professional.add.tmp.html',
+        editUrl: 'components/template/professional.edit.tmp.html'
       },
       {
         id: '4',
-        name: '子公司',
-        infoUrl: 'components/template/subsidiaries.info.tmp.html',
-        addUrl: 'components/template/subsidiaries.add.tmp.html',
-        editUrl: 'components/template/subsidiaries.edit.tmp.html'
-      },
-      {
-        id: '5',
-        name: '项目部',
-        infoUrl: 'components/template/pro.department.info.tmp.html',
-        addUrl: 'components/template/pro.department.add.tmp.html',
-        editUrl: 'components/template/pro.department.edit.tmp.html'
+        name: '班级',
+        infoUrl: 'components/template/classes.info.tmp.html',
+        addUrl: 'components/template/classes.add.tmp.html',
+        editUrl: 'components/template/classes.edit.tmp.html'
       }
     ],
     toolbars: [
@@ -2838,65 +3124,6 @@ module.directive('menuLink', function () {
 })();
 
 /**
- * 创建人：田黄雪薇
- * 创建时间：2015-3-30-0030
- * 工厂名字：RegisterControllerCtrl
- * 作用：注册控制器
- */
-(function () {
-    'use strict';
-
-    angular.module('home').controller('RegisterController', RegisterController);
-
-    RegisterController.$inject = ['$log', 'Config', '$timeout','$stateParams','Restangular','DialogFactory','md5Factory'];
-
-    function RegisterController($log, Config, $timeout,$stateParams,Restangular,DialogFactory,md5Factory) {
-        //接口定义
-        var vm = this;
-        vm.user = {
-            type:$stateParams.type
-        };
-        vm.submit = submit;
-        vm.ssn = vm.user.type == 0 ? '学号' : '教师编号';
-
-        activate();
-        ////////////////////////////////////////////////
-        ////////////下面为私有函数定义////////////////////
-        ////////////////////////////////////////////////
-
-        /**
-         * 启动逻辑逻辑
-         */
-        function activate() {
-            $log.info('加载RegisterControllerCtrl');
-        }
-
-        function submit(ev) {
-            if(vm.newForm.$invalid) {
-                return ;
-            }
-            if(vm.user.password !== vm.password) {
-                DialogFactory.fail("两次输入的密码不符", ev);
-                return;
-            }
-
-            vm.user.password = md5Factory(vm.password);
-
-            Restangular.all('user').post(vm.user)
-                .then(function (data) {
-                    DialogFactory.success('用户创建成功, 跳转到登陆页面!',ev)
-                        .finally(function () {
-                            $state.go('login');
-                        });
-                })
-                .catch(function (response) {
-                    DialogFactory.fail('用户创建失败\n,'  + response.rm , ev);
-                });
-        }
-    }
-
-})();
-/**
  * 创建人：pengchao
  * 创建时间：2015-3-23-0023
  * 工厂名字：MainCtrl
@@ -2907,19 +3134,18 @@ module.directive('menuLink', function () {
 
   angular.module('home').controller('MainCtrl', MainCtrl);
 
-  MainCtrl.$inject = ['$log', 'Config', '$timeout', 'MenuFactory', '$rootScope', '$location', '$mdSidenav','$state'];
+  MainCtrl.$inject = ['$log', 'Config', '$timeout', 'MenuFactory', '$rootScope', '$location', '$mdSidenav','$state','Restangular'];
 
-  function MainCtrl($log, Config, $timeout, MenuFactory, $rootScope, $location, $mdSidenav,$state) {
+  function MainCtrl($log, Config, $timeout, MenuFactory, $rootScope, $location, $mdSidenav,$state,Restangular) {
     //接口定义
     var vm = this;
-    vm.sections = MenuFactory.sections;
+    vm.sections = MenuFactory.getSections();
     vm.openMenu = openMenu;
     vm.closeMenu = closeMenu;
     vm.path = path;
     vm.goHome = goHome;
     vm.openPage = openPage;
     vm.isSectionSelected = isSectionSelected;
-    //$rootScope.$on('$locationChangeSuccess', openPage);
     vm.focusMainContent = focusMainContent;
 
     vm.isOpen = isOpen;
@@ -2940,12 +3166,6 @@ module.directive('menuLink', function () {
      */
     function activate() {
       $log.info('加载MainCtrl开始...');
-
-      MenuFactory.registerCallback(Config.Events.MenuInit, function () {
-        $timeout(function () {
-          vm.sections = MenuFactory.sections;
-        });
-      });
       $log.info('加载MainCtrl结束');
     }
 
@@ -2966,7 +3186,6 @@ module.directive('menuLink', function () {
     }
 
     function goHome($event) {
-      MenuFactory.selectPage(null, null);
       return $state.go('login');
     }
 
@@ -3031,6 +3250,65 @@ module.directive('menuLink', function () {
 })();
 
 /**
+ * 创建人：田黄雪薇
+ * 创建时间：2015-3-30-0030
+ * 工厂名字：RegisterControllerCtrl
+ * 作用：注册控制器
+ */
+(function () {
+    'use strict';
+
+    angular.module('home').controller('RegisterController', RegisterController);
+
+    RegisterController.$inject = ['$log', 'Config', '$timeout','$stateParams','Restangular','DialogFactory','md5Factory'];
+
+    function RegisterController($log, Config, $timeout,$stateParams,Restangular,DialogFactory,md5Factory) {
+        //接口定义
+        var vm = this;
+        vm.user = {
+            type:$stateParams.type
+        };
+        vm.submit = submit;
+        vm.ssn = vm.user.type == 0 ? '学号' : '教师编号';
+
+        activate();
+        ////////////////////////////////////////////////
+        ////////////下面为私有函数定义////////////////////
+        ////////////////////////////////////////////////
+
+        /**
+         * 启动逻辑逻辑
+         */
+        function activate() {
+            $log.info('加载RegisterControllerCtrl');
+        }
+
+        function submit(ev) {
+            if(vm.newForm.$invalid) {
+                return ;
+            }
+            if(vm.user.password !== vm.password) {
+                DialogFactory.fail("两次输入的密码不符", ev);
+                return;
+            }
+
+            vm.user.password = md5Factory(vm.password);
+
+            Restangular.all('user').post(vm.user)
+                .then(function (data) {
+                    DialogFactory.success('用户创建成功, 跳转到登陆页面!',ev)
+                        .finally(function () {
+                            $state.go('login');
+                        });
+                })
+                .catch(function (response) {
+                    DialogFactory.fail('用户创建失败\n,'  + response.rm , ev);
+                });
+        }
+    }
+
+})();
+/**
  * 创建人：pengchao
  * 创建时间：2015-3-23-0023
  * 工厂名字：LoginCtrl
@@ -3088,32 +3366,66 @@ module.directive('menuLink', function () {
 
 })();
 
-angular.module("home").run(["$templateCache", function($templateCache) {$templateCache.put("app/login/login.html","<div style=\"position:absolute;top:50%;left:50%;\"><div layout=\"row\" style=\"width:500px;height:230px;position: relative; margin:-115px auto auto -250px;\"><div flex=\"\" hide-sm=\"\" flex-order=\"1\" align=\"right\" layout-padding=\"\"><img src=\"../assets/images/img/login_01.png\" layout-padding=\"\"><div class=\"login-font\">作业管理系统</div><p class=\"login-font-p\">2015年田黄雪薇版权所有</p></div><div flex=\"\" flex-order=\"2\" align=\"center\"><form name=\"vm.loginForm\" layout=\"column\" layout-align=\"center center\"><md-input-container flex=\"\"><label align=\"left\">账号</label> <input required=\"\" ng-model=\"vm.user.userName\" placeholder=\"请输入用户名\"><div ng-messages=\"vm.loginForm.user.userName.$error\"><div ng-message=\"required\">账号不能为空</div></div></md-input-container><md-input-container flex=\"\"><label align=\"left\">密码</label> <input required=\"\" ng-model=\"vm.user.password\" type=\"password\" placeholder=\"请输入密码\"><div ng-messages=\"vm.loginForm.user.password.$error\"><div ng-message=\"required\">密码不能为空</div></div></md-input-container><md-button class=\"md-raised md-primary\" style=\"width: 175px;box-shadow: none;color:#fff\" ng-click=\"vm.login($event)\" flex=\"\">登陆</md-button></form><md-button ng-click=\"vm.stuRegister($event)\" style=\"margin-top: 20px;color: green;padding: 10px\">学生注册</md-button><md-button ng-click=\"vm.teacherRegister($event)\" style=\"margin-top: 20px;color: green;padding: 10px\">老师注册</md-button></div></div></div>");
-$templateCache.put("app/register/Register.html","<md-content class=\"md-padding\" layout=\"column\" layout-align=\"center center\"><form name=\"vm.newForm\" layout=\"column\" layout-align=\"center center\"><md-input-container><label>账户</label> <input required=\"\" ng-model=\"vm.user.id\" placeholder=\"请输入账号\"></md-input-container><md-input-container><label>名字</label> <input required=\"\" ng-model=\"vm.user.name\" placeholder=\"请输入名字\"></md-input-container><md-input-container><label>{{vm.ssn}}</label> <input required=\"\" ng-model=\"vm.user.sn\" placeholder=\"请输入编号\"></md-input-container><md-input-container><label>密码</label> <input required=\"\" type=\"password\" ng-model=\"vm.user.password\" placeholder=\"请输入密码\"></md-input-container><md-input-container><label>确认密码</label> <input required=\"\" type=\"password\" ng-model=\"vm.password\" placeholder=\"请输入确认密码\"></md-input-container><md-button class=\"md-primary\" style=\"margin-top: 50px;min-width: 200px\" ng-click=\"vm.submit($event)\">提交</md-button></form></md-content>");
+/**
+ * 创建人：pengchao
+ * 创建时间：2015-3-23-0023
+ * 工厂名字：DepartmentCtrl
+ * 作用：部门全局控制器
+ */
+(function () {
+	'use strict';
+
+	angular.module('home').controller('DepartmentCtrl', DepartmentCtrl);
+
+	DepartmentCtrl.$inject = ['$scope', '$log', 'Config'];
+
+	function DepartmentCtrl($scope, $log, Config) {
+		//接口定义
+		var vm = this;
+
+
+		activate();
+		////////////////////////////////////////////////
+		////////////下面为私有函数定义////////////////////
+		////////////////////////////////////////////////
+
+		/**
+		 * 启动逻辑逻辑
+		 */
+		function activate() {
+			$log.info('加载DepartmentCtrl');
+		}
+	}
+
+})();
+
+angular.module("home").run(["$templateCache", function($templateCache) {$templateCache.put("app/dep/Department.html","<div ui-view=\"\" class=\"content-padding\"></div>");
+$templateCache.put("app/login/login.html","<div style=\"position:absolute;top:50%;left:50%;\"><div layout=\"row\" style=\"width:500px;height:230px;position: relative; margin:-115px auto auto -250px;\"><div flex=\"\" hide-sm=\"\" flex-order=\"1\" align=\"right\" layout-padding=\"\"><img src=\"../assets/images/img/login_01.png\" layout-padding=\"\"><div class=\"login-font\">作业管理系统</div><p class=\"login-font-p\">2015年田黄雪薇版权所有</p></div><div flex=\"\" flex-order=\"2\" align=\"center\"><form name=\"vm.loginForm\" layout=\"column\" layout-align=\"center center\"><md-input-container flex=\"\"><label align=\"left\">账号</label> <input required=\"\" ng-model=\"vm.user.userName\" placeholder=\"请输入用户名\"><div ng-messages=\"vm.loginForm.user.userName.$error\"><div ng-message=\"required\">账号不能为空</div></div></md-input-container><md-input-container flex=\"\"><label align=\"left\">密码</label> <input required=\"\" ng-model=\"vm.user.password\" type=\"password\" placeholder=\"请输入密码\"><div ng-messages=\"vm.loginForm.user.password.$error\"><div ng-message=\"required\">密码不能为空</div></div></md-input-container><md-button class=\"md-raised md-primary\" style=\"width: 175px;box-shadow: none;color:#fff\" ng-click=\"vm.login($event)\" flex=\"\">登陆</md-button></form><md-button ng-click=\"vm.stuRegister($event)\" style=\"margin-top: 20px;color: green;padding: 10px\">学生注册</md-button><md-button ng-click=\"vm.teacherRegister($event)\" style=\"margin-top: 20px;color: green;padding: 10px\">老师注册</md-button></div></div></div>");
 $templateCache.put("app/main/main.html","<section layout=\"row\" flex=\"\" class=\"body\"><md-sidenav class=\"site-sidenav md-sidenav-left md-whiteframe-z2\" md-component-id=\"left\" md-is-locked-open=\"$mdMedia(\'gt-sm\')\"><md-toolbar><h1 class=\"md-toolbar-tools\"><a ng-href=\"/\" layout=\"row\" flex=\"\" style=\"color:#fff\"><svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewbox=\"0 0 100 100\" enable-background=\"new 0 0 100 100\" xml:space=\"preserve\" style=\"width: 40px; height: 40px;\"><path d=\"M 50 0 L 100 14 L 92 80 L 50 100 L 8 80 L 0 14 Z\" fill=\"#b2b2b2\"></path><path d=\"M 50 5 L 6 18 L 13.5 77 L 50 94 Z\" fill=\"#E42939\"></path><path d=\"M 50 5 L 94 18 L 86.5 77 L 50 94 Z\" fill=\"#B72833\"></path><path d=\"M 50 7 L 83 75 L 72 75 L 65 59 L 50 59 L 50 50 L 61 50 L 50 26 Z\" fill=\"#b2b2b2\"></path><path d=\"M 50 7 L 17 75 L 28 75 L 35 59 L 50 59 L 50 50 L 39 50 L 50 26 Z\" fill=\"#fff\"></path></svg><div class=\"docs-logotype\">OA管理系统</div></a></h1></md-toolbar><md-content flex=\"\" role=\"navigation\"><ul class=\"docs-menu\"><li ng-repeat=\"section in vm.sections\" class=\"parent-list-item\" ng-class=\"{\'parentActive\' : vm.isSectionSelected(section)}\"><h2 class=\"menu-heading\" ng-if=\"section.type === \'heading\'\" id=\"heading_{{ section.name | nospace}}\">{{section.name}}</h2><menu-link section=\"section\" ng-if=\"section.type === \'link\'\"></menu-link><menu-toggle section=\"section\" ng-if=\"section.type === \'toggle\'\"></menu-toggle><ul ng-if=\"section.children\" class=\"menu-nested-list\"><li ng-repeat=\"child in section.children\" ng-class=\"{\'childActive\' : isSectionSelected(child)}\"><menu-toggle section=\"child\"></menu-toggle></li></ul></li></ul></md-content></md-sidenav><div layout=\"column\" tabindex=\"-1\" role=\"main\" flex=\"\"><md-toolbar><div class=\"md-toolbar-tools\" ng-click=\"vm.openMenu()\"><button class=\"docs-menu-icon\" hide-gt-sm=\"\" aria-label=\"Toggle Menu\"><md-icon md-svg-src=\"../assets/images/svg/ic_menu_24px.svg\"></md-icon></button><div layout=\"row\" flex=\"\" class=\"fill-height\"><div class=\"md-toolbar-item md-breadcrumb\" style=\"color: #fff\"><span ng-if=\"vm.menu.currentPage.name !== vm.menu.currentSection.name\"><span hide-sm=\"\" hide-md=\"\">{{vm.menu.currentSection.name}}</span> <span class=\"docs-menu-separator-icon\" style=\"\" hide-sm=\"\" hide-md=\"\"><img src=\"../assets/images/icons/docArrow.png\" alt=\"\" aria-hidden=\"true\">]</span></span> <span class=\"md-breadcrumb-page\">{{(vm.menu.currentPage) || \'OA\' }}</span></div><span flex=\"\"></span><div class=\"md-toolbar-item md-tools docs-tools\" layout=\"column\" layout-gt-md=\"row\"><div><img src=\"../assets/images/img/face.jpg\" class=\"face\" alt=\"这个是我自己\"></div></div></div></div></md-toolbar><md-content ui-view=\"\" md-scroll-y=\"\" flex=\"\" class=\"md-padding\" style=\"background: #eee\"></md-content></div></section>");
+$templateCache.put("app/register/Register.html","<md-content class=\"md-padding\" layout=\"column\" layout-align=\"center center\"><form name=\"vm.newForm\" layout=\"column\" layout-align=\"center center\"><md-input-container><label>账户</label> <input required=\"\" ng-model=\"vm.user.id\" placeholder=\"请输入账号\"></md-input-container><md-input-container><label>名字</label> <input required=\"\" ng-model=\"vm.user.name\" placeholder=\"请输入名字\"></md-input-container><md-input-container><label>{{vm.ssn}}</label> <input required=\"\" ng-model=\"vm.user.sn\" placeholder=\"请输入编号\"></md-input-container><md-input-container><label>密码</label> <input required=\"\" type=\"password\" ng-model=\"vm.user.password\" placeholder=\"请输入密码\"></md-input-container><md-input-container><label>确认密码</label> <input required=\"\" type=\"password\" ng-model=\"vm.password\" placeholder=\"请输入确认密码\"></md-input-container><md-button class=\"md-primary\" style=\"margin-top: 50px;min-width: 200px\" ng-click=\"vm.submit($event)\">提交</md-button></form></md-content>");
 $templateCache.put("components/dlg/model.add.dlg.html","<md-dialog><md-subheader>创建模型</md-subheader><form name=\"vm.addForm\" layout=\"column\"><div class=\"md-padding\"><md-input-container><label>模型key</label><md-input required=\"\" ng-model=\"vm.model.key\"></md-input></md-input-container><md-input-container><label>模型名称</label><md-input required=\"\" ng-model=\"vm.model.name\"></md-input></md-input-container><md-input-container><label>模型描述</label><md-input required=\"\" ng-model=\"vm.model.description\"></md-input></md-input-container></div><div class=\"md-padding\" layout=\"row\"><md-button ng-click=\"vm.submit()\" flex=\"\">确定</md-button><md-button ng-click=\"vm.cancel()\" flex=\"\">取消</md-button></div></form></md-dialog>");
-$templateCache.put("components/template/branch.add.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><div class=\"md-padding\"><md-input-container class=\"add-edit\"><label>名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">公司名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>企业简称</label> <input ng-model=\"vm.department.shortName\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>直接上级</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">直接上级不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>负责人</label> <input required=\"\" ng-model=\"vm.department.legalRep\" type=\"text\"><div ng-messages=\"vm.addForm.department.legalRep.$error\"><div ng-message=\"required\">负责人不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>注册号</label> <input required=\"\" ng-model=\"vm.department.registeredNum\" type=\"text\"><div ng-messages=\"vm.addForm.department.registeredNum.$error\"><div ng-message=\"required\">注册号不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">地址不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>电话</label> <input ng-model=\"vm.department.telephone\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>传真</label> <input ng-model=\"vm.department.fax\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>邮编</label> <input ng-model=\"vm.department.pc\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>电子邮箱</label> <input required=\"\" ng-model=\"vm.department.email\" type=\"email\"><div ng-messages=\"vm.addForm.department.email.$error\"><div ng-message=\"required\">输入合法的电子邮箱</div></div></md-input-container><md-input-container class=\"add-edit\"><label>官方网站</label> <input required=\"\" ng-model=\"vm.department.website\" type=\"text\"><div ng-messages=\"vm.addForm.department.website.$error\"><div ng-message=\"required\">官方网站不能为空</div></div></md-input-container></div></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools\">分公司介绍</md-content><text-angular ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
-$templateCache.put("components/template/branch.edit.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><form name=\"vm.addForm\" class=\"md-padding\"><md-input-container class=\"add-edit\"><label>名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">公司名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>企业简称</label> <input ng-model=\"vm.department.shortName\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>直接上级</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">直接上级不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>负责人</label> <input required=\"\" ng-model=\"vm.department.legalRep\" type=\"text\"><div ng-messages=\"vm.addForm.department.legalRep.$error\"><div ng-message=\"required\">负责人不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>注册号</label> <input required=\"\" ng-model=\"vm.department.registeredNum\" type=\"text\"><div ng-messages=\"vm.addForm.department.registeredNum.$error\"><div ng-message=\"required\">注册号不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">地址不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>电话</label> <input ng-model=\"vm.department.telephone\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>传真</label> <input ng-model=\"vm.department.fax\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>邮编</label> <input ng-model=\"vm.department.pc\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>电子邮箱</label> <input required=\"\" ng-model=\"vm.department.email\" type=\"email\"><div ng-messages=\"vm.addForm.department.email.$error\"><div ng-message=\"required\">输入合法的电子邮箱</div></div></md-input-container><md-input-container class=\"add-edit\"><label>官方网站</label> <input required=\"\" ng-model=\"vm.department.website\" type=\"text\"><div ng-messages=\"vm.addForm.department.website.$error\"><div ng-message=\"required\">官方网站不能为空</div></div></md-input-container></form></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools\">分公司介绍</md-content><text-angular ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
-$templateCache.put("components/template/branch.info.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"column\"><md-whiteframe layout=\"row\" layout-align=\"space-around start\"><div class=\"md-padding layout-form\" style=\"margin: 30px 30px 0 30px;\"><div class=\"info\"><span>企 业 名 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.name | default}}</label></div><div class=\"info\"><span>企 业 简 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.shortName | default}}</label></div><div class=\"info\"><span>负 责 人:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.legalRep | default}}</label></div><div class=\"info\"><span>注 册 号:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.registeredNum | default}}</label></div><div class=\"info\"><span>地 址:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.address | default}}</label></div><div class=\"info\"><span>企 业 电 话:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.telephone | default}}</label></div><div class=\"info\"><span>传 真:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.fax | default}}</label></div><div class=\"info\"><span>邮 编:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.pc | default}}</label></div><div class=\"info\"><span>电 子 邮 箱:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.email | default}}</label></div><div class=\"info\"><span>官 方 网 站:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.website | default}}</label></div></div></md-whiteframe><md-whiteframe flex=\"\"><md-content layout=\"column\" class=\"dep-description\"><h2>公司介绍</h2><div ng-bind-html=\"vm.selectDep.description | trustHtml\"></div></md-content><md-button class=\"more-info\">查看完整信息</md-button></md-whiteframe></md-whiteframe>");
-$templateCache.put("components/template/company.add.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><div class=\"md-padding\"><md-input-container class=\"add-edit\"><label>企业名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">公司名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>企业简称</label> <input required=\"\" ng-model=\"vm.department.shortName\" type=\"text\"><div ng-messages=\"vm.addForm.department.shortName.$error\"><div ng-message=\"required\">企业简称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>法定代表人</label> <input required=\"\" ng-model=\"vm.department.legalRep\" type=\"text\"><div ng-messages=\"vm.addForm.department.legalRep.$error\"><div ng-message=\"required\">法定代表人不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>注册号</label> <input required=\"\" ng-model=\"vm.department.registeredNum\" type=\"text\"><div ng-messages=\"vm.addForm.department.registeredNum.$error\"><div ng-message=\"required\">注册号不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>注册资金</label> <input required=\"\" ng-model=\"vm.department.registeredCapital\" type=\"text\"><div ng-messages=\"vm.addForm.department.registeredCapital.$error\"><div ng-message=\"required\">注册资金不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>企业地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">企业地址不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>电话</label> <input ng-model=\"vm.department.telephone\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>传真</label> <input ng-model=\"vm.department.fax\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>邮编</label> <input ng-model=\"vm.department.pc\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>电子邮箱</label> <input required=\"\" ng-model=\"vm.department.email\" type=\"email\"><div ng-messages=\"vm.addForm.department.email.$error\"><div ng-message=\"required\">输入合法的电子邮箱</div></div></md-input-container><md-input-container class=\"add-edit\"><label>开户行</label> <input ng-model=\"vm.department.bank\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>开户账号</label> <input ng-model=\"vm.department.bankAccount\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>官方网站</label> <input required=\"\" ng-model=\"vm.department.website\" type=\"text\"><div ng-messages=\"vm.addForm.department.website.$error\"><div ng-message=\"required\">官方网站不能为空</div></div></md-input-container></div></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools\">企业介绍</md-content><text-angular ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
-$templateCache.put("components/template/company.edit.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><form name=\"vm.addForm\" class=\"md-padding\"><md-input-container class=\"add-edit\"><label>企业名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">公司名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>企业简称</label> <input required=\"\" ng-model=\"vm.department.shortName\" type=\"text\"><div ng-messages=\"vm.addForm.department.shortName.$error\"><div ng-message=\"required\">企业简称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>法定代表人</label> <input required=\"\" ng-model=\"vm.department.legalRep\" type=\"text\"><div ng-messages=\"vm.addForm.department.legalRep.$error\"><div ng-message=\"required\">法定代表人不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>注册号</label> <input required=\"\" ng-model=\"vm.department.registeredNum\" type=\"text\"><div ng-messages=\"vm.addForm.department.registeredNum.$error\"><div ng-message=\"required\">注册号不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>注册资金</label> <input required=\"\" ng-model=\"vm.department.registeredCapital\" type=\"text\"><div ng-messages=\"vm.addForm.department.registeredCapital.$error\"><div ng-message=\"required\">注册资金不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>企业地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">企业地址不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>电话</label> <input ng-model=\"vm.department.telephone\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>传真</label> <input ng-model=\"vm.department.fax\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>邮编</label> <input ng-model=\"vm.department.pc\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>电子邮箱</label> <input required=\"\" ng-model=\"vm.department.email\" type=\"email\"><div ng-messages=\"vm.addForm.department.email.$error\"><div ng-message=\"required\">输入合法的电子邮箱</div></div></md-input-container><md-input-container class=\"add-edit\"><label>开户行</label> <input ng-model=\"vm.department.bank\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>开户账号</label> <input ng-model=\"vm.department.bankAccount\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>官方网站</label> <input required=\"\" ng-model=\"vm.department.website\" type=\"text\"><div ng-messages=\"vm.addForm.department.website.$error\"><div ng-message=\"required\">官方网站不能为空</div></div></md-input-container></form></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools toolbar-border\">企业介绍</md-content><text-angular class=\"content-border\" ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
-$templateCache.put("components/template/company.info.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"column\"><md-whiteframe layout=\"row\" layout-align=\"space-around start\"><div class=\"md-padding layout-form\" style=\"margin: 30px 30px 0 30px;\"><div class=\"info\"><span>企 业 名 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.name | default}}</label></div><div class=\"info\"><span>企 业 简 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.shortName | default}}</label></div><div class=\"info\"><span>法 定 代 表 人:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.legalRep | default}}</label></div><div class=\"info\"><span>注 册 号:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.registeredNum | default}}</label></div><div class=\"info\"><span>注 册 资 金:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.registeredCapital | default}}</label></div><div class=\"info\"><span>企 业 地 址:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.address | default}}</label></div><div class=\"info\"><span>企 业 电 话:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.telephone | default}}</label></div><div class=\"info\"><span>传 真:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.fax | default}}</label></div><div class=\"info\"><span>邮 编:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.pc | default}}</label></div><div class=\"info\"><span>电 子 邮 箱:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.email | default}}</label></div><div class=\"info\"><span>开 户 银 行:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.bank | default}}</label></div><div class=\"info\"><span>开 户 账 号:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.bankAccount | default}}</label></div><div class=\"info\"><span>官 方 网 站:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.website | default}}</label></div></div></md-whiteframe><md-whiteframe flex=\"\"><md-content layout=\"column\" class=\"dep-description\"><h2>公司介绍</h2><div ng-bind-html=\"vm.selectDep.description | trustHtml\"></div></md-content><md-button class=\"more-info\">查看完整信息</md-button></md-whiteframe></md-whiteframe>");
-$templateCache.put("components/template/department-add.tmp.html","<md-content style=\"height: 100%\"><script type=\"text/ng-template\" id=\"department_renderer.html\"><div layout=\"row\" ui-tree-handle data-nodrag layout-align=\"center center\"> <md-button data-nodrag ng-click=\"vm.toggleTree(this)\" ng-if=\"hasChild()\" aria-label=\"toggle\"><i class=\"fa\" ng-class=\"{\'fa-angle-down\': collapsed, \'fa-angle-up\': !collapsed}\"></i> </md-button> <md-button flex style=\"text-align: left\" data-nodrag ng-click=\"vm.depClick(this)\" aria-label=\"department.name\"> {{department.name}} </md-button> <md-button aria-label=\"dd\" ng-click=\"vm.addDialog(this,$event)\">+</md-button> </div> <ol ui-tree-nodes=\"\" ng-model=\"department.children\" ng-if=\"!collapsed\"> <li ng-repeat=\"department in department.children\" ui-tree-node ng-include=\"\'department_renderer.html\'\" data-nodrag> </li> </ol></script><div ui-tree=\"\" id=\"tree-root\" data-drag-enabled=\"false\"><ol ui-tree-nodes=\"\" ng-model=\"vm.departmentTree\"><li ng-repeat=\"department in vm.departmentTree\" ui-tree-node=\"\" ng-include=\"\'department_renderer.html\'\" data-nodrag=\"\"></li></ol></div></md-content>");
-$templateCache.put("components/template/department.add.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><div class=\"md-padding\"><md-input-container><label>部门名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">门名称不能为空</div></div></md-input-container><md-input-container><label>部门简称</label> <input ng-model=\"vm.department.shortName\" type=\"text\"></md-input-container><md-input-container><label>电话</label> <input ng-model=\"vm.department.telephone\" type=\"text\"></md-input-container><md-input-container><label>传真</label> <input ng-model=\"vm.department.fax\" type=\"text\"></md-input-container><md-input-container><label>地址</label> <input ng-model=\"vm.department.address\" type=\"text\"></md-input-container></div></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools\">部门介绍</md-content><text-angular ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
-$templateCache.put("components/template/department.edit.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"column\"><md-whiteframe layout=\"row\" layout-align=\"space-around start\"><form name=\"vm.addForm\" class=\"md-padding layout-form\" style=\"margin: 30px 30px 0 30px;\"><md-input-container><label>部门名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">门名称不能为空</div></div></md-input-container><md-input-container><label>部门简称</label> <input ng-model=\"vm.department.shortName\" type=\"text\"></md-input-container><md-input-container><label>电话</label> <input ng-model=\"vm.department.telephone\" type=\"text\"></md-input-container><md-input-container><label>传真</label> <input ng-model=\"vm.department.fax\" type=\"text\"></md-input-container><md-input-container><label>地址</label> <input ng-model=\"vm.department.address\" type=\"text\"></md-input-container></form></md-whiteframe><md-whiteframe flex=\"\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools\">部门介绍</md-content><text-angular ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
-$templateCache.put("components/template/department.info.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"column\"><md-whiteframe layout=\"row\" layout-align=\"space-around start\"><div class=\"md-padding layout-form\" style=\"margin: 30px 30px 0 30px;\"><div class=\"info\"><span>部 门 名 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.name | default}}</label></div><div class=\"info\"><span>部 门 简 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.shortName | default}}</label></div><div class=\"info\"><span>电 话:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.telephone | default}}</label></div><div class=\"info\"><span>传 真:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.fax | default}}</label></div><div class=\"info\"><span>地 址:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.address | default}}</label></div></div></md-whiteframe><md-whiteframe flex=\"\"><md-content layout=\"column\" class=\"dep-description\"><h2>部门介绍</h2><div ng-bind-html=\"vm.selectDep.description | trustHtml\"></div></md-content><md-button class=\"more-info\">查看完整信息</md-button></md-whiteframe></md-whiteframe>");
+$templateCache.put("components/template/classes.add.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><div class=\"md-padding\"><md-input-container class=\"add-edit\"><label>学校名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">学校名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>学校地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">学校地址不能为空</div></div></md-input-container></div></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools\">学校介绍</md-content><text-angular ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
+$templateCache.put("components/template/classes.edit.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><form name=\"vm.addForm\" class=\"md-padding\"><md-input-container class=\"add-edit\"><label>班级名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">班级名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>班级地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">班级地址不能为空</div></div></md-input-container></form></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools toolbar-border\">班级介绍</md-content><text-angular class=\"content-border\" ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
+$templateCache.put("components/template/classes.info.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"column\"><md-whiteframe layout=\"row\" layout-align=\"space-around start\"><div class=\"md-padding layout-form\" style=\"margin: 30px 30px 0 30px;\"><div class=\"info\"><span>班 级 名 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.name | default}}</label></div><div class=\"info\"><span>班 级地 址:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.address | default}}</label></div></div></md-whiteframe><md-whiteframe flex=\"\"><md-content layout=\"column\" class=\"dep-description\"><h2>班级介绍</h2><div ng-bind-html=\"vm.selectDep.description | trustHtml\"></div></md-content><md-button class=\"more-info\">查看完整信息</md-button></md-whiteframe></md-whiteframe>");
+$templateCache.put("components/template/department-add.tmp.html","<md-content style=\"height: 100%\"><script type=\"text/ng-template\" id=\"department_renderer.html\"><div layout=\"row\" ui-tree-handle data-nodrag layout-align=\"center center\"> <md-button data-nodrag ng-click=\"vm.toggleTree(this)\" ng-if=\"hasChild()\" aria-label=\"toggle\"><i class=\"fa\" ng-class=\"{\'fa-angle-down\': collapsed, \'fa-angle-up\': !collapsed}\"></i> </md-button> <md-button flex style=\"text-align: left\" data-nodrag ng-click=\"vm.depClick(this)\" aria-label=\"department.name\"> {{department.name}} </md-button> <md-button aria-label=\"dd\" ng-if=\"this.$modelValue.type !== 4\" ng-click=\"vm.addDialog(this,$event)\">+</md-button> </div> <ol ui-tree-nodes=\"\" ng-model=\"department.children\" ng-if=\"!collapsed\"> <li ng-repeat=\"department in department.children\" ui-tree-node ng-include=\"\'department_renderer.html\'\" data-nodrag> </li> </ol></script><div ui-tree=\"\" id=\"tree-root\" data-drag-enabled=\"false\"><ol ui-tree-nodes=\"\" ng-model=\"vm.departmentTree\"><li ng-repeat=\"department in vm.departmentTree\" ui-tree-node=\"\" ng-include=\"\'department_renderer.html\'\" data-nodrag=\"\"></li></ol></div></md-content>");
 $templateCache.put("components/template/department.no.info.tmp.html","<md-content class=\"md-padding\" layout-align=\"center center\">请选择部门</md-content>");
 $templateCache.put("components/template/department.tmp.html","<md-content style=\"height: 100%\"><script type=\"text/ng-template\" id=\"department_renderer.html\"><div layout=\"row\" ui-tree-handle data-nodrag> <md-button data-nodrag ng-click=\"vm.toggleTree(this)\" ng-if=\"hasChild()\" aria-label=\"toggle\"><i class=\"fa\" ng-class=\"{\'fa-angle-down\': collapsed, \'fa-angle-up\': !collapsed}\"></i> </md-button> <md-button flex style=\"text-align: left\" data-nodrag ng-click=\"vm.depClick(this)\" aria-label=\"department.name\"> {{department.name}} </md-button> </div> <ol ui-tree-nodes=\"\" ng-model=\"department.children\" ng-if=\"!collapsed\"> <li ng-repeat=\"department in department.children\" ui-tree-node ng-include=\"\'department_renderer.html\'\" data-nodrag> </li> </ol></script><div ui-tree=\"\" id=\"tree-root\" data-drag-enabled=\"false\"><ol ui-tree-nodes=\"\" ng-model=\"vm.departmentTree\"><li ng-repeat=\"department in vm.departmentTree\" ui-tree-node=\"\" ng-include=\"\'department_renderer.html\'\" data-nodrag=\"\"></li></ol></div></md-content>");
 $templateCache.put("components/template/dlg.dep.tmp.html","<md-dialog aria-label=\"选择部门\"><md-content><md-subheader class=\"md-sticky-no-effect\" style=\"background-color: #003399; color:white\">选择部门</md-subheader><div><div ng-include=\"\" src=\"\'components/template/department.tmp.html\'\"></div></div></md-content></md-dialog>");
 $templateCache.put("components/template/dlg.edit.salary.tmp.html","<md-dialog aria-label=\"输入\"><md-content><md-subheader class=\"md-sticky-no-effect\" style=\"margin-left:-15px\">{{vm.header || \'请输入\'}}</md-subheader><form name=\"vm.inputForm\" layout=\"column\"><md-input-container><label>{{vm.name}}</label> <input required=\"\" type=\"number\" ng-model=\"vm.value\"></md-input-container><md-content layout=\"row\" layout-align=\"space-around center\"><md-button ng-click=\"vm.cancel()\" style=\"color: #999\">取消</md-button><md-button ng-click=\"vm.submit()\" style=\"color: #999\">确定</md-button></md-content></form></md-content></md-dialog>");
 $templateCache.put("components/template/dlg.position.tmp.html","<md-dialog aria-label=\"选择岗位\"><md-content layout=\"column\" layout-align=\"center center\"><md-list><md-item ng-repeat=\"position in vm.positions\" style=\"width: 100%\"><md-button ng-click=\"vm.answer(position)\" style=\"width: 100%;color: #000000\">{{position.name}}</md-button></md-item></md-list><label ng-if=\"vm.positions.length < 1\">该部门下没有岗位</label><br><md-button ng-click=\"vm.cancel()\">取消</md-button></md-content></md-dialog>");
 $templateCache.put("components/template/dlg.type.tmp.html","<md-dialog aria-label=\"选择类型\"><md-content><md-subheader class=\"md-sticky-no-effect\">选择类型</md-subheader><md-list><md-item ng-repeat=\"item in items\"><md-button aria-label=\"{{item.name}}\" ng-click=\"select(item)\" style=\"width: 100%\">{{item.name}}</md-button></md-item></md-list></md-content></md-dialog>");
-$templateCache.put("components/template/pro.department.add.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><div class=\"md-padding\"><md-input-container><label>部门名称</label> <input required=\"\" addform=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">门名称不能为空</div></div></md-input-container><md-input-container><label>部门简称</label> <input addform=\"vm.department.shortName\" type=\"text\"></md-input-container><md-input-container><label>电话</label> <input addform=\"vm.department.telephone\" type=\"text\"></md-input-container><md-input-container><label>传真</label> <input addform=\"vm.department.fax\" type=\"text\"></md-input-container><md-input-container><label>地址</label> <input addform=\"vm.department.address\" type=\"text\"></md-input-container></div></md-whiteframe><md-whiteframe flex=\"\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools\">项目部介绍</md-content><text-angular addform=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
-$templateCache.put("components/template/pro.department.edit.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"column\"><md-whiteframe layout=\"row\" layout-align=\"space-around start\"><form name=\"vm.addForm\" class=\"md-padding layout-form\" style=\"margin: 30px 30px 0 30px;\"><md-input-container><label>部门名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">门名称不能为空</div></div></md-input-container><md-input-container><label>部门简称</label> <input ng-model=\"vm.department.shortName\" type=\"text\"></md-input-container><md-input-container><label>电话</label> <input ng-model=\"vm.department.telephone\" type=\"text\"></md-input-container><md-input-container><label>传真</label> <input ng-model=\"vm.department.fax\" type=\"text\"></md-input-container><md-input-container><label>地址</label> <input ng-model=\"vm.department.address\" type=\"text\"></md-input-container></form></md-whiteframe><md-whiteframe flex=\"\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools\">项目部介绍</md-content><text-angular ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
-$templateCache.put("components/template/pro.department.info.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"column\"><md-whiteframe layout=\"row\" layout-align=\"space-around start\"><div class=\"md-padding layout-form\" style=\"margin: 30px 30px 0 30px;\"><div class=\"info\"><span>项 目 部 名 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.name | default}}</label></div><div class=\"info\"><span>项 目 部 简 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.shortName | default}}</label></div><div class=\"info\"><span>电 话:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.telephone | default}}</label></div><div class=\"info\"><span>传 真:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.fax | default}}</label></div><div class=\"info\"><span>地 址:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.address | default}}</label></div></div></md-whiteframe><md-whiteframe flex=\"\"><md-content layout=\"column\" class=\"dep-description\"><h2>项目部介绍</h2><div ng-bind-html=\"vm.selectDep.description | trustHtml\"></div></md-content><md-button class=\"more-info\">查看完整信息</md-button></md-whiteframe></md-whiteframe>");
-$templateCache.put("components/template/subsidiaries.add.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><div class=\"md-padding\"><md-input-container class=\"add-edit\"><label>企业名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">企业名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>企业简称</label> <input required=\"\" ng-model=\"vm.department.shortName\" type=\"text\"><div ng-messages=\"vm.addForm.department.shortName.$error\"><div ng-message=\"required\">企业简称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>法定代表人</label> <input required=\"\" ng-model=\"vm.department.legalRep\" type=\"text\"><div ng-messages=\"vm.addForm.department.legalRep.$error\"><div ng-message=\"required\">法定代表人不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>注册号</label> <input required=\"\" ng-model=\"vm.department.registeredNum\" type=\"text\"><div ng-messages=\"vm.addForm.department.registeredNum.$error\"><div ng-message=\"required\">注册号不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>注册资金</label> <input required=\"\" ng-model=\"vm.department.registeredCapital\" type=\"text\"><div ng-messages=\"vm.addForm.department.registeredCapital.$error\"><div ng-message=\"required\">注册资金不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>企业地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">企业地址不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>电话</label> <input ng-model=\"vm.department.telephone\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>传真</label> <input ng-model=\"vm.department.fax\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>邮编</label> <input ng-model=\"vm.department.pc\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>电子邮箱</label> <input required=\"\" ng-model=\"vm.department.email\" type=\"email\"><div ng-messages=\"vm.addForm.department.email.$error\"><div ng-message=\"required\">输入合法的电子邮箱</div></div></md-input-container><md-input-container class=\"add-edit\"><label>开户行</label> <input ng-model=\"vm.department.bank\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>开户账号</label> <input ng-model=\"vm.department.bankAccount\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>官方网站</label> <input required=\"\" ng-model=\"vm.department.website\" type=\"text\"><div ng-messages=\"vm.addForm.department.website.$error\"><div ng-message=\"required\">官方网站不能为空</div></div></md-input-container></div></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools\">企业介绍</md-content><text-angular ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
-$templateCache.put("components/template/subsidiaries.edit.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><form name=\"vm.addForm\" class=\"md-padding\"><md-input-container class=\"add-edit\"><label>企业名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">企业名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>企业简称</label> <input required=\"\" ng-model=\"vm.department.shortName\" type=\"text\"><div ng-messages=\"vm.addForm.department.shortName.$error\"><div ng-message=\"required\">企业简称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>法定代表人</label> <input required=\"\" ng-model=\"vm.department.legalRep\" type=\"text\"><div ng-messages=\"vm.addForm.department.legalRep.$error\"><div ng-message=\"required\">法定代表人不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>注册号</label> <input required=\"\" ng-model=\"vm.department.registeredNum\" type=\"text\"><div ng-messages=\"vm.addForm.department.registeredNum.$error\"><div ng-message=\"required\">注册号不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>注册资金</label> <input required=\"\" ng-model=\"vm.department.registeredCapital\" type=\"text\"><div ng-messages=\"vm.addForm.department.registeredCapital.$error\"><div ng-message=\"required\">注册资金不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>企业地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">企业地址不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>电话</label> <input ng-model=\"vm.department.telephone\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>传真</label> <input ng-model=\"vm.department.fax\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>邮编</label> <input ng-model=\"vm.department.pc\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>电子邮箱</label> <input required=\"\" ng-model=\"vm.department.email\" type=\"email\"><div ng-messages=\"vm.addForm.department.email.$error\"><div ng-message=\"required\">输入合法的电子邮箱</div></div></md-input-container><md-input-container class=\"add-edit\"><label>开户行</label> <input ng-model=\"vm.department.bank\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>开户账号</label> <input ng-model=\"vm.department.bankAccount\" type=\"text\"></md-input-container><md-input-container class=\"add-edit\"><label>官方网站</label> <input required=\"\" ng-model=\"vm.department.website\" type=\"text\"><div ng-messages=\"vm.addForm.department.website.$error\"><div ng-message=\"required\">官方网站不能为空</div></div></md-input-container></form></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools\">企业介绍</md-content><text-angular ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
-$templateCache.put("components/template/subsidiaries.info.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"column\"><md-whiteframe layout=\"row\" layout-align=\"space-around start\"><div class=\"md-padding layout-form\" style=\"margin: 30px 30px 0 30px;\"><div class=\"info\"><span>企 业 名 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.name | default}}</label></div><div class=\"info\"><span>企 业 简 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.shortName | default}}</label></div><div class=\"info\"><span>法 定 代 表 人:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.legalRep | default}}</label></div><div class=\"info\"><span>注 册 号:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.registeredNum | default}}</label></div><div class=\"info\"><span>注 册 资 金:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.registeredCapital | default}}</label></div><div class=\"info\"><span>企 业 地 址:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.address | default}}</label></div><div class=\"info\"><span>企 业 电 话:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.telephone | default}}</label></div><div class=\"info\"><span>传 真:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.fax | default}}</label></div><div class=\"info\"><span>邮 编:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.pc | default}}</label></div><div class=\"info\"><span>电 子 邮 箱:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.email | default}}</label></div><div class=\"info\"><span>开 户 银 行:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.bank | default}}</label></div><div class=\"info\"><span>开 户 账 号:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.bankAccount | default}}</label></div><div class=\"info\"><span>官 方 网 站:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.website | default}}</label></div></div></md-whiteframe><md-whiteframe flex=\"\"><md-content layout=\"column\" class=\"dep-description\"><h2>子公司介绍</h2><div ng-bind-html=\"vm.selectDep.description | trustHtml\"></div></md-content><md-button class=\"more-info\">查看完整信息</md-button></md-whiteframe></md-whiteframe>");
+$templateCache.put("components/template/institute.add.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><div class=\"md-padding\"><md-input-container class=\"add-edit\"><label>学院名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">学院名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>学院地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">学院地址不能为空</div></div></md-input-container></div></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools\">学院介绍</md-content><text-angular ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
+$templateCache.put("components/template/institute.edit.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><form name=\"vm.addForm\" class=\"md-padding\"><md-input-container class=\"add-edit\"><label>学院名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">学院名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>学院地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">学院地址不能为空</div></div></md-input-container></form></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools toolbar-border\">学院介绍</md-content><text-angular class=\"content-border\" ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
+$templateCache.put("components/template/institute.info.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"column\"><md-whiteframe layout=\"row\" layout-align=\"space-around start\"><div class=\"md-padding layout-form\" style=\"margin: 30px 30px 0 30px;\"><div class=\"info\"><span>学 院 名 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.name | default}}</label></div><div class=\"info\"><span>学 院 地 址:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.address | default}}</label></div></div></md-whiteframe><md-whiteframe flex=\"\"><md-content layout=\"column\" class=\"dep-description\"><h2>学院介绍</h2><div ng-bind-html=\"vm.selectDep.description | trustHtml\"></div></md-content><md-button class=\"more-info\">查看完整信息</md-button></md-whiteframe></md-whiteframe>");
+$templateCache.put("components/template/professional.add.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><div class=\"md-padding\"><md-input-container class=\"add-edit\"><label>专业名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">专业名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>专业地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">专业地址不能为空</div></div></md-input-container></div></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools\">专业介绍</md-content><text-angular ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
+$templateCache.put("components/template/professional.edit.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><form name=\"vm.addForm\" class=\"md-padding\"><md-input-container class=\"add-edit\"><label>专业名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">专业名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>专业地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">专业地址不能为空</div></div></md-input-container></form></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools toolbar-border\">专业介绍</md-content><text-angular class=\"content-border\" ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
+$templateCache.put("components/template/professional.info.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"column\"><md-whiteframe layout=\"row\" layout-align=\"space-around start\"><div class=\"md-padding layout-form\" style=\"margin: 30px 30px 0 30px;\"><div class=\"info\"><span>专 业 名 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.name | default}}</label></div><div class=\"info\"><span>专 业 地 址:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.address | default}}</label></div></div></md-whiteframe><md-whiteframe flex=\"\"><md-content layout=\"column\" class=\"dep-description\"><h2>专业介绍</h2><div ng-bind-html=\"vm.selectDep.description | trustHtml\"></div></md-content><md-button class=\"more-info\">查看完整信息</md-button></md-whiteframe></md-whiteframe>");
+$templateCache.put("components/template/school.add.tmp.html","<md-whiteframe class=\"md-whiteframe-z2 md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><div class=\"md-padding\"><md-input-container class=\"add-edit\"><label>学校名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">学校名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>学校地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">学校地址不能为空</div></div></md-input-container></div></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools\">学校介绍</md-content><text-angular ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
+$templateCache.put("components/template/school.edit.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><form name=\"vm.addForm\" class=\"md-padding\"><md-input-container class=\"add-edit\"><label>学校名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">学校名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>学校地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">学校地址不能为空</div></div></md-input-container></form></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools toolbar-border\">学校介绍</md-content><text-angular class=\"content-border\" ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
+$templateCache.put("components/template/school.info.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"column\"><md-whiteframe layout=\"row\" layout-align=\"space-around start\"><div class=\"md-padding layout-form\" style=\"margin: 30px 30px 0 30px;\"><div class=\"info\"><span>学 校 名 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.name | default}}</label></div><div class=\"info\"><span>学 校 地 址:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.address | default}}</label></div></div></md-whiteframe><md-whiteframe flex=\"\"><md-content layout=\"column\" class=\"dep-description\"><h2>学校介绍</h2><div ng-bind-html=\"vm.selectDep.description | trustHtml\"></div></md-content><md-button class=\"more-info\">查看完整信息</md-button></md-whiteframe></md-whiteframe>");
+$templateCache.put("app/dep/add/DepartmentAdd.html","<form name=\"vm.addForm\" layout=\"column\" class=\"doc-content\"><md-whiteframe class=\"md-padding\" layout=\"column\"><md-toolbar layout=\"row\" md-theme=\"altTheme\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">添加{{vm.type.name}}</div><md-button class=\"btn-ctrl\" ng-click=\"vm.addDepartment($event)\">提交</md-button><md-button class=\"btn-ctrl\" ng-click=\"back()\">取消</md-button></md-toolbar><md-content class=\"content-border\"><div ng-include=\"\" src=\"vm.type.addUrl\" class=\"info-border\"></div></md-content></md-whiteframe></form>");
+$templateCache.put("app/dep/change/DepartmentChange.html","<form name=\"vm.addForm\" layout=\"column\" class=\"doc-content\"><md-whiteframe class=\"md-padding\" layout=\"column\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">编辑{{vm.department.name}}资料</div><md-button ng-click=\"vm.submit($event)\" class=\"btn-ctrl\">提交</md-button><md-button ng-click=\"back()\" class=\"btn-ctrl\">取消</md-button></md-toolbar><md-content class=\"content-border\"><div ng-include=\"\" src=\"vm.type.editUrl\" class=\"info-border\"></div></md-content></md-whiteframe></form>");
+$templateCache.put("app/dep/list/DepartmentList.html","<div layout=\"row\"><md-whiteframe layout=\"column\" style=\"width: 300px;height: auto\" md-theme=\"altTheme\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" style=\"width:120px;\" flex=\"\">组织结构</div><md-button ng-click=\"vm.addDepartment()\" class=\"btn-ctrl\">添加学校</md-button></md-toolbar><div class=\"content-border\" ng-include=\"\" src=\"\'components/template/department-add.tmp.html\'\"></div></md-whiteframe><md-whiteframe flex=\"98\" style=\"margin-left: 2%;\"><md-toolbar layout=\"row\" md-theme=\"altTheme\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">{{vm.selectDep.name}}</div><md-button ng-click=\"vm.editDepartment($event)\" ng-if=\"!!vm.selectDep\" class=\"btn-ctrl\">编辑资料</md-button><md-button ng-click=\"vm.deleteDepartment($event)\" ng-if=\"!!vm.selectDep\" class=\"btn-ctrl\">删除部门</md-button></md-toolbar><md-content ng-include=\"\" src=\"vm.template.infoUrl\" class=\"content-border\"></md-content></md-whiteframe></div>");
 $templateCache.put("components/directive/menuLink/menu-link.tmpl.html","<md-button ng-class=\"{\'active\' : isSelected()}\" ng-click=\"focusSection(section,$event)\">{{section | humanizeDoc}} <span class=\"visually-hidden\" ng-if=\"isSelected()\">current page</span></md-button>");
 $templateCache.put("components/directive/menuToggle/menu-toggle.tmpl.html","<md-button class=\"md-button-toggle\" ng-click=\"toggle()\" aria-controls=\"docs-menu-{{section.name | nospace}}\" flex=\"\" layout=\"row\" aria-expanded=\"{{isOpen()}}\">{{section.name}} <span aria-hidden=\"true\" class=\"md-toggle-icon\" ng-class=\"{\'toggled\' : isOpen()}\"></span> <span class=\"visually-hidden\">Toggle {{isOpen()? \'expanded\' : \'collapsed\'}}</span></md-button><ul ng-show=\"isOpen()\" id=\"docs-menu-{{section.name | nospace}}\" class=\"menu-toggle-list\"><li ng-repeat=\"page in section.children\"><menu-link section=\"page\"></menu-link></li></ul>");
 $templateCache.put("components/template/dlg/rest.error.html","<md-dialog aria-label=\"输入\"><md-content layout=\"column\" layout-align=\"center center\"><h2>{{vm.title}}</h2><br><p>{{vm.content}}</p><br><md-button ng-click=\"vm.cancel()\">确定</md-button></md-content></md-dialog>");

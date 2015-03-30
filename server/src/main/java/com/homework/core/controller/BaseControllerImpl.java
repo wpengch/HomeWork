@@ -21,21 +21,30 @@ public abstract class BaseControllerImpl<T, ID> implements BaseController<T, ID>
     @ResponseBody
     @RequestMapping(method = RequestMethod.DELETE)
     public Result delete(@RequestBody T entity) {
-        return Result.getResult(()->getService().delete(entity));
+        return Result.getResult(() -> getService().delete(entity));
+    }
+
+    @ResponseBody
+    @Override
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Result deleteById(@PathVariable("id")ID id) {
+        return Result.getResult(() -> {
+            return getService().deleteById(id);
+        });
     }
 
     @Override
     @ResponseBody
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Result update(@RequestBody T entity) {
-        return Result.getResult(()->getService().update(entity));
+        return Result.getResult(() -> getService().update(entity));
     }
 
     @Override
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public Result getAll() {
-        return Result.getResult(()->getService().getAll());
+        return Result.getResult(() -> getService().getAll());
     }
 
     @Override

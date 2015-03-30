@@ -28,4 +28,6 @@ public interface BaseService<T, ID> {
     List<T> getAll();
 
     T getById(ID id);
+
+    boolean deleteById(ID id);
 }
