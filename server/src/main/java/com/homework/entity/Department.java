@@ -1,5 +1,6 @@
 package com.homework.entity;
 
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,9 +79,8 @@ public class Department {
         if (pid != null ? !pid.equals(that.pid) : that.pid != null) return false;
         if (type != null ? !type.equals(that.type) : that.type != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        return !(description != null ? !description.equals(that.description) : that.description != null);
 
-        return true;
     }
 
     @Override

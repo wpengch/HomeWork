@@ -23,6 +23,8 @@ public class User {
     private String token;
     private String ip;
     private String sn;
+    private Integer depId;
+    private Integer subjectId;
 
     @Id
     @Column(name = "id", nullable = false, insertable = true, updatable = true, length = 255)
@@ -74,9 +76,8 @@ public class User {
         if (id != null ? !id.equals(user.id) : user.id != null) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (type != null ? !type.equals(user.type) : user.type != null) return false;
+        return !(type != null ? !type.equals(user.type) : user.type != null);
 
-        return true;
     }
 
     @Override
@@ -186,5 +187,21 @@ public class User {
 
     public void setSn(String sn) {
         this.sn = sn;
+    }
+
+    public Integer getDepId() {
+        return depId;
+    }
+
+    public void setDepId(Integer depId) {
+        this.depId = depId;
+    }
+
+    public Integer getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
     }
 }

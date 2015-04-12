@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class Menu {
     private int id;
-    private int pid;
+    private Integer pid;
     private String name;
     private String url;
     private String type;
@@ -28,12 +28,12 @@ public class Menu {
     }
 
     @Basic
-    @Column(name = "pid", nullable = false, insertable = true, updatable = true)
-    public int getPid() {
+    @Column(name = "pid", nullable = true, insertable = true, updatable = true)
+    public Integer getPid() {
         return pid;
     }
 
-    public void setPid(int pid) {
+    public void setPid(Integer pid) {
         this.pid = pid;
     }
 
@@ -78,9 +78,8 @@ public class Menu {
         if (pid != menu.pid) return false;
         if (name != null ? !name.equals(menu.name) : menu.name != null) return false;
         if (url != null ? !url.equals(menu.url) : menu.url != null) return false;
-        if (type != null ? !type.equals(menu.type) : menu.type != null) return false;
+        return !(type != null ? !type.equals(menu.type) : menu.type != null);
 
-        return true;
     }
 
     @Override
