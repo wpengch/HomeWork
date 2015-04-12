@@ -9,9 +9,9 @@
 
     angular.module('home').controller('DepartmentListCtrl', DepartmentListCtrl);
 
-    DepartmentListCtrl.$inject = ['$log', 'Config', 'UserFactory', '$state', 'Restangular', 'DialogFactory', '$timeout', '$mdDialog', 'Tree'];
+    DepartmentListCtrl.$inject = ['$log', 'Config', '$state', 'Restangular', 'DialogFactory', '$timeout', '$mdDialog', 'Tree'];
 
-    function DepartmentListCtrl($log, Config, UserFactory, $state, Restangular, DialogFactory, $timeout, $mdDialog, Tree) {
+    function DepartmentListCtrl($log, Config, $state, Restangular, DialogFactory, $timeout, $mdDialog, Tree) {
         //接口定义
         var vm = this;
         vm.departmentTree = Tree.all('department').getList().$object;
