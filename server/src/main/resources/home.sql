@@ -1,48 +1,65 @@
 /*
- Navicat MySQL Data Transfer
+Navicat MySQL Data Transfer
 
- Source Server         : localhost
- Source Server Version : 50624
- Source Host           : localhost
- Source Database       : home
+Source Server         : localhost
+Source Server Version : 50620
+Source Host           : localhost:3306
+Source Database       : home
 
- Target Server Version : 50624
- File Encoding         : utf-8
+Target Server Type    : MYSQL
+Target Server Version : 50620
+File Encoding         : 65001
 
- Date: 04/13/2015 13:20:23 PM
+Date: 2015-04-25 23:29:58
 */
 
-SET NAMES utf8;
-SET FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
---  Table structure for `Course`
+-- Table structure for `course`
 -- ----------------------------
-DROP TABLE IF EXISTS `Course`;
-CREATE TABLE `Course` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL COMMENT '名字',
-  `type` varchar(255) NOT NULL COMMENT '类型 必修 选修 公开课',
-  `teach` varchar(255) NOT NULL COMMENT '教师',
-  PRIMARY KEY (`id`)
+DROP TABLE IF EXISTS `course`;
+CREATE TABLE `course` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  `teach` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_ppeepe6tj4uxxky3ere1out75` (`teach`),
+  CONSTRAINT `FK_ppeepe6tj4uxxky3ere1out75` FOREIGN KEY (`teach`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of course
+-- ----------------------------
+INSERT INTO `course` VALUES ('1', '数学', '必修', 'xiaohua');
+INSERT INTO `course` VALUES ('2', 'dsdsds', '选修', 'xiaohua');
+INSERT INTO `course` VALUES ('3', 'sddssd', '选修', 'xiaohua');
+INSERT INTO `course` VALUES ('4', 'dsdsfdfs', '选修', 'xiaohua');
+INSERT INTO `course` VALUES ('5', 'dsdsfdsf', '选修', 'xiaohua');
+
+-- ----------------------------
+-- Table structure for `course_student`
+-- ----------------------------
+DROP TABLE IF EXISTS `course_student`;
+CREATE TABLE `course_student` (
+  `courseId` int(11) NOT NULL,
+  `student` varchar(255) NOT NULL,
+  KEY `FK_hq7xdn7x869ig3nx96s8xanm7` (`student`),
+  CONSTRAINT `FK_hq7xdn7x869ig3nx96s8xanm7` FOREIGN KEY (`student`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `CourseStudent`
+-- Records of course_student
 -- ----------------------------
-DROP TABLE IF EXISTS `CourseStudent`;
-CREATE TABLE `CourseStudent` (
-  `id` int(11) NOT NULL,
-  `student` varchar(255) NOT NULL COMMENT '学生',
-  `courseId` int(11) NOT NULL COMMENT '课程',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `course_student` VALUES ('1', 'nihao');
+INSERT INTO `course_student` VALUES ('1', 'wangpengchao');
 
 -- ----------------------------
---  Table structure for `Department`
+-- Table structure for `department`
 -- ----------------------------
-DROP TABLE IF EXISTS `Department`;
-CREATE TABLE `Department` (
+DROP TABLE IF EXISTS `department`;
+CREATE TABLE `department` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `pid` int(11) DEFAULT NULL,
   `type` int(255) unsigned DEFAULT '1' COMMENT '类型 1 学校 2：院系 3：专业 4：班级',
@@ -50,37 +67,42 @@ CREATE TABLE `Department` (
   `description` varchar(255) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `Department`
+-- Records of department
 -- ----------------------------
-BEGIN;
-INSERT INTO `Department` VALUES ('0', null, '1', '全部', '代表全部学校的根节点', null), ('7', '0', '1', '中山大学', '<p>是打发</p>', '广东省广州市'), ('8', '7', '2', '资讯管理系', null, '收到'), ('9', '8', '3', '信息管理与信息系统', null, '收到');
-COMMIT;
+INSERT INTO `department` VALUES ('7', '0', '1', '中山大学', '<p>是打发</p>', '广东省广州市');
+INSERT INTO `department` VALUES ('8', '7', '2', '资讯管理系', null, '收到');
+INSERT INTO `department` VALUES ('9', '8', '3', '信息管理与信息系统', null, '收到');
+INSERT INTO `department` VALUES ('10', null, '1', '全部', '代表全部学校的根节点', null);
 
 -- ----------------------------
---  Table structure for `Menu`
+-- Table structure for `menu`
 -- ----------------------------
-DROP TABLE IF EXISTS `Menu`;
-CREATE TABLE `Menu` (
+DROP TABLE IF EXISTS `menu`;
+CREATE TABLE `menu` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `pid` int(11) unsigned DEFAULT NULL,
   `type` varchar(10) DEFAULT NULL,
   `url` varchar(200) DEFAULT NULL,
+  `power` tinyint(4) DEFAULT '0' COMMENT '0:代表都可以查看 1:代表管理员可以查看 2:代表老师可以查看 4:代表学生可以查看',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `Menu`
+-- Records of menu
 -- ----------------------------
-BEGIN;
-INSERT INTO `Menu` VALUES ('1', '首页', null, 'link', 'main.main'), ('2', '系统管理', null, 'heading', ''), ('3', '用户维护', '2', 'toggle', null), ('4', '学校管理', '3', 'link', 'main.dep.list'), ('5', '用户管理', '3', 'link', 'main.user.list');
-COMMIT;
+INSERT INTO `menu` VALUES ('1', '首页', null, 'link', 'main.main', '0');
+INSERT INTO `menu` VALUES ('2', '系统管理', null, 'heading', '', '0');
+INSERT INTO `menu` VALUES ('3', '用户维护', '2', 'toggle', null, '0');
+INSERT INTO `menu` VALUES ('4', '学校管理', '3', 'link', 'main.dep.list', '0');
+INSERT INTO `menu` VALUES ('5', '用户管理', '3', 'link', 'main.user.list', '0');
+INSERT INTO `menu` VALUES ('6', '课程管理', '3', 'link', 'main.course.list', '0');
 
 -- ----------------------------
---  Table structure for `subject`
+-- Table structure for `subject`
 -- ----------------------------
 DROP TABLE IF EXISTS `subject`;
 CREATE TABLE `subject` (
@@ -91,7 +113,11 @@ CREATE TABLE `subject` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `user`
+-- Records of subject
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `user`
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -115,10 +141,8 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `user`
+-- Records of user
 -- ----------------------------
-BEGIN;
-INSERT INTO `user` VALUES ('wangpengchao', null, null, null, null, null, '0:0:0:0:0:0:0:1', '王鹏超', '202cb962ac59075b964b07152d234b70', '0', '123', null, 'tmSj8d0krWjc3B961EgBhwK1Go8hm3EkOgyAOPMNdb63zLAkDPtw9eBZvAdppiaapNdlX98lPrXlWJWFdMGk4PC73n8cmWvaiUzEM0aMsnbmiZ96b1cMHObcsWRxWAmJP6BkL5AtG7nWhEetcQv6Ig==', '0', '7', '0');
-COMMIT;
-
-SET FOREIGN_KEY_CHECKS = 1;
+INSERT INTO `user` VALUES ('nihao', null, null, null, null, null, null, '你好', '202cb962ac59075b964b07152d234b70', '0', 'dsfdsfkl', null, null, '0', null, null);
+INSERT INTO `user` VALUES ('wangpengchao', null, null, null, null, null, '127.0.0.1', '王鹏超', '202cb962ac59075b964b07152d234b70', '0', '123', null, 'tmSj8d0krWjc3B961EgBhwK1Go8hm3EkOgyAOPMNdb63zLAkDPtw9eBZvAdppiaapNdlX98lPrXlWJWFdMGk4JNdElp7JOXrTKEvs+WXmR4n8I8ng8gwAdYvTATAnCtwNSF5Art/gzN4aq7FsQhD+w==', '0', '7', '0');
+INSERT INTO `user` VALUES ('xiaohua', null, null, null, null, null, '127.0.0.1', '笑话', '202cb962ac59075b964b07152d234b70', '0', '2332', null, 'v6nScNj3NOFt90tvfU6AL/f3abEwrljeKzDr2KC2xp3Thf0EgWI6leqIBp0wpKKEy27RJvJm8hPyWvfXjoMHo8nkR2WjGoUFRcC/ceu+8dPBpitmTbRDELMZfxkhcEKS', '1', null, null);
