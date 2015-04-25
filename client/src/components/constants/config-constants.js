@@ -291,6 +291,10 @@
       info: 'info',
       groups: 'groups',
       members: 'members'
+    },
+    CookieNames: {
+      userId: 'userClientId',
+      token: 'auth_tokenClient'
     }
 
   });

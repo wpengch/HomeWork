@@ -35,6 +35,11 @@
                      </props>
               </property>
               <property name="packagesToScan" value="com.homework.entity"></property>
+              <property name="mappingLocations">
+                     <list>
+                            <value>classpath:com/homework/entity/Course.hbm.xml</value>
+                     </list>
+              </property>
        </bean>
 
        <!-- Transaction -->

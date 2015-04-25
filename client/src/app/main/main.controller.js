@@ -41,6 +41,11 @@
      */
     function activate() {
       $log.info('加载MainCtrl开始...');
+      MenuFactory.registerCallback(Config.Events.MenuInit, function () {
+        $timeout(function () {
+          vm.sections = MenuFactory.sections;
+        });
+      });
       $log.info('加载MainCtrl结束');
     }
 

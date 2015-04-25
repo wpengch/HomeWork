@@ -1,11 +1,20 @@
 <md-dialog>
-    <md-subheader>创建模型</md-subheader>
+    <md-subheader>添加课程</md-subheader>
     <form name="vm.addForm" layout="column">
-        <div ng-repeat="item in vm.list" flex>
-            <md-button ng-click="vm.submit(item)" flex>{{vm.getShow(item)}}</md-button>
+        <md-input-container>
+            <label>课程名字</label>
+            <input type="text" ng-model="vm.course.name" required>
+        </md-input-container>
+        <div layout="row">
+            <label>课程类型</label>
+            <md-select placeholder="课程类型" ng-model="vm.course.type">
+                <md-option value="必修">必修</md-option>
+                <md-option value="选修">选修</md-option>
+            </md-select>
         </div>
 
         <div class="md-padding" layout="row">
+            <md-button ng-click="vm.submit()" flex>确定</md-button>
             <md-button ng-click="vm.cancel()" flex>取消</md-button>
         </div>
     </form>

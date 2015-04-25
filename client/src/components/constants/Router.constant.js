@@ -80,6 +80,29 @@
                             controllerAs: 'vm'
                         }
                     ]
+                },
+                {
+                    name: 'course',
+                    url: '/course',
+                    templateUrl: 'app/course/Course.html',
+                    controller: 'CourseCtrl',
+                    controllerAs: 'vm',
+                    children:[
+                        {
+                            name: 'list',
+                            url: '/list',
+                            templateUrl: 'app/course/list/CourseList.html',
+                            controller: 'CourseListCtrl',
+                            controllerAs: 'vm'
+                        },
+                        {
+                            name: 'students',
+                            url: '/students?id',
+                            templateUrl: 'app/course/student/StudentList.html',
+                            controller: 'StudentListCtrl',
+                            controllerAs: 'vm'
+                        }
+                    ]
                 }
             ]
         },

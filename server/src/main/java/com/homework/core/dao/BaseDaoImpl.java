@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -56,7 +55,8 @@ public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
     @Override
     public boolean update(T entity) {
         Session session = getSession();
-        session.update(entity);
+        Object obj = session.merge(entity);
+        session.update(obj);
         session.flush();
         return true;
     }

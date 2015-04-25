@@ -47,32 +47,32 @@
      * 启动逻辑逻辑
      */
     function activate() {
-      $q.all([
-        Restangular.all('department').getList().then(function (data) {
-          factory.departments = data;
-        }),
-        Restangular.all('position').getList().then(function (data) {
-          factory.positions = data;
-        }),
-        Restangular.all('userinfo').getList().then(function (data) {
-          factory.users = data;
-        }),
-        Restangular.all('posttype').getList().then(function (data) {
-          factory.postTypes = data;
-        }),
-        Restangular.all('postlevel').getList().then(function (data) {
-          factory.postLevels = data;
-        }),
-        Restangular.all('userdeppost').getList().then(function (data) {
-          factory.userDepPosts = data;
-        }),
-        Restangular.all('deppost').getList().then(function (data) {
-          factory.depPosts = data;
-        })])
-        .finally(function () {
-          adjustDepTree();
-          $log.info('用户信息加载完成');
-        });
+      //$q.all([
+        //Restangular.all('department').getList().then(function (data) {
+        //  factory.departments = data;
+        //}),
+        //Restangular.all('position').getList().then(function (data) {
+        //  factory.positions = data;
+        //}),
+        //Restangular.all('userinfo').getList().then(function (data) {
+        //  factory.users = data;
+        //}),
+        //Restangular.all('posttype').getList().then(function (data) {
+        //  factory.postTypes = data;
+        //}),
+        //Restangular.all('postlevel').getList().then(function (data) {
+        //  factory.postLevels = data;
+        //}),
+        //Restangular.all('userdeppost').getList().then(function (data) {
+        //  factory.userDepPosts = data;
+        //}),
+        //Restangular.all('deppost').getList().then(function (data) {
+        //  factory.depPosts = data;
+        //})])
+        //.finally(function () {
+        //  adjustDepTree();
+        //  $log.info('用户信息加载完成');
+        //});
       $log.info('加载UserFactory');
     }
 

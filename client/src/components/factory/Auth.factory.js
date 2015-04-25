@@ -9,9 +9,9 @@
 
     angular.module('home').factory('AuthFactory', AuthFactory);
 
-    AuthFactory.$inject = ['$rootScope', '$log', 'Restangular', '$q', '$cookieStore', 'MenuFactory', '$location', 'md5Factory'];
+    AuthFactory.$inject = ['$rootScope', '$log', 'Restangular', '$q', '$cookieStore', 'MenuFactory', '$location', 'md5Factory','Config'];
 
-    function AuthFactory($rootScope, $log, Restangular, $q, $cookieStore, MenuFactory, $location, md5Factory) {
+    function AuthFactory($rootScope, $log, Restangular, $q, $cookieStore, MenuFactory, $location, md5Factory,Config) {
         //接口定义
         var factory = {};
         factory.auth = auth;
@@ -38,18 +38,21 @@
          */
         function auth() {
             var def = $q.defer();
-            if ($rootScope.isLogin || $location.path() === '/' || $location.path() === '/register') {
+            if ($location.path() === '/' || $location.path() === '/' || $location.path() === '/register') {
                 def.resolve(0);
             } else {
                 var query = $location.search();
-                var token = query.token || $cookieStore.get('auth_token');
-                if (!token || !angular.isString(token)) {
-                    def.reject(0);
-                    $rootScope.toLogin();
+                var token = query.token;
+                if(!token) {
+                    MenuFactory.reload();
+                    initSelf();
+                    def.resolve(0);
                 } else {
                     Restangular.one('auth').customPOST({token: token}, 'auth')
                         .then(function (data) {
                             setAuth(data.username, token, true);
+                            initSelf();
+                            MenuFactory.reload();
                             def.resolve(0);
                         })
                         .catch(function (response) {
@@ -76,15 +79,21 @@
                 Restangular.one('auth').customGET('login', {username: userName, password: md5Factory(password)})
                     .then(function (data) {
                         setAuth(userName, data.token, true);
+                        initSelf();
+                        MenuFactory.reload();
                         deferred.resolve(data);
                     }, function (response) {
                         factory.isLogin = false;
                         deferred.reject(response);
                     });
 
-                return deferred.promise;
             }
+            return deferred.promise;
         }
+
+        function initSelf() {
+            $rootScope.self = Restangular.one('user', $rootScope.getSelfId()).get().$object;
+        };
 
         /**
          * 退出登录
@@ -110,12 +119,14 @@
         function setAuth(id, token, login) {
             $rootScope.token = token;
             if (token) {
-                //$cookieStore.put('auth_token', token);
+                $cookieStore.put(Config.CookieNames.token, token);
             } else {
-                $cookieStore.remove('auth_token');
+                $cookieStore.remove(Config.CookieNames.token);
+            }
+            if(id) {
+                $cookieStore.put(Config.CookieNames.userId, id);
             }
             $rootScope.userId = id;
-            $rootScope.isLogin = login;
         }
 
 

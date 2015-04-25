@@ -7,7 +7,7 @@
 (function () {
     'use strict';
 
-    angular.module('home').controller('CourseCtrl', UserCtrl);
+    angular.module('home').controller('CourseCtrl', CourseCtrl);
 
     CourseCtrl.$inject = ['$scope', '$log', 'Config'];
 

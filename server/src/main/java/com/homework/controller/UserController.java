@@ -4,13 +4,12 @@ import com.homework.core.Result;
 import com.homework.core.controller.BaseControllerImpl;
 import com.homework.core.service.BaseService;
 import com.homework.entity.User;
+import com.homework.service.CourseService;
 import com.homework.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,6 +20,9 @@ import java.util.List;
 public class UserController extends BaseControllerImpl<User,String> {
     @Autowired
     UserService userService;
+
+    @Autowired
+    CourseService courseService;
 
     @Override
     public <D extends BaseService<User, String>> D getService() {
@@ -34,5 +36,15 @@ public class UserController extends BaseControllerImpl<User,String> {
             return null;
         });
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/course")
+    public Result getCourses(@PathVariable("id") String userId) {
+        return Result.getResult(() -> {
+            HashMap<String, Object> condition = new HashMap<>();
+            condition.put("teach", userId);
+            return courseService.getList(condition);
+        });
+    }
+
 
 }

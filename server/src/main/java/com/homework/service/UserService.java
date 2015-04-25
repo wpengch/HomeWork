@@ -66,6 +66,6 @@ public class UserService extends BaseServiceImpl<User,String> {
     }
 
     public User getUserByTokenAndIP(String token,String ip) {
-        return userDao.getUserByTokenAndIP(token,ip);
+        return userDao.getUserByTokenAndIP(token, ip);
     }
 }

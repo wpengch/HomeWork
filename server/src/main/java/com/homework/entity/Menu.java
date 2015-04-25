@@ -14,8 +14,8 @@ public class Menu {
     private String name;
     private String url;
     private String type;
-
     private List<Menu> children = new ArrayList<>();
+    private Byte power;
 
     @Id
     @Column(name = "id", nullable = false, insertable = true, updatable = true)
@@ -68,6 +68,16 @@ public class Menu {
     }
 
     @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + pid;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -82,16 +92,6 @@ public class Menu {
 
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + pid;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (url != null ? url.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        return result;
-    }
-
     @Transient
     public List<Menu> getChildren() {
         return children;
@@ -99,5 +99,13 @@ public class Menu {
 
     public void setChildren(List<Menu> children) {
         this.children = children;
+    }
+
+    public Byte getPower() {
+        return power;
+    }
+
+    public void setPower(Byte power) {
+        this.power = power;
     }
 }

@@ -2,6 +2,7 @@ package com.homework.entity;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  *  2015-3-28-0028.
  */
 @Entity
-public class Department {
+public class Department implements Serializable {
     private int id;
     private Integer pid;
     private Integer type;

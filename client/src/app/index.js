@@ -41,10 +41,28 @@
             });
             RestangularProvider.setBaseUrl(Config.Urls.RestUrl);
         }
+
+
+        RestangularProvider.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
+            var header = data.header;
+            var model = data.data;
+            if (header && header.rc === 0) {
+                return model;
+            } else {
+                if (header) {
+                    //if(header.rc === 1 && location.hash !== '#/') {
+                    //    location.href = "/";
+                    //}
+                    deferred.reject(header);
+                } else {
+                    deferred.reject(data.header);
+                }
+            }
+        });
     }
 
-    runConfig.$inject = ['$rootScope', 'Config', '$previousState', 'Restangular', 'AuthFactory', 'RestInterceptor', '$state', '$log'];
-    function runConfig($rootScope, Config, $previousState, Restangular, AuthFactory, RestInterceptor, $state, $log) {
+    runConfig.$inject = ['$rootScope', 'Config', '$previousState', 'AuthFactory', '$state','$cookieStore','Restangular','$mdDialog'];
+    function runConfig($rootScope, Config, $previousState, AuthFactory, $state,$cookieStore,Restangular,$mdDialog) {
         //与登陆与验证有关的初始化
         $rootScope.toLogin = function () {
             $state.go('login');
@@ -52,26 +70,78 @@
         $rootScope.isSelf = function (id) {
             return $rootScope.userId === id;
         };
+
+
         $rootScope.quit = AuthFactory.quit;
+        $rootScope.self = {};
+        $rootScope.initSelf = function() {
+            $rootScope.self = Restangular.one('user', $rootScope.getSelfId()).get().$object;
+        };
 
+        $rootScope.getSelfId = function () {
+            return $cookieStore.get(Config.CookieNames.userId);
+        };
 
-        //Restangular的拦截器初始化
-        Restangular.addResponseInterceptor(RestInterceptor.responseInterceptor);
-        Restangular.addFullRequestInterceptor(RestInterceptor.fullRequestInterceptor);
-        Restangular.setErrorInterceptor(RestInterceptor.errorInterceptor);
-
-        //拦截地址重定向的开始与完成事件
-        $rootScope.$on('$locationChangeStart', function () {
-            $log.info('开始验证');
-            AuthFactory.auth().then(function () {
-                $log.info('验证成功')
-            }).catch(function () {
-                $log.info('验证失败');
+        $rootScope.showProgress = function (content, ev) {
+            $mdDialog.show({
+                templateUrl: 'components/template/dlg/rest.progress.html',
+                disableParentScroll: true,
+                hasBackdrop: true,
+                clickOutsideToClose: false,
+                controller: progressCtrl,
+                controllerAs: 'vm',
+                targetEvent: ev,
+                locals: {
+                    content: content
+                }
             });
-        });
-        $rootScope.$on('$locationChangeSuccess', function () {
-            $log.info('加载完成');
-        });
+        };
+
+        $rootScope.showInputText = function (header, name, ev) {
+            return $mdDialog.show({
+                templateUrl: 'components/dlg/dlg.edit.text.tmp.html',
+                disableParentScroll: true,
+                hasBackdrop: true,
+                clickOutsideToClose: false,
+                controller: inputTextCtrl,
+                controllerAs: 'vm',
+                locals: {
+                    header: header,
+                    name: name
+                }
+            });
+
+        };
+
+        inputTextCtrl.$inject = ['header', 'name', '$mdDialog'];
+        function inputTextCtrl(header, name, $mdDialog) {
+            var vm = this;
+            vm.header = header;
+            vm.name = name;
+            vm.submit = function (ev) {
+                if (vm.inputForm.$invalid) {
+                    return;
+                }
+                $mdDialog.hide(vm.value);
+            };
+
+            vm.cancel = function (ev) {
+                $mdDialog.hide();
+            };
+        }
+
+        $rootScope.hideDialog = function () {
+            $mdDialog.hide();
+        };
+
+        progressCtrl.$injector = ['content'];
+        function progressCtrl(content) {
+            var vm = this;
+            vm.content = content;
+        }
+
+
+
 
         //初始化前一个状态的信息
         $rootScope.$previousState = $previousState;
@@ -80,5 +150,7 @@
         };
         $rootScope.Config = Config;
         $rootScope.dateOptions = Config.dateOptions[0];
+
+        AuthFactory.auth();
     }
 })();

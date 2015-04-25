@@ -1,16 +1,18 @@
 <div layout="row">
     <md-whiteframe class="md-whiteframe-z4" layout="column" flex>
         <md-toolbar md-theme="altTheme" layout="row" class="toolbar-border">
-            <div class="md-toolbar-tools" flex>{{vm.selectDep.name | default:'全部'}} 师生列表</div>
-            <md-button ng-click="vm.addUser($event)">添加</md-button>
+            <div class="md-toolbar-tools" flex>课程列表</div>
+            <md-button ng-click="vm.addCourse($event)">添加</md-button>
         </md-toolbar>
-        <div layout="row" ng-repeat="user in vm.users">
-            <md-button>{{$index+1}}</md-button>
-            <md-button>{{user.name}}</md-button>
-            <md-button>{{user.type === 0 ? '学生':'老师'}}</md-button>
+        <div layout="row" ng-repeat="course in vm.user.courses">
+            <md-button flex>{{$index+1}}</md-button>
+            <md-button flex>{{course.name}}</md-button>
+            <md-button flex>{{course.type}}</md-button>
+            <md-button flex ng-href="/#/main/course/students?id={{course.id}}">学生数: {{course.students.length}}</md-button>
+            <!--<md-button>{{user.type === 0 ? '学生':'老师'}}</md-button>-->
         </div>
-        <div ng-if="!vm.users || vm.users.length === 0">
-            <md-button ng-click="vm.addUser($event)">一个师生都没有,点此添加</md-button>
+        <div ng-if="!vm.user.courses || vm.user.courses.length === 0">
+            <md-button ng-click="vm.addCourse($event)">没有课程，点此添加</md-button>
         </div>
     </md-whiteframe>
 </div>

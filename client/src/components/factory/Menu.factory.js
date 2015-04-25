@@ -12,6 +12,7 @@
   MenuFactory.$inject = ['$log', 'Config', 'Restangular', '$q'];
 
   function MenuFactory($log, Config, Restangular, $q) {
+    var callbacks = [];
     //接口定义
     var factory = {};
     factory.getSections = function(){return  Restangular.all('menu').getList().$object;};
@@ -20,6 +21,8 @@
     factory.toggleSelectSection = function (section) { factory.openedSection = (factory.openedSection === section ? null : section); };
     factory.isSectionSelected = function (section) { return factory.openedSection === section; };
     factory.isPageSelected = function (page) { return factory.currentPage === page; };
+    factory.reload = reload;
+    factory.registerCallback = registerCallback;
     activate();
     return factory;
 
@@ -39,6 +42,46 @@
       page && page.url && $location.path(page.url);
       factory.currectSection = section;
       factory.currentPage = page;
+    }
+
+    function reload() {
+      var deferred = $q.defer();
+      Restangular.all('menu').getList()
+          .then(function (data) {
+            factory.sections = data;
+            deferred.resolve(0);
+            notify(Config.Events.MenuInit);
+          })
+          .catch(function (response) {
+            deferred.reject();
+          });
+      return deferred.promise;
+    }
+
+    /**
+     * 注册回调函数
+     * @param id  需要监听的事件
+     * @param callback 回调函数
+     */
+    function registerCallback(id, callback) {
+      if (!callbacks[id]) {
+        callbacks[id] = [];
+      }
+      callbacks[id].push(callback);
+    }
+
+    /**
+     * 发送一个事件通知
+     * @param id 事件ID
+     */
+    function notify(id) {
+      var calls = callbacks[id];
+      if (!calls) {
+        return;
+      }
+      angular.forEach(calls, function (call) {
+        call();
+      });
     }
   }
 

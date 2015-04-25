@@ -7,6 +7,7 @@
 (function () {
     'use strict';
 
+
     Array.prototype.customFind = function (func) {
         for (var i = 0; i < this.length; i++) {
             if (func(this[i])) {
@@ -14,6 +15,20 @@
             }
         }
     };
+
+    Array.prototype.filterArr = function (arr, func) {
+        var results = [];
+        for (var i = 0; i < this.length; i++) {
+            var item = this[i];
+            if (!arr.customFind(function (obj) {
+                    return func(obj, item);
+                })) {
+                results.push(item);
+            }
+        }
+        return results;
+    };
+
 
     /**
      *
@@ -46,4 +61,5 @@
         }
         return result;
     };
-})();
+})
+();

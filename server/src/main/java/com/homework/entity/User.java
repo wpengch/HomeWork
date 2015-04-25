@@ -1,14 +1,16 @@
 package com.homework.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 由 田黄雪薇 创建于 2015-3-27-0027.
  */
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
     private String id;
     private String name;
     private String password;
@@ -25,6 +27,7 @@ public class User {
     private String sn;
     private Integer depId;
     private Integer subjectId;
+    private List<Course> courses;
 
     @Id
     @Column(name = "id", nullable = false, insertable = true, updatable = true, length = 255)
@@ -203,5 +206,14 @@ public class User {
 
     public void setSubjectId(Integer subjectId) {
         this.subjectId = subjectId;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Course.class, mappedBy = "teach")
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 }

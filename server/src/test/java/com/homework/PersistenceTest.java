@@ -2,12 +2,12 @@ package com.homework;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import java.util.List;
 
 /**
- * Created by 田黄雪薇 on 15/4/18.
+ * 由 田黄雪薇 创建于 15/4/18.
  */
 public class PersistenceTest {
     SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
