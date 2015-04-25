@@ -2,80 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="126c170d-910a-4a7f-a221-34d766d91c1c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/course/Course.controller.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/course/Course.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/course/list/CourseList.controller.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/course/list/CourseList.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/extends/array.extend.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/components/dlg/course.add.dlg.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../server/.idea/encodings.xml" />
-      <change type="DELETED" beforePath="D:\study\HomeWork\server\src\main\java\com\homework\entity\Course.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\study\HomeWork\server\src\main\resources\c3p0.properties" afterPath="" />
-      <change type="DELETED" beforePath="D:\study\HomeWork\server\src\main\resources\mchange-log.properties" afterPath="" />
-      <change type="DELETED" beforePath="D:\study\HomeWork\server\src\main\webapp\scripts\app-6c34e583.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\study\HomeWork\server\src\main\webapp\scripts\vendor-7de8485b.js" afterPath="" />
-      <change type="DELETED" beforePath="D:\study\HomeWork\server\src\main\webapp\styles\app-faa10b4c.css" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/404.html" afterPath="$PROJECT_DIR$/../server/src/main/webapp/404.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/factory/Auth.factory.js" afterPath="$PROJECT_DIR$/src/components/factory/Auth.factory.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/dao/BaseDaoImpl.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/dao/BaseDaoImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Department.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Department.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/factory/Menu.factory.js" afterPath="$PROJECT_DIR$/src/components/factory/Menu.factory.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Menu.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Menu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/MenuService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/MenuService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/test/java/com/homework/PersistenceTest.java" afterPath="$PROJECT_DIR$/../server/src/test/java/com/homework/PersistenceTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/constants/Router.constant.js" afterPath="$PROJECT_DIR$/src/components/constants/Router.constant.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/factory/User.factory.js" afterPath="$PROJECT_DIR$/src/components/factory/User.factory.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/User.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/UserController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/UserController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/UserService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/UserService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_animated.scss" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_animated.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_bordered-pulled.scss" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_bordered-pulled.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_core.scss" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_core.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_fixed-width.scss" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_fixed-width.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_icons.scss" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_icons.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_larger.scss" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_larger.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_list.scss" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_list.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_mixins.scss" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_mixins.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_path.scss" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_path.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_rotated-flipped.scss" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_rotated-flipped.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_stacked.scss" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_stacked.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_variables.scss" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/_variables.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/animated.less" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/animated.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/bordered-pulled.less" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/bordered-pulled.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/bower.json" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/bower.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/constants/config-constants.js" afterPath="$PROJECT_DIR$/src/components/constants/config-constants.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/core.less" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/core.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/fixed-width.less" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/fixed-width.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/css/font-awesome.css.map" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/css/font-awesome.css.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/css/font-awesome.css" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/css/font-awesome.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/font-awesome.less" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/font-awesome.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/css/font-awesome.min.css" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/css/font-awesome.min.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/font-awesome.scss" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/scss/font-awesome.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/fonts/fontawesome-webfont.svg" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/fonts/fontawesome-webfont.svg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/fonts/fontawesome-webfont.svg" afterPath="$PROJECT_DIR$/../server/src/main/webapp/fonts/fontawesome-webfont.svg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/fonts/glyphicons-halflings-regular.svg" afterPath="$PROJECT_DIR$/../server/src/main/webapp/fonts/glyphicons-halflings-regular.svg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/icons.less" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/icons.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/../server/src/main/webapp/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/index.js" afterPath="$PROJECT_DIR$/src/app/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/larger.less" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/larger.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/list.less" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/list.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/resources/log4j.xml" afterPath="$PROJECT_DIR$/../server/src/main/resources/log4j.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/main/main.controller.js" afterPath="$PROJECT_DIR$/src/app/main/main.controller.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/main.iml" afterPath="$PROJECT_DIR$/../server/src/main/main.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/mixins.less" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/mixins.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml" afterPath="$PROJECT_DIR$/../server/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/path.less" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/path.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/pom.xml" afterPath="$PROJECT_DIR$/../server/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/rotated-flipped.less" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/rotated-flipped.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/spring-core.xml" afterPath="$PROJECT_DIR$/../server/out/production/main/spring-core.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/resources/spring-core.xml" afterPath="$PROJECT_DIR$/../server/src/main/resources/spring-core.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/stacked.less" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/stacked.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/test/test.iml" afterPath="$PROJECT_DIR$/../server/src/test/test.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/variables.less" afterPath="$PROJECT_DIR$/../server/src/main/webapp/assets/font-awesome/less/variables.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/styles/vendor-7ea7acaa.css" afterPath="$PROJECT_DIR$/../server/src/main/webapp/styles/vendor-7ea7acaa.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/../server/src/main/webapp/WEB-INF/web.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.html" afterPath="$PROJECT_DIR$/src/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/main/main.html" afterPath="$PROJECT_DIR$/src/app/main/main.html" />
     </list>
     <ignored path="client.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -109,18 +37,8 @@
       <file leaf-file-name="model.add.dlg.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/dlg/model.add.dlg.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.689655">
-              <caret line="22" column="9" selection-start-line="2" selection-start-column="2" selection-end-line="22" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CourseList.controller.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/app/course/list/CourseList.controller.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4796748">
-              <caret line="43" column="58" selection-start-line="43" selection-start-column="58" selection-end-line="43" selection-end-column="58" />
+            <state vertical-scroll-proportion="-4.3448277">
+              <caret line="7" column="27" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -141,6 +59,26 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-11.034483">
               <caret line="16" column="51" selection-start-line="16" selection-start-column="51" selection-end-line="16" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.controller.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/main/main.controller.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="45" column="35" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/main/main.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.443686">
+              <caret line="13" column="39" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -179,6 +117,8 @@
         <option value="$PROJECT_DIR$/src/app/course/add/CourseAdd.html" />
         <option value="$PROJECT_DIR$/src/components/dlg/course.add.dlg.html" />
         <option value="$PROJECT_DIR$/src/app/course/list/CourseList.controller.js" />
+        <option value="$PROJECT_DIR$/src/index.html" />
+        <option value="$PROJECT_DIR$/src/app/main/main.html" />
       </list>
     </option>
   </component>
@@ -741,7 +681,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973656" sideWeight="0.26397514" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24973656" sideWeight="0.73602486" order="0" side_tool="false" content_ui="combo" />
@@ -786,30 +726,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/course/student/StudentList.controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/extends/array.extend.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="29" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/constants/Router.constant.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="96" column="26" selection-start-line="96" selection-start-column="26" selection-end-line="96" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/user/User.controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -931,6 +847,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="45" column="35" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1032,13 +949,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/main/main.controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="35" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/factory/Menu.factory.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1100,14 +1010,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/dlg/model.add.dlg.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.689655">
-          <caret line="22" column="9" selection-start-line="2" selection-start-column="2" selection-end-line="22" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/course/list/CourseList.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.655172">
@@ -1164,10 +1066,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.8430034">
+          <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/login/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20477815">
+          <caret line="6" column="47" selection-start-line="6" selection-start-column="47" selection-end-line="6" selection-end-column="47" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/course/list/CourseList.controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4796748">
-          <caret line="43" column="58" selection-start-line="43" selection-start-column="58" selection-end-line="43" selection-end-column="58" />
+        <state vertical-scroll-proportion="0.3821138">
+          <caret line="37" column="43" selection-start-line="37" selection-start-column="43" selection-end-line="37" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/dlg/model.add.dlg.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.3448277">
+          <caret line="7" column="27" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/main/main.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="45" column="35" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/main/main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.443686">
+          <caret line="13" column="39" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
           <folding />
         </state>
       </provider>

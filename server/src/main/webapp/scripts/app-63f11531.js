@@ -1384,51 +1384,6 @@ module.directive('menuLink', function () {
 })();
 
 /**
- * 登陆的factory
- */
-(function () {
-  'use strict';
-
-  angular.module('home').service("$previousState", previousStateService);
-  previousStateService.$inject = ['$rootScope', '$state'];
-  function previousStateService($rootScope, $state) {
-    var previous = null;
-    var memos = {};
-
-    var lastPrevious = null;
-
-    $rootScope.$on("$stateChangeStart", function (evt, toState, toStateParams, fromState, fromStateParams) {
-      lastPrevious = previous;
-      previous = {state: fromState, params: fromStateParams};
-    });
-
-    $rootScope.$on("$stateChangeError", function () {
-      previous = lastPrevious;
-      lastPrevious = null;
-    });
-
-    $rootScope.$on("$stateChangeSuccess", function () {
-      lastPrevious = null;
-    });
-
-    var $previousState = {
-      get: function (memoName) {
-        return memoName ? memos[memoName] : previous;
-      },
-      go: function (memoName) {
-        var to = $previousState.get(memoName);
-        return $state.go(to.state, to.params)
-      },
-      memo: function (memoName) {
-        memos[memoName] = previous;
-      }
-    };
-
-    return $previousState;
-  }
-})();
-
-/**
  * 创建人：pengchao
  * 创建时间：2015-3-23-0023
  * 工厂名字：userName
@@ -1834,6 +1789,51 @@ module.directive('menuLink', function () {
           return $filter('date')(date, 'yyyy年MM月dd日') + "   " + (new Date().getYear() - date.getYear()) + "岁";
         }
     }
+})();
+
+/**
+ * 登陆的factory
+ */
+(function () {
+  'use strict';
+
+  angular.module('home').service("$previousState", previousStateService);
+  previousStateService.$inject = ['$rootScope', '$state'];
+  function previousStateService($rootScope, $state) {
+    var previous = null;
+    var memos = {};
+
+    var lastPrevious = null;
+
+    $rootScope.$on("$stateChangeStart", function (evt, toState, toStateParams, fromState, fromStateParams) {
+      lastPrevious = previous;
+      previous = {state: fromState, params: fromStateParams};
+    });
+
+    $rootScope.$on("$stateChangeError", function () {
+      previous = lastPrevious;
+      lastPrevious = null;
+    });
+
+    $rootScope.$on("$stateChangeSuccess", function () {
+      lastPrevious = null;
+    });
+
+    var $previousState = {
+      get: function (memoName) {
+        return memoName ? memos[memoName] : previous;
+      },
+      go: function (memoName) {
+        var to = $previousState.get(memoName);
+        return $state.go(to.state, to.params)
+      },
+      memo: function (memoName) {
+        memos[memoName] = previous;
+      }
+    };
+
+    return $previousState;
+  }
 })();
 
 /**
@@ -3968,8 +3968,8 @@ module.directive('menuLink', function () {
 
 angular.module("home").run(["$templateCache", function($templateCache) {$templateCache.put("app/course/Course.html","<div ui-view=\"\" class=\"content-padding\"></div>");
 $templateCache.put("app/dep/Department.html","<div ui-view=\"\" class=\"content-padding\"></div>");
-$templateCache.put("app/main/main.html","<section layout=\"row\" flex=\"\" class=\"body\"><md-sidenav class=\"site-sidenav md-sidenav-left md-whiteframe-z2\" md-component-id=\"left\" md-is-locked-open=\"$mdMedia(\'gt-sm\')\"><md-toolbar><h1 class=\"md-toolbar-tools\"><a ng-href=\"/\" layout=\"row\" flex=\"\" style=\"color:#fff\"><svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewbox=\"0 0 100 100\" enable-background=\"new 0 0 100 100\" xml:space=\"preserve\" style=\"width: 40px; height: 40px;\"><path d=\"M 50 0 L 100 14 L 92 80 L 50 100 L 8 80 L 0 14 Z\" fill=\"#b2b2b2\"></path><path d=\"M 50 5 L 6 18 L 13.5 77 L 50 94 Z\" fill=\"#E42939\"></path><path d=\"M 50 5 L 94 18 L 86.5 77 L 50 94 Z\" fill=\"#B72833\"></path><path d=\"M 50 7 L 83 75 L 72 75 L 65 59 L 50 59 L 50 50 L 61 50 L 50 26 Z\" fill=\"#b2b2b2\"></path><path d=\"M 50 7 L 17 75 L 28 75 L 35 59 L 50 59 L 50 50 L 39 50 L 50 26 Z\" fill=\"#fff\"></path></svg><div class=\"docs-logotype\">OA管理系统</div></a></h1></md-toolbar><md-content flex=\"\" role=\"navigation\"><ul class=\"docs-menu\"><li ng-repeat=\"section in vm.sections\" class=\"parent-list-item\" ng-class=\"{\'parentActive\' : vm.isSectionSelected(section)}\"><h2 class=\"menu-heading\" ng-if=\"section.type === \'heading\'\" id=\"heading_{{ section.name | nospace}}\">{{section.name}}</h2><menu-link section=\"section\" ng-if=\"section.type === \'link\'\"></menu-link><menu-toggle section=\"section\" ng-if=\"section.type === \'toggle\'\"></menu-toggle><ul ng-if=\"section.children\" class=\"menu-nested-list\"><li ng-repeat=\"child in section.children\" ng-class=\"{\'childActive\' : isSectionSelected(child)}\"><menu-toggle section=\"child\"></menu-toggle></li></ul></li></ul></md-content></md-sidenav><div layout=\"column\" tabindex=\"-1\" role=\"main\" flex=\"\"><md-toolbar><div class=\"md-toolbar-tools\" ng-click=\"vm.openMenu()\"><button class=\"docs-menu-icon\" hide-gt-sm=\"\" aria-label=\"Toggle Menu\"><md-icon md-svg-src=\"../assets/images/svg/ic_menu_24px.svg\"></md-icon></button><div layout=\"row\" flex=\"\" class=\"fill-height\"><div class=\"md-toolbar-item md-breadcrumb\" style=\"color: #fff\"><span ng-if=\"vm.menu.currentPage.name !== vm.menu.currentSection.name\"><span hide-sm=\"\" hide-md=\"\">{{vm.menu.currentSection.name}}</span> <span class=\"docs-menu-separator-icon\" style=\"\" hide-sm=\"\" hide-md=\"\"><img src=\"../assets/images/icons/docArrow.png\" alt=\"\" aria-hidden=\"true\">]</span></span> <span class=\"md-breadcrumb-page\">{{(vm.menu.currentPage) || \'OA\' }}</span></div><span flex=\"\"></span><div class=\"md-toolbar-item md-tools docs-tools\" layout=\"column\" layout-gt-md=\"row\"><div><img src=\"../assets/images/img/face.jpg\" class=\"face\" alt=\"这个是我自己\"></div></div></div></div></md-toolbar><md-content ui-view=\"\" md-scroll-y=\"\" flex=\"\" class=\"md-padding\" style=\"background: #eee\"></md-content></div></section>");
 $templateCache.put("app/login/login.html","<div style=\"position:absolute;top:50%;left:50%;\"><div layout=\"row\" style=\"width:500px;height:230px;position: relative; margin:-115px auto auto -250px;\"><div flex=\"\" hide-sm=\"\" flex-order=\"1\" align=\"right\" layout-padding=\"\"><img src=\"../assets/images/img/login_01.png\" layout-padding=\"\"><div class=\"login-font\">作业管理系统</div><p class=\"login-font-p\">2015年田黄雪薇版权所有</p></div><div flex=\"\" flex-order=\"2\" align=\"center\"><form name=\"vm.loginForm\" layout=\"column\" layout-align=\"center center\"><md-input-container flex=\"\"><label align=\"left\">账号</label> <input required=\"\" ng-model=\"vm.user.userName\" placeholder=\"请输入用户名\"><div ng-messages=\"vm.loginForm.user.userName.$error\"><div ng-message=\"required\">账号不能为空</div></div></md-input-container><md-input-container flex=\"\"><label align=\"left\">密码</label> <input required=\"\" ng-model=\"vm.user.password\" type=\"password\" placeholder=\"请输入密码\"><div ng-messages=\"vm.loginForm.user.password.$error\"><div ng-message=\"required\">密码不能为空</div></div></md-input-container><md-button class=\"md-raised md-primary\" style=\"width: 175px;box-shadow: none;color:#fff\" ng-click=\"vm.login($event)\" flex=\"\">登陆</md-button></form><md-button ng-click=\"vm.stuRegister($event)\" style=\"margin-top: 20px;color: green;padding: 10px\">学生注册</md-button><md-button ng-click=\"vm.teacherRegister($event)\" style=\"margin-top: 20px;color: green;padding: 10px\">老师注册</md-button></div></div></div>");
+$templateCache.put("app/main/main.html","<section layout=\"row\" flex=\"\" class=\"body\"><md-sidenav class=\"site-sidenav md-sidenav-left md-whiteframe-z2\" md-component-id=\"left\" md-is-locked-open=\"$mdMedia(\'gt-sm\')\"><md-toolbar><h1 class=\"md-toolbar-tools\"><a ng-href=\"/\" layout=\"row\" flex=\"\" style=\"color:#fff\"><svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewbox=\"0 0 100 100\" enable-background=\"new 0 0 100 100\" xml:space=\"preserve\" style=\"width: 40px; height: 40px;\"><path d=\"M 50 0 L 100 14 L 92 80 L 50 100 L 8 80 L 0 14 Z\" fill=\"#b2b2b2\"></path><path d=\"M 50 5 L 6 18 L 13.5 77 L 50 94 Z\" fill=\"#E42939\"></path><path d=\"M 50 5 L 94 18 L 86.5 77 L 50 94 Z\" fill=\"#B72833\"></path><path d=\"M 50 7 L 83 75 L 72 75 L 65 59 L 50 59 L 50 50 L 61 50 L 50 26 Z\" fill=\"#b2b2b2\"></path><path d=\"M 50 7 L 17 75 L 28 75 L 35 59 L 50 59 L 50 50 L 39 50 L 50 26 Z\" fill=\"#fff\"></path></svg><div class=\"docs-logotype\">作业管理系统</div></a></h1></md-toolbar><md-content flex=\"\" role=\"navigation\"><ul class=\"docs-menu\"><li ng-repeat=\"section in vm.sections\" class=\"parent-list-item\" ng-class=\"{\'parentActive\' : vm.isSectionSelected(section)}\"><h2 class=\"menu-heading\" ng-if=\"section.type === \'heading\'\" id=\"heading_{{ section.name | nospace}}\">{{section.name}}</h2><menu-link section=\"section\" ng-if=\"section.type === \'link\'\"></menu-link><menu-toggle section=\"section\" ng-if=\"section.type === \'toggle\'\"></menu-toggle><ul ng-if=\"section.children\" class=\"menu-nested-list\"><li ng-repeat=\"child in section.children\" ng-class=\"{\'childActive\' : isSectionSelected(child)}\"><menu-toggle section=\"child\"></menu-toggle></li></ul></li></ul></md-content></md-sidenav><div layout=\"column\" tabindex=\"-1\" role=\"main\" flex=\"\"><md-toolbar><div class=\"md-toolbar-tools\" ng-click=\"vm.openMenu()\"><button class=\"docs-menu-icon\" hide-gt-sm=\"\" aria-label=\"Toggle Menu\"><md-icon md-svg-src=\"../assets/images/svg/ic_menu_24px.svg\"></md-icon></button><div layout=\"row\" flex=\"\" class=\"fill-height\"><div class=\"md-toolbar-item md-breadcrumb\" style=\"color: #fff\"><span ng-if=\"vm.menu.currentPage.name !== vm.menu.currentSection.name\"><span hide-sm=\"\" hide-md=\"\">{{vm.menu.currentSection.name}}</span> <span class=\"docs-menu-separator-icon\" style=\"\" hide-sm=\"\" hide-md=\"\"><img src=\"../assets/images/icons/docArrow.png\" alt=\"\" aria-hidden=\"true\">]</span></span> <span class=\"md-breadcrumb-page\">{{(vm.menu.currentPage) || \'OA\' }}</span></div><span flex=\"\"></span><div class=\"md-toolbar-item md-tools docs-tools\" layout=\"column\" layout-gt-md=\"row\"><div><img src=\"../assets/images/img/face.jpg\" class=\"face\" alt=\"这个是我自己\"></div></div></div></div></md-toolbar><md-content ui-view=\"\" md-scroll-y=\"\" flex=\"\" class=\"md-padding\" style=\"background: #eee\"></md-content></div></section>");
 $templateCache.put("app/register/Register.html","<md-content class=\"md-padding\" layout=\"column\" layout-align=\"center center\"><form name=\"vm.newForm\" layout=\"column\" layout-align=\"center center\"><md-input-container><label>账户</label> <input required=\"\" ng-model=\"vm.user.id\" placeholder=\"请输入账号\"></md-input-container><md-input-container><label>名字</label> <input required=\"\" ng-model=\"vm.user.name\" placeholder=\"请输入名字\"></md-input-container><md-input-container><label>{{vm.ssn}}</label> <input required=\"\" ng-model=\"vm.user.sn\" placeholder=\"请输入编号\"></md-input-container><md-input-container><label>密码</label> <input required=\"\" type=\"password\" ng-model=\"vm.user.password\" placeholder=\"请输入密码\"></md-input-container><md-input-container><label>确认密码</label> <input required=\"\" type=\"password\" ng-model=\"vm.password\" placeholder=\"请输入确认密码\"></md-input-container><md-button class=\"md-primary\" style=\"margin-top: 50px;min-width: 200px\" ng-click=\"vm.submit($event)\">提交</md-button></form></md-content>");
 $templateCache.put("app/user/User.html","<div ui-view=\"\" class=\"content-padding\"></div>");
 $templateCache.put("components/dlg/course.add.dlg.html","<md-dialog><md-subheader>添加课程</md-subheader><form name=\"vm.addForm\" layout=\"column\"><md-input-container><label>课程名字</label> <input type=\"text\" ng-model=\"vm.course.name\" required=\"\"></md-input-container><div layout=\"row\"><label>课程类型</label><md-select placeholder=\"课程类型\" ng-model=\"vm.course.type\"><md-option value=\"必修\">必修</md-option><md-option value=\"选修\">选修</md-option></md-select></div><div class=\"md-padding\" layout=\"row\"><md-button ng-click=\"vm.submit()\" flex=\"\">确定</md-button><md-button ng-click=\"vm.cancel()\" flex=\"\">取消</md-button></div></form></md-dialog>");
@@ -3995,15 +3995,15 @@ $templateCache.put("components/template/school.add.tmp.html","<md-whiteframe cla
 $templateCache.put("components/template/school.edit.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"row\" layout-align=\"space-around start\" style=\"padding: 20px\"><md-whiteframe layout=\"column\" flex=\"30\"><form name=\"vm.addForm\" class=\"md-padding\"><md-input-container class=\"add-edit\"><label>学校名称</label> <input required=\"\" ng-model=\"vm.department.name\" type=\"text\"><div ng-messages=\"vm.addForm.department.name.$error\"><div ng-message=\"required\">学校名称不能为空</div></div></md-input-container><md-input-container class=\"add-edit\"><label>学校地址</label> <input required=\"\" ng-model=\"vm.department.address\" type=\"text\"><div ng-messages=\"vm.addForm.department.address.$error\"><div ng-message=\"required\">学校地址不能为空</div></div></md-input-container></form></md-whiteframe><md-whiteframe flex=\"70\"><md-content layout=\"column\" class=\"editer-total content-border\"><md-content class=\"md-toolbar-tools toolbar-border\">学校介绍</md-content><text-angular class=\"content-border\" ng-model=\"vm.department.description\" ta-toolbar=\"{{Config.toolbars}}\"></text-angular><md-content><md-button class=\"md-toolbar-tools\" flex=\"\" ng-model=\"vm.department.attachment\">添加附件</md-button></md-content></md-content></md-whiteframe></md-whiteframe>");
 $templateCache.put("components/template/school.info.tmp.html","<md-whiteframe class=\"md-padding\" layout=\"column\"><md-whiteframe layout=\"row\" layout-align=\"space-around start\"><div class=\"md-padding layout-form\" style=\"margin: 30px 30px 0 30px;\"><div class=\"info\"><span>学 校 名 称:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.name | default}}</label></div><div class=\"info\"><span>学 校 地 址:<b class=\"force_justify\"></b></span> <label>{{vm.selectDep.address | default}}</label></div></div></md-whiteframe><md-whiteframe flex=\"\"><md-content layout=\"column\" class=\"dep-description\"><h2>学校介绍</h2><div ng-bind-html=\"vm.selectDep.description | trustHtml\"></div></md-content><md-button class=\"more-info\">查看完整信息</md-button></md-whiteframe></md-whiteframe>");
 $templateCache.put("app/course/add/CourseAdd.html","<div layout=\"row\"><form name=\"vm.addForm\" class=\"md-whiteframe-z4\" layout=\"column\" flex=\"\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">课程列表</div><md-button ng-click=\"vm.addCourse($event)\">添加</md-button></md-toolbar><div layout=\"column\"><md-input-container><label>课程名字</label></md-input-container></div></form></div>");
-$templateCache.put("app/course/student/StudentList.html","<div layout=\"row\"><md-whiteframe class=\"md-whiteframe-z4\" layout=\"column\" flex=\"\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">{{vm.course.name}} 学生列表</div><md-button ng-click=\"vm.addStudent($event)\">添加学生</md-button></md-toolbar><div layout=\"row\" ng-repeat=\"student in vm.course.students\"><md-button flex=\"\">{{$index+1}}</md-button><md-button flex=\"\">{{student.name}}</md-button><md-button flex=\"\" ng-click=\"vm.removeStudent(student, $index, $event)\">删除</md-button></div><div ng-if=\"!vm.course.students || vm.course.students.length === 0\"><md-button ng-click=\"vm.addStudent($event)\">没有学生，点此添加</md-button></div></md-whiteframe></div>");
 $templateCache.put("app/course/list/CourseList.html","<div layout=\"row\"><md-whiteframe class=\"md-whiteframe-z4\" layout=\"column\" flex=\"\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">课程列表</div><md-button ng-click=\"vm.addCourse($event)\">添加</md-button></md-toolbar><div layout=\"row\" ng-repeat=\"course in vm.user.courses\"><md-button flex=\"\">{{$index+1}}</md-button><md-button flex=\"\">{{course.name}}</md-button><md-button flex=\"\">{{course.type}}</md-button><md-button flex=\"\" ng-href=\"/#/main/course/students?id={{course.id}}\">学生数: {{course.students.length}}</md-button></div><div ng-if=\"!vm.user.courses || vm.user.courses.length === 0\"><md-button ng-click=\"vm.addCourse($event)\">没有课程，点此添加</md-button></div></md-whiteframe></div>");
+$templateCache.put("app/course/student/StudentList.html","<div layout=\"row\"><md-whiteframe class=\"md-whiteframe-z4\" layout=\"column\" flex=\"\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">{{vm.course.name}} 学生列表</div><md-button ng-click=\"vm.addStudent($event)\">添加学生</md-button></md-toolbar><div layout=\"row\" ng-repeat=\"student in vm.course.students\"><md-button flex=\"\">{{$index+1}}</md-button><md-button flex=\"\">{{student.name}}</md-button><md-button flex=\"\" ng-click=\"vm.removeStudent(student, $index, $event)\">删除</md-button></div><div ng-if=\"!vm.course.students || vm.course.students.length === 0\"><md-button ng-click=\"vm.addStudent($event)\">没有学生，点此添加</md-button></div></md-whiteframe></div>");
 $templateCache.put("app/dep/add/DepartmentAdd.html","<form name=\"vm.addForm\" layout=\"column\" class=\"doc-content\"><md-whiteframe class=\"md-padding\" layout=\"column\"><md-toolbar layout=\"row\" md-theme=\"altTheme\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">添加{{vm.type.name}}</div><md-button class=\"btn-ctrl\" ng-click=\"vm.addDepartment($event)\">提交</md-button><md-button class=\"btn-ctrl\" ng-click=\"back()\">取消</md-button></md-toolbar><md-content class=\"content-border\"><div ng-include=\"\" src=\"vm.type.addUrl\" class=\"info-border\"></div></md-content></md-whiteframe></form>");
 $templateCache.put("app/dep/change/DepartmentChange.html","<form name=\"vm.addForm\" layout=\"column\" class=\"doc-content\"><md-whiteframe class=\"md-padding\" layout=\"column\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">编辑{{vm.department.name}}资料</div><md-button ng-click=\"vm.submit($event)\" class=\"btn-ctrl\">提交</md-button><md-button ng-click=\"back()\" class=\"btn-ctrl\">取消</md-button></md-toolbar><md-content class=\"content-border\"><div ng-include=\"\" src=\"vm.type.editUrl\" class=\"info-border\"></div></md-content></md-whiteframe></form>");
 $templateCache.put("app/dep/list/DepartmentList.html","<div layout=\"row\"><md-whiteframe layout=\"column\" style=\"width: 300px;height: auto\" md-theme=\"altTheme\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" style=\"width:120px;\" flex=\"\">组织结构</div><md-button ng-click=\"vm.addDepartment()\" class=\"btn-ctrl\">添加学校</md-button></md-toolbar><div class=\"content-border\" ng-include=\"\" src=\"\'components/template/department-add.tmp.html\'\"></div></md-whiteframe><md-whiteframe flex=\"98\" style=\"margin-left: 2%;\"><md-toolbar layout=\"row\" md-theme=\"altTheme\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">{{vm.selectDep.name}}</div><md-button ng-click=\"vm.editDepartment($event)\" ng-if=\"!!vm.selectDep\" class=\"btn-ctrl\">编辑资料</md-button><md-button ng-click=\"vm.deleteDepartment($event)\" ng-if=\"!!vm.selectDep\" class=\"btn-ctrl\">删除部门</md-button></md-toolbar><md-content ng-include=\"\" src=\"vm.template.infoUrl\" class=\"content-border\"></md-content></md-whiteframe></div>");
 $templateCache.put("app/user/add/UserAdd.html","<form name=\"vm.addForm\" layout=\"column\" class=\"doc-content\"><md-whiteframe class=\"md-padding\" layout=\"column\"><md-toolbar layout=\"row\" md-theme=\"altTheme\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">选择师生添加到{{vm.department.name}}</div><md-button class=\"btn-ctrl\" ng-click=\"vm.updateUser($event)\">提交</md-button><md-button class=\"btn-ctrl\" ng-click=\"back()\">取消</md-button></md-toolbar><md-content class=\"content-border\"><div layout=\"row\" ng-repeat=\"user in vm.users\"><md-button>{{$index+1}}</md-button><md-checkbox ng-model=\"user.selected\" flex=\"\">{{user.name}}</md-checkbox></div></md-content></md-whiteframe></form>");
 $templateCache.put("app/user/change/DepartmentChange.html","<form name=\"vm.addForm\" layout=\"column\" class=\"doc-content\"><md-whiteframe class=\"md-padding\" layout=\"column\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">编辑{{vm.department.name}}资料</div><md-button ng-click=\"vm.submit($event)\" class=\"btn-ctrl\">提交</md-button><md-button ng-click=\"back()\" class=\"btn-ctrl\">取消</md-button></md-toolbar><md-content class=\"content-border\"><div ng-include=\"\" src=\"vm.type.editUrl\" class=\"info-border\"></div></md-content></md-whiteframe></form>");
 $templateCache.put("app/user/list/UserList.html","<div layout=\"row\"><md-whiteframe class=\"md-whiteframe-z3\" flex=\"\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">过滤</div></md-toolbar><div class=\"content-border\" ng-include=\"\" src=\"\'components/template/department.tmp.html\'\"></div></md-whiteframe><md-whiteframe class=\"md-whiteframe-z4\" layout=\"column\" flex=\"\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">{{vm.selectDep.name | default:\'全部\'}} 师生列表</div><md-button ng-click=\"vm.addUser($event)\">添加</md-button></md-toolbar><div layout=\"row\" ng-repeat=\"user in vm.users\"><md-button>{{$index+1}}</md-button><md-button>{{user.name}}</md-button><md-button>{{user.type === 0 ? \'学生\':\'老师\'}}</md-button></div><div ng-if=\"!vm.users || vm.users.length === 0\"><md-button ng-click=\"vm.addUser($event)\">一个师生都没有,点此添加</md-button></div></md-whiteframe></div>");
-$templateCache.put("components/directive/menuToggle/menu-toggle.tmpl.html","<md-button class=\"md-button-toggle\" ng-click=\"toggle()\" aria-controls=\"docs-menu-{{section.name | nospace}}\" flex=\"\" layout=\"row\" aria-expanded=\"{{isOpen()}}\">{{section.name}} <span aria-hidden=\"true\" class=\"md-toggle-icon\" ng-class=\"{\'toggled\' : isOpen()}\"></span> <span class=\"visually-hidden\">Toggle {{isOpen()? \'expanded\' : \'collapsed\'}}</span></md-button><ul ng-show=\"isOpen()\" id=\"docs-menu-{{section.name | nospace}}\" class=\"menu-toggle-list\"><li ng-repeat=\"page in section.children\"><menu-link section=\"page\"></menu-link></li></ul>");
 $templateCache.put("components/directive/menuLink/menu-link.tmpl.html","<md-button ng-class=\"{\'active\' : isSelected()}\" ng-click=\"focusSection(section,$event)\">{{section | humanizeDoc}} <span class=\"visually-hidden\" ng-if=\"isSelected()\">current page</span></md-button>");
+$templateCache.put("components/directive/menuToggle/menu-toggle.tmpl.html","<md-button class=\"md-button-toggle\" ng-click=\"toggle()\" aria-controls=\"docs-menu-{{section.name | nospace}}\" flex=\"\" layout=\"row\" aria-expanded=\"{{isOpen()}}\">{{section.name}} <span aria-hidden=\"true\" class=\"md-toggle-icon\" ng-class=\"{\'toggled\' : isOpen()}\"></span> <span class=\"visually-hidden\">Toggle {{isOpen()? \'expanded\' : \'collapsed\'}}</span></md-button><ul ng-show=\"isOpen()\" id=\"docs-menu-{{section.name | nospace}}\" class=\"menu-toggle-list\"><li ng-repeat=\"page in section.children\"><menu-link section=\"page\"></menu-link></li></ul>");
 $templateCache.put("components/template/dlg/rest.error.html","<md-dialog aria-label=\"输入\"><md-content layout=\"column\" layout-align=\"center center\"><h2>{{vm.title}}</h2><br><p>{{vm.content}}</p><br><md-button ng-click=\"vm.cancel()\">确定</md-button></md-content></md-dialog>");
 $templateCache.put("components/template/dlg/rest.progress.html","<md-dialog aria-label=\"输入\"><md-content layout=\"column\" layout-align=\"center center\"><h2>{{vm.content}}</h2><br><md-progress-circular md-mode=\"indeterminate\"></md-progress-circular></md-content></md-dialog>");}]);
