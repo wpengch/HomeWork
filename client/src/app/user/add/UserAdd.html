@@ -1,0 +1,15 @@
+<form name="vm.addForm" layout="column" class="doc-content">
+  <md-whiteframe class="md-padding" layout="column">
+    <md-toolbar layout="row" md-theme="altTheme" class="box-shadow-none toolbar-border">
+      <div class="md-toolbar-tools" flex>选择师生添加到{{vm.department.name}}</div>
+      <md-button class="btn-ctrl" ng-click="vm.updateUser($event)">提交</md-button>
+      <md-button class="btn-ctrl" ng-click="back()">取消</md-button>
+    </md-toolbar>
+    <md-content class="content-border">
+      <div layout="row" ng-repeat="user in vm.users">
+        <md-button>{{$index+1}}</md-button>
+        <md-checkbox ng-model="user.selected" flex>{{user.name}}</md-checkbox>
+      </div>
+    </md-content>
+  </md-whiteframe>
+</form>
