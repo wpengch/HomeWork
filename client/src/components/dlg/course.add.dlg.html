@@ -1,0 +1,12 @@
+<md-dialog>
+    <md-subheader>创建模型</md-subheader>
+    <form name="vm.addForm" layout="column">
+        <div ng-repeat="item in vm.list" flex>
+            <md-button ng-click="vm.submit(item)" flex>{{vm.getShow(item)}}</md-button>
+        </div>
+
+        <div class="md-padding" layout="row">
+            <md-button ng-click="vm.cancel()" flex>取消</md-button>
+        </div>
+    </form>
+</md-dialog>
