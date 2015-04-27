@@ -103,6 +103,36 @@
                             controllerAs: 'vm'
                         }
                     ]
+                },
+                {
+                    name: 'title',
+                    url: '/title',
+                    templateUrl: 'app/title/Title.html',
+                    controller: 'TitleCtrl',
+                    controllerAs: 'vm',
+                    children:[
+                        {
+                            name: 'list',
+                            url: '/list',
+                            templateUrl: 'app/title/list/TitleList.html',
+                            controller: 'TitleListCtrl',
+                            controllerAs: 'vm'
+                        },
+                        {
+                            name: 'info',
+                            url: '/info',
+                            templateUrl: 'app/title/info/TitleInfo.html',
+                            controller: 'TitleInfoCtrl',
+                            controllerAs: 'vm'
+                        },
+                        {
+                            name: 'add',
+                            url: '/add',
+                            templateUrl: 'app/title/add/TitleAdd.html',
+                            controller: 'TitleAddCtrl',
+                            controllerAs: 'vm'
+                        }
+                    ]
                 }
             ]
         },

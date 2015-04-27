@@ -18,7 +18,7 @@ import java.util.List;
  * 由 pengchao 创建于 2015-4-25-0025.
  */
 @RestController
-@RequestMapping(value = "/course")
+@RequestMapping(value = "course")
 public class CourseController extends BaseControllerImpl<Course, Integer> implements BaseController<Course, Integer> {
     @Autowired
     CourseService courseService;

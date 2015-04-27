@@ -1,5 +1,5 @@
 <md-dialog>
-    <md-subheader>创建模型</md-subheader>
+    <md-subheader>{{vm.header}}</md-subheader>
     <form name="vm.addForm" layout="column">
         <div ng-repeat="item in vm.list" flex>
             <md-button ng-click="vm.submit(item)" flex>{{vm.getShow(item)}}</md-button>

@@ -28,6 +28,7 @@ public class User implements Serializable {
     private Integer depId;
     private Integer subjectId;
     private List<Course> courses;
+    private List<Title> titles;
 
     @Id
     @Column(name = "id", nullable = false, insertable = true, updatable = true, length = 255)
@@ -215,5 +216,14 @@ public class User implements Serializable {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Title.class, mappedBy = "initiator")
+    public List<Title> getTitles() {
+        return titles;
+    }
+
+    public void setTitles(List<Title> titles) {
+        this.titles = titles;
     }
 }

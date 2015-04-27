@@ -73,6 +73,7 @@
         function studentCtrl(list, $mdDialog) {
             var vm = this;
             vm.list = list;
+            vm.header = '选择学生';
 
             vm.submit = function (item) {
                 $mdDialog.hide(item);
