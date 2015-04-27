@@ -1,22 +1,22 @@
 /*
-Navicat MySQL Data Transfer
+ Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50620
-Source Host           : localhost:3306
-Source Database       : home
+ Source Server         : localhost
+ Source Server Version : 50624
+ Source Host           : localhost
+ Source Database       : home
 
-Target Server Type    : MYSQL
-Target Server Version : 50620
-File Encoding         : 65001
+ Target Server Version : 50624
+ File Encoding         : utf-8
 
-Date: 2015-04-25 23:29:58
+ Date: 04/27/2015 16:25:55 PM
 */
 
-SET FOREIGN_KEY_CHECKS=0;
+SET NAMES utf8;
+SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for `course`
+--  Table structure for `course`
 -- ----------------------------
 DROP TABLE IF EXISTS `course`;
 CREATE TABLE `course` (
@@ -30,16 +30,14 @@ CREATE TABLE `course` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of course
+--  Records of `course`
 -- ----------------------------
-INSERT INTO `course` VALUES ('1', '数学', '必修', 'xiaohua');
-INSERT INTO `course` VALUES ('2', 'dsdsds', '选修', 'xiaohua');
-INSERT INTO `course` VALUES ('3', 'sddssd', '选修', 'xiaohua');
-INSERT INTO `course` VALUES ('4', 'dsdsfdfs', '选修', 'xiaohua');
-INSERT INTO `course` VALUES ('5', 'dsdsfdsf', '选修', 'xiaohua');
+BEGIN;
+INSERT INTO `course` VALUES ('1', '数学', '必修', 'xiaohua'), ('2', 'dsdsds', '选修', 'xiaohua'), ('3', 'sddssd', '选修', 'xiaohua'), ('4', 'dsdsfdfs', '选修', 'xiaohua'), ('5', 'dsdsfdsf', '选修', 'xiaohua');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `course_student`
+--  Table structure for `course_student`
 -- ----------------------------
 DROP TABLE IF EXISTS `course_student`;
 CREATE TABLE `course_student` (
@@ -50,13 +48,14 @@ CREATE TABLE `course_student` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of course_student
+--  Records of `course_student`
 -- ----------------------------
-INSERT INTO `course_student` VALUES ('1', 'nihao');
-INSERT INTO `course_student` VALUES ('1', 'wangpengchao');
+BEGIN;
+INSERT INTO `course_student` VALUES ('1', 'nihao'), ('1', 'wangpengchao');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `department`
+--  Table structure for `department`
 -- ----------------------------
 DROP TABLE IF EXISTS `department`;
 CREATE TABLE `department` (
@@ -70,15 +69,14 @@ CREATE TABLE `department` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of department
+--  Records of `department`
 -- ----------------------------
-INSERT INTO `department` VALUES ('7', '0', '1', '中山大学', '<p>是打发</p>', '广东省广州市');
-INSERT INTO `department` VALUES ('8', '7', '2', '资讯管理系', null, '收到');
-INSERT INTO `department` VALUES ('9', '8', '3', '信息管理与信息系统', null, '收到');
-INSERT INTO `department` VALUES ('10', null, '1', '全部', '代表全部学校的根节点', null);
+BEGIN;
+INSERT INTO `department` VALUES ('7', '0', '1', '中山大学', '<p>是打发</p>', '广东省广州市'), ('8', '7', '2', '资讯管理系', null, '收到'), ('9', '8', '3', '信息管理与信息系统', null, '收到'), ('10', null, '1', '全部', '代表全部学校的根节点', null);
+COMMIT;
 
 -- ----------------------------
--- Table structure for `menu`
+--  Table structure for `menu`
 -- ----------------------------
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
@@ -92,17 +90,14 @@ CREATE TABLE `menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of menu
+--  Records of `menu`
 -- ----------------------------
-INSERT INTO `menu` VALUES ('1', '首页', null, 'link', 'main.main', '0');
-INSERT INTO `menu` VALUES ('2', '系统管理', null, 'heading', '', '0');
-INSERT INTO `menu` VALUES ('3', '用户维护', '2', 'toggle', null, '0');
-INSERT INTO `menu` VALUES ('4', '学校管理', '3', 'link', 'main.dep.list', '0');
-INSERT INTO `menu` VALUES ('5', '用户管理', '3', 'link', 'main.user.list', '0');
-INSERT INTO `menu` VALUES ('6', '课程管理', '3', 'link', 'main.course.list', '0');
+BEGIN;
+INSERT INTO `menu` VALUES ('1', '首页', null, 'link', 'main.main', '0'), ('2', '系统管理', null, 'heading', '', '0'), ('3', '用户维护', '2', 'toggle', null, '0'), ('4', '学校管理', '3', 'link', 'main.dep.list', '0'), ('5', '用户管理', '3', 'link', 'main.user.list', '0'), ('6', '我的工作', '2', 'toggle', null, '0'), ('7', '课程管理', '6', 'link', 'main.course.list', '0'), ('8', '我的题目', '6', 'link', 'main.title.list', '0');
+COMMIT;
 
 -- ----------------------------
--- Table structure for `subject`
+--  Table structure for `subject`
 -- ----------------------------
 DROP TABLE IF EXISTS `subject`;
 CREATE TABLE `subject` (
@@ -113,11 +108,20 @@ CREATE TABLE `subject` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of subject
+--  Table structure for `title`
 -- ----------------------------
+DROP TABLE IF EXISTS `title`;
+CREATE TABLE `title` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `content` text COLLATE utf8_bin NOT NULL,
+  `description` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `initiator` varchar(255) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
--- Table structure for `user`
+--  Table structure for `user`
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -141,8 +145,10 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of user
+--  Records of `user`
 -- ----------------------------
-INSERT INTO `user` VALUES ('nihao', null, null, null, null, null, null, '你好', '202cb962ac59075b964b07152d234b70', '0', 'dsfdsfkl', null, null, '0', null, null);
-INSERT INTO `user` VALUES ('wangpengchao', null, null, null, null, null, '127.0.0.1', '王鹏超', '202cb962ac59075b964b07152d234b70', '0', '123', null, 'tmSj8d0krWjc3B961EgBhwK1Go8hm3EkOgyAOPMNdb63zLAkDPtw9eBZvAdppiaapNdlX98lPrXlWJWFdMGk4JNdElp7JOXrTKEvs+WXmR4n8I8ng8gwAdYvTATAnCtwNSF5Art/gzN4aq7FsQhD+w==', '0', '7', '0');
-INSERT INTO `user` VALUES ('xiaohua', null, null, null, null, null, '127.0.0.1', '笑话', '202cb962ac59075b964b07152d234b70', '0', '2332', null, 'v6nScNj3NOFt90tvfU6AL/f3abEwrljeKzDr2KC2xp3Thf0EgWI6leqIBp0wpKKEy27RJvJm8hPyWvfXjoMHo8nkR2WjGoUFRcC/ceu+8dPBpitmTbRDELMZfxkhcEKS', '1', null, null);
+BEGIN;
+INSERT INTO `user` VALUES ('nihao', null, null, null, null, null, null, '你好', '202cb962ac59075b964b07152d234b70', '0', 'dsfdsfkl', null, null, '0', null, null), ('wangpengchao', null, null, null, null, null, '0:0:0:0:0:0:0:1', '王鹏超', '202cb962ac59075b964b07152d234b70', '0', '123', null, 'tmSj8d0krWjc3B961EgBhwK1Go8hm3EkOgyAOPMNdb63zLAkDPtw9eBZvAdppiaardyd80fGfEI/uL26K6UOJSIvWI9tzNTU0htJKqBm7OjmiZ96b1cMHObcsWRxWAmJP6BkL5AtG7nWhEetcQv6Ig==', '0', '7', '0'), ('xiaohua', null, null, null, null, null, '0:0:0:0:0:0:0:1', '笑话', '202cb962ac59075b964b07152d234b70', '0', '2332', null, 'v6nScNj3NOFt90tvfU6AL/f3abEwrljeKzDr2KC2xp3Thf0EgWI6leqIBp0wpKKEC3DGQUulk2TZkn3XnoeKXje3XK1Q7Y+4KyKQ9gyq5zoKQiKOjGKpB7tf4D2pz2tBraMzwjPw1ZS3xklEgN9Cwg==', '1', null, null);
+COMMIT;
+
+SET FOREIGN_KEY_CHECKS = 1;
