@@ -120,7 +120,7 @@
                         },
                         {
                             name: 'info',
-                            url: '/info',
+                            url: '/info?id',
                             templateUrl: 'app/title/info/TitleInfo.html',
                             controller: 'TitleInfoCtrl',
                             controllerAs: 'vm'

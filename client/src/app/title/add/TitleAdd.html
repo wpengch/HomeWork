@@ -1,0 +1,36 @@
+<div layout="row">
+    <form name="vm.addForm" class="md-whiteframe-z4" layout="column" flex>
+        <md-toolbar md-theme="altTheme" layout="row" class="toolbar-border">
+            <div class="md-toolbar-tools" flex>题目信息</div>
+            <md-button ng-click="vm.addTitle($event)">添加</md-button>
+        </md-toolbar>
+        <div layout="column">
+            <md-input-container>
+                <label>题目</label>
+                <input ng-model="vm.title.content" type="text" multiple/>
+            </md-input-container>
+            <md-input-container>
+                <label>描述</label>
+                <input ng-model="vm.title.description" type="text" multiple/>
+            </md-input-container>
+        </div>
+
+        <div layout="column">
+            <div layout="row">
+                <h2 flex>答案</h2>
+                <md-button ng-click="vm.addAnswer($event)">+</md-button>
+            </div>
+            <div ng-repeat="answer in vm.title.answers">
+                <div style="border: solid chartreuse 1px; margin: 5px;">
+                    <md-input-container>
+                        <label>答案</label>
+                        <input multiple type="text" ng-model="answer.content">
+                    </md-input-container>
+                    <md-checkbox ng-model="answer.correct">
+                        是否为正确答案
+                    </md-checkbox>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

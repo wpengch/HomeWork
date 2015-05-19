@@ -1,0 +1,41 @@
+<div layout="row">
+    <md-whiteframe class="md-whiteframe-z4" layout="column" flex>
+        <md-toolbar md-theme="altTheme" layout="row" class="toolbar-border">
+            <div class="md-toolbar-tools" flex>题目详情</div>
+            <md-button ng-click="">添加学生</md-button>
+        </md-toolbar>
+        <div layout="column">
+            <div>
+                <span>题目: </span>
+                <span>{{vm.title.content}}</span>
+            </div>
+            <div>
+                <span>描述: </span>
+                <span>{{vm.title.description}}</span>
+            </div>
+
+            <div>
+                <h2>答案</h2>
+
+                <div ng-repeat="answer in vm.title.answers" layout="row" layout-align="center center">
+                    <div>{{$index + 1}}</div>
+                    <div flex>{{answer.content}}</div>
+                    <div>{{answer.correct ? "正确答案" : ''}}</div>
+                </div>
+                <div ng-repeat="answer in vm.answers" layout="row">
+                    <md-input-container flex>
+                        <label>答案</label>
+                        <input type="text" required ng-model="answer.content">
+                    </md-input-container>
+                    <md-checkbox ng-model="answer.correct">正确答案</md-checkbox>
+                </div>
+                <div layout="row">
+                    <label flex></label>
+                    <md-button ng-click="vm.addAnswer($event)">添加答案</md-button>
+                    <md-button ng-click="vm.save($event)">保存</md-button>
+                </div>
+            </div>
+        </div>
+
+    </md-whiteframe>
+</div>
