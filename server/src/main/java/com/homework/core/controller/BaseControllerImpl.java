@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class BaseControllerImpl<T, ID> implements BaseController<T, ID> {
     @Override
     @ResponseBody
-    @RequestMapping(method = RequestMethod.POST)
+//    @RequestMapping(method = RequestMethod.POST)
     public Result create(@RequestBody T entity) {
         return Result.getResult(() -> getService().create(entity));
     }

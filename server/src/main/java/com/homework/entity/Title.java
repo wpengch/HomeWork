@@ -1,6 +1,7 @@
 package com.homework.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by 田黄雪薇 on 15/4/26.
@@ -11,6 +12,15 @@ public class Title {
     private String content;
     private String description;
     private User initiator;
+    private List<Answer> answers;
+
+    public Title() {
+
+    }
+
+    public Title(Integer id) {
+        this.id = id;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -77,5 +87,14 @@ public class Title {
         result = 31 * result + (content != null ? content.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Answer.class, mappedBy = "title")
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 }

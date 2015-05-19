@@ -16,7 +16,7 @@ public class Course {
 
     @Id
     @Column(name = "id", nullable = false, insertable = true, updatable = true)
-
+    @GeneratedValue
     public int getId() {
         return id;
     }

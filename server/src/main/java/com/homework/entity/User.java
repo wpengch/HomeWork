@@ -30,6 +30,14 @@ public class User implements Serializable {
     private List<Course> courses;
     private List<Title> titles;
 
+    public User() {
+
+    }
+
+    public User(String id) {
+        this.id = id;
+    }
+
     @Id
     @Column(name = "id", nullable = false, insertable = true, updatable = true, length = 255)
     public String getId() {

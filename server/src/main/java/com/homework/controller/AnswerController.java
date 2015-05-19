@@ -1,5 +1,6 @@
 package com.homework.controller;
 
+import com.homework.core.Result;
 import com.homework.core.controller.BaseController;
 import com.homework.core.controller.BaseControllerImpl;
 import com.homework.core.service.BaseService;
