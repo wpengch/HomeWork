@@ -133,6 +133,36 @@
                             controllerAs: 'vm'
                         }
                     ]
+                },
+                {
+                    name: 'exam',
+                    url: '/exam',
+                    templateUrl: 'app/exam/exam.html',
+                    controller: 'ExamCtrl',
+                    controllerAs: 'vm',
+                    children:[
+                        {
+                            name: 'list',
+                            url: '/list',
+                            templateUrl: 'app/exam/list/examList.html',
+                            controller: 'ExamListCtrl',
+                            controllerAs: 'vm'
+                        },
+                        {
+                            name: 'info',
+                            url: '/info?id',
+                            templateUrl: 'app/exam/info/examInfo.html',
+                            controller: 'ExamInfoCtrl',
+                            controllerAs: 'vm'
+                        },
+                        {
+                            name: 'add',
+                            url: '/add',
+                            templateUrl: 'app/exam/add/examAdd.html',
+                            controller: 'ExamAddCtrl',
+                            controllerAs: 'vm'
+                        }
+                    ]
                 }
             ]
         },

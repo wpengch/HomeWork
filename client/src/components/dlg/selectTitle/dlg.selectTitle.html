@@ -1,0 +1,15 @@
+<md-dialog>
+        <h2>题目选择</h2>
+        <md-dialog-content layout="column">
+            <div layout="column">
+                <div ng-repeat="title in vm.titles">
+                    <md-checkbox ng-model="vm.selects[$index]">{{title.content}}</md-checkbox>
+                </div>
+            </div>
+        </md-dialog-content>
+        <div class="md-actions" layout="row">
+            <label flex></label>
+            <md-button ng-click="vm.ok($event)">确定</md-button>
+            <md-button ng-click="vm.cancel()">取消</md-button>
+        </div>
+</md-dialog>

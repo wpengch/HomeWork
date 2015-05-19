@@ -29,6 +29,18 @@
         return results;
     };
 
+    if(!Array.prototype.customFilter) {
+        Array.prototype.customFilter = function(func) {
+            var results = [];
+            angular.forEach(this, function (obj) {
+                if(func(obj)) {
+                    results.push(obj);
+                }
+            });
+            return results;
+        };
+    }
+
 
     /**
      *

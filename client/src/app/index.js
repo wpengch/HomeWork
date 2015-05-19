@@ -46,13 +46,14 @@
         RestangularProvider.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
             var header = data.header;
             var model = data.data;
+            model = JSOG.decode(model);
             if (header && header.rc === 0) {
                 return model;
             } else {
                 if (header) {
-                    //if(header.rc === 1 && location.hash !== '#/') {
-                    //    location.href = "/";
-                    //}
+//                    if(header.rc === 1 && location.hash !== '#/') {
+//                        location.href = "/";
+//                    }
                     deferred.reject(header);
                 } else {
                     deferred.reject(data.header);

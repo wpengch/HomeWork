@@ -296,7 +296,16 @@
         CookieNames: {
             userId: 'userClientId',
             token: 'auth_tokenClient'
-        }
+        },
+        TitleTypes:[
+            {id:1, name:'单选题'},
+            {id:2, name:'多选题'},
+            {id:3, name:'简答题'},
+            {id:4, name:'计算题'},
+            {id:5, name:'论述题'},
+            {id:6, name:'编程题'},
+            {id:7, name:'综合体'}
+        ]
 
     });
 })();

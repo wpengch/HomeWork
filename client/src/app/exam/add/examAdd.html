@@ -1,0 +1,47 @@
+<form name="vm.addForm" layout="column" novalidate flex>
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools" flex>试卷</div>
+        <md-button ng-click="vm.addTitle($event)" ng-if="vm.addForm.$valid">添加</md-button>
+    </md-toolbar>
+    <div layout="column" class="container-padding">
+        <div ng-repeat="bigTitle in vm.exam.bigTitles">
+            <h2>{{($index + 1)+ ' : ' + bigTitle.name + '(每题 ' + bigTitle.percent + " 分)"}}</h2>
+            <div ng-repeat="title in bigTitle.titles">
+                <h4 style="color: #333333">{{($index + 1) + ': ' + title.content}}</h4>
+                <div ng-if="bigTitle.type === 1 || bigTitle.type === 2">
+                    <div ng-repeat="answer in title.answers" style="margin-left: 10px" ng-class="{true:'trueColor', false:'falseColor'}[answer.correct]">
+                        <label>{{$index | abcd:'upper'}}. </label>
+                        <label>{{answer.content}}</label>
+                    </div>
+                </div>
+            </div>
+            <div layout="row">
+                <md-button class="md-primary" ng-click="vm.selectTitle(bigTitle, $event)">选择题目</md-button>
+                <md-button class="md-primary">新增题目</md-button>
+            </div>
+        </div>
+        <div ng-if="vm.addBigTitle" style="border: dashed 1px green">
+            <form name="vm.addBigTitleForm">
+                <label>题目类型: </label>
+                <md-input-container flex>
+                    <md-select placeholder="请选择" required ng-model="vm.addBig.type" name="type">
+                        <md-option data-ng-value="type.id" ng-repeat="type in Config.TitleTypes">{{type.name}}</md-option>
+                    </md-select>
+                    <div ng-messages="vm.addBigTitleForm.type.$error">
+                        <div ng-message="required">*</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>每题分值</label>
+                    <input type="number" required ng-model="vm.addBig.percent" name="percent">
+                    <div ng-messages="vm.addBigTitleForm.percent.$error">
+                        <div ng-message="required">*</div>
+                    </div>
+                </md-input-container>
+
+                <md-button ng-click="vm.addBTitle($event)">添加</md-button>
+            </form>
+        </div>
+        <md-button ng-click="vm.addBigTitle = true" ng-if="!vm.addBigTitle">添加大题</md-button>
+    </div>
+</form>
