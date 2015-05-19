@@ -1,23 +1,23 @@
 <md-content style="height: 100%">
-  <script type="text/ng-template" id="department_renderer.html">
-    <div layout="row" ui-tree-handle data-nodrag>
-      <md-button data-nodrag ng-click="vm.toggleTree(this)" ng-if="hasChild()" aria-label="toggle"><i class="fa"
-                                                                                                   ng-class="{'fa-angle-down': collapsed, 'fa-angle-up': !collapsed}"></i>
-      </md-button>
-      <md-button flex style="text-align: left" data-nodrag ng-click="vm.depClick(this)" aria-label="department.name">
-        {{department.name}}
-      </md-button>
+    <script type="text/ng-template" id="department_renderer.html">
+        <div layout="row" ui-tree-handle data-nodrag layout="center center">
+            <a data-nodrag ng-click="vm.toggleTree(this)" ng-if="hasChild()" aria-label="toggle"><i class="fa"
+                                                                                                    ng-class="{'fa-angle-down': collapsed, 'fa-angle-up': !collapsed}"></i>
+            </a>
+            <md-button flex style="text-align: left" data-nodrag ng-click="vm.depClick(this)" aria-label="department.name">
+                {{department.name}}
+            </md-button>
+        </div>
+        <ol ui-tree-nodes="" ng-model="department.children" ng-if="!collapsed">
+            <li ng-repeat="department in department.children" ui-tree-node ng-include="'department_renderer.html'"
+                data-nodrag>
+            </li>
+        </ol>
+    </script>
+    <div ui-tree id="tree-root" data-drag-enabled="false">
+        <ol ui-tree-nodes="" ng-model="vm.departmentTree">
+            <li ng-repeat="department in vm.departmentTree" ui-tree-node ng-include="'department_renderer.html'"
+                data-nodrag></li>
+        </ol>
     </div>
-    <ol ui-tree-nodes="" ng-model="department.children" ng-if="!collapsed">
-      <li ng-repeat="department in department.children" ui-tree-node ng-include="'department_renderer.html'"
-          data-nodrag>
-      </li>
-    </ol>
-  </script>
-  <div ui-tree id="tree-root" data-drag-enabled="false">
-    <ol ui-tree-nodes="" ng-model="vm.departmentTree">
-      <li ng-repeat="department in vm.departmentTree" ui-tree-node ng-include="'department_renderer.html'"
-          data-nodrag></li>
-    </ol>
-  </div>
 </md-content>

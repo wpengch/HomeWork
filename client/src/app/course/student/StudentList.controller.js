@@ -54,16 +54,14 @@
             }).then(function (data) {
                 if (data) {
                     $rootScope.showProgress("正在添加学生", ev);
-                    vm.course.students.push(data.plain());
-                    vm.course.save()
+                    Restangular.one('course', $stateParams.id).one('student', data.id).customPOST()
                         .then(function (data) {
                             $rootScope.hideDialog();
+                            vm.course = Restangular.one('course', $stateParams.id).get().$object;
                             DialogFactory.success("学生添加成功", ev);
                         }).catch(function (response) {
                             $rootScope.hideDialog();
                             DialogFactory.fail('学生添加失败', ev);
-                            var index = vm.course.indexOf(data);
-                            if (index > -1) vm.course.splice(index, 1);
                         });
                 }
             });
@@ -87,18 +85,13 @@
         }
 
         function removeStudent(student, index, ev) {
-            var course = Restangular.copy(vm.course);
-            course.students.splice(index, 1);
             $rootScope.showProgress("正在删除学生", ev);
-            course.save()
+            Restangular.one('course', $stateParams.id).one('student', student.id).customDELETE()
                 .then(function (data) {
                     $rootScope.hideDialog();
+                    vm.course = Restangular.one('course', $stateParams.id).get().$object;
                     DialogFactory.success("学生删除成功", ev);
-                    vm.course.students.splice(index, 1);
-                }).catch(function (response) {
-                    $rootScope.hideDialog();
-                    DialogFactory.fail('学生删除失败', ev);
-                });
+                }).catch(DialogFactory.showError('删除失败', ev));
         }
     }
 

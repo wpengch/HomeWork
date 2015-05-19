@@ -1,13 +1,13 @@
 <div layout="row">
-    <md-whiteframe class="md-whiteframe-z3" flex>
-        <md-toolbar md-theme="altTheme" layout="row" class="toolbar-border">
+    <md-content flex>
+        <md-toolbar layout="row">
             <div class="md-toolbar-tools" flex>过滤</div>
         </md-toolbar>
         <div class="content-border" ng-include src="'components/template/department.tmp.html'"/>
-    </md-whiteframe>
+    </md-content>
 
-    <md-whiteframe class="md-whiteframe-z4" layout="column" flex>
-        <md-toolbar md-theme="altTheme" layout="row" class="toolbar-border">
+    <md-content layout="column" flex>
+        <md-toolbar layout="row">
             <div class="md-toolbar-tools" flex>{{vm.selectDep.name | default:'全部'}} 师生列表</div>
             <md-button ng-click="vm.addUser($event)">添加</md-button>
         </md-toolbar>
@@ -19,5 +19,5 @@
         <div ng-if="!vm.users || vm.users.length === 0">
             <md-button ng-click="vm.addUser($event)">一个师生都没有,点此添加</md-button>
         </div>
-    </md-whiteframe>
+    </md-content>
 </div>

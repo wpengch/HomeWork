@@ -38,12 +38,11 @@
         }
 
         function getSelectUsers() {
+            vm.depId = vm.department.id;
             var result = [];
             angular.forEach(vm.users, function (user) {
                 if (user.selected) {
-                    delete user.selected;
-                    user.depId = vm.depId;
-                    result.push(user.plain());
+                    result.push(user.id);
                 }
             });
             return result;
@@ -56,15 +55,13 @@
                 DialogFactory.alert('必须至少选择一个人');
                 return;
             }
-            Restangular.all('user').customPUT(updateUsers)
+            Restangular.one('department', vm.depId).all('user').customPOST(updateUsers)
                 .then(function (data) {
                     DialogFactory.success('添加成功', ev)
                         .finally(function () {
-                            $state.go('main.user.list');
+                            $rootScope.back();
                         });
-                }).catch(function (response) {
-                    vm.users = Restangular.all('user').getList(param).$object;
-                });
+                }).catch(DialogFactory.showError('添加失败', ev));
         }
 
         function cancel(event) {
