@@ -8,7 +8,7 @@ import javax.persistence.*;
 /**
  * Created by 田黄雪薇 on 15/5/16.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "answer")
 public class Answer {

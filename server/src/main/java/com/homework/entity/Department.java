@@ -12,7 +12,7 @@ import java.util.List;
 /**
  *  2015-3-28-0028.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 public class Department implements Serializable {
     private int id;

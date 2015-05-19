@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 由 田黄雪薇 创建于 2015-3-27-0027.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "user")
 public class User implements Serializable {

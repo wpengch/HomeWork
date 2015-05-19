@@ -8,9 +8,7 @@ import com.homework.entity.User;
 import com.homework.service.DepartmentService;
 import com.homework.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +30,13 @@ public class DepartmentController extends BaseControllerImpl<Department,Integer>
     @Override
     public <D extends BaseService<Department, Integer>> D getService() {
         return (D) departmentService;
+    }
+
+    @Override
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST)
+    public Result create(@RequestBody Department entity) {
+        return super.create(entity);
     }
 
     @RequestMapping(value = "/{depId}/user")
@@ -61,6 +66,21 @@ public class DepartmentController extends BaseControllerImpl<Department,Integer>
             List<User> all = userService.getAll();
 
             return all.stream().filter(user -> departmentMap.containsKey(user.getDepId())).collect(Collectors.toList());
+        });
+    }
+
+    @RequestMapping(value = "/{depId}/user", method = RequestMethod.POST)
+    public Result addUsers(@PathVariable("depId") Integer depId, @RequestBody List<String> ids) {
+        return Result.getResult(() -> {
+            for (String id : ids) {
+                User user = userService.getById(id);
+                if (user == null) {
+                    continue;
+                }
+                user.setDepId(depId);
+                userService.update(user);
+            }
+            return ids.size();
         });
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by 田黄雪薇 on 15/4/26.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 public class Title {
     private Integer id;

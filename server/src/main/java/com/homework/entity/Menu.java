@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 由 田黄雪薇 创建于 2015-3-30-0030.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 public class Menu {
     private int id;

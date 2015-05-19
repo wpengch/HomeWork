@@ -5,13 +5,13 @@ import com.homework.core.controller.BaseController;
 import com.homework.core.controller.BaseControllerImpl;
 import com.homework.core.service.BaseService;
 import com.homework.entity.Course;
+import com.homework.entity.User;
 import com.homework.service.CourseService;
+import com.homework.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -22,6 +22,8 @@ import java.util.List;
 public class CourseController extends BaseControllerImpl<Course, Integer> implements BaseController<Course, Integer> {
     @Autowired
     CourseService courseService;
+    @Resource
+    UserService userService;
 
     @Override
     public <D extends BaseService<Course, Integer>> D getService() {
@@ -38,4 +40,25 @@ public class CourseController extends BaseControllerImpl<Course, Integer> implem
         });
     }
 
+
+    @ResponseBody
+    @RequestMapping(value = "/{id}/student/{stuId}", method = RequestMethod.DELETE)
+    public Result deleteStudent(@PathVariable("id") Integer courseId, @PathVariable("stuId") String studentId) {
+        return Result.getResult(() -> {
+            Course course = courseService.getById(courseId);
+            course.getStudents().removeIf(user -> user.getId().equals(studentId));
+            return courseService.update(course);
+        });
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/{id}/student/{stuId}", method = RequestMethod.POST)
+    public Result addStudent(@PathVariable("id") Integer courseId, @PathVariable("stuId") String studentId) {
+        return Result.getResult(() -> {
+            Course course = courseService.getById(courseId);
+            User user = userService.getById(studentId);
+            course.getStudents().add(user);
+            return courseService.update(course);
+        });
+    }
 }
