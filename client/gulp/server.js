@@ -27,6 +27,7 @@ function browserSyncInit(baseDir, files, browser) {
       middleware: middleware,
       routes: routes
     },
+    port:80,
     browser: browser
   });
 }
