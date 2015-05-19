@@ -1,5 +1,8 @@
 package com.homework.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -8,6 +11,7 @@ import java.util.List;
 /**
  * 由 田黄雪薇 创建于 2015-3-27-0027.
  */
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 @Entity
 @Table(name = "user")
 public class User implements Serializable {

@@ -32,13 +32,18 @@
     <bean
             class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
     </bean>
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
     <bean
             class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <list>
+                <!--<bean-->
+                        <!--class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">-->
+                    <!--&lt;!&ndash;<property name="objectMapper" ref="objectMapper"/>&ndash;&gt;-->
+                <!--</bean>-->
                 <bean
-                        class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
-                    <!--<property name="objectMapper" ref="objectMapper"/>-->
+                    class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                    <property name="objectMapper" ref="objectMapper"/>
                 </bean>
                 <bean class="org.springframework.http.converter.FormHttpMessageConverter"/>
                 <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>

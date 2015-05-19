@@ -1,15 +1,11 @@
 package com.homework.controller;
 
-import com.google.common.collect.Multimap;
 import com.homework.core.IResult;
 import com.homework.core.Result;
 import com.homework.core.controller.BaseController;
 import com.homework.core.controller.BaseControllerImpl;
 import com.homework.core.service.BaseService;
-import com.homework.entity.Answer;
-import com.homework.entity.Title;
-import com.homework.entity.TitleAdd;
-import com.homework.entity.User;
+import com.homework.entity.*;
 import com.homework.service.AnswerService;
 import com.homework.service.TitleService;
 import com.homework.service.UserService;
@@ -17,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by 田黄雪薇 on 15/4/26.
@@ -53,7 +47,7 @@ public class TitleController extends BaseControllerImpl<Title, Integer> implemen
             title.setInitiator(user);
             Integer id = titleService.create(title);
             title.setId(id);
-            for (TitleAdd.AnswerAdd add : entity.getAnswers()) {
+            for (AnswerAdd add : entity.getAnswers()) {
                 Answer answer = new Answer();
                 answer.setContent(add.getContent());
                 answer.setCorrect(add.isCorrect());
@@ -67,7 +61,7 @@ public class TitleController extends BaseControllerImpl<Title, Integer> implemen
 
     @ResponseBody
     @RequestMapping(value = "/{id}/answer", method = RequestMethod.POST)
-    public Result addAnswer(@RequestBody List<TitleAdd.AnswerAdd> answerAdds, @PathVariable("id")Integer id) {
+    public Result addAnswer(@RequestBody List<AnswerAdd> answerAdds, @PathVariable("id")Integer id) {
         return Result.getResult(new IResult() {
             @Override
             public Object query() throws Exception {
@@ -76,7 +70,7 @@ public class TitleController extends BaseControllerImpl<Title, Integer> implemen
                 if (answerAdds.size() > 0) {
                     user = userService.firstResult(new User(answerAdds.get(0).getUserId()));
                 }
-                for (TitleAdd.AnswerAdd answerAdd : answerAdds) {
+                for (AnswerAdd answerAdd : answerAdds) {
                     Answer answer = new Answer();
                     answer.setContent(answerAdd.getContent());
                     answer.setCorrect(answerAdd.isCorrect());
