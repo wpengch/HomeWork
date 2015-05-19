@@ -1,7 +1,7 @@
 package com.homework.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.homework.core.json.JSOGGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by 田黄雪薇 on 15/4/26.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 @Entity
 public class Title {
     private Integer id;
@@ -17,6 +17,7 @@ public class Title {
     private String description;
     private User initiator;
     private List<Answer> answers;
+    private List<BigTitle> titles;
 
     public Title() {
 
@@ -100,5 +101,15 @@ public class Title {
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "BigTitle_Title", joinColumns = {@JoinColumn(name = "titleId")}, inverseJoinColumns = {@JoinColumn(name = "bigId")})
+    public List<BigTitle> getTitles() {
+        return titles;
+    }
+
+    public void setTitles(List<BigTitle> titles) {
+        this.titles = titles;
     }
 }

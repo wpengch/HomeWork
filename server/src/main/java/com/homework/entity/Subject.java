@@ -1,12 +1,12 @@
 package com.homework.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.homework.core.json.JSOGGenerator;
 
 /**
  * Created by pengchaowang on 15/4/12.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class Subject {
     private int id;
     private String name;

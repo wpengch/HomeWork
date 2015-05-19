@@ -1,7 +1,7 @@
 package com.homework.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.homework.core.json.JSOGGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 由 田黄雪薇 创建于 2015-3-27-0027.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
@@ -33,6 +33,7 @@ public class User implements Serializable {
     private Integer subjectId;
     private List<Course> courses;
     private List<Title> titles;
+    private List<Examination> examinations;
 
     public User() {
 
@@ -237,5 +238,14 @@ public class User implements Serializable {
 
     public void setTitles(List<Title> titles) {
         this.titles = titles;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Examination.class, mappedBy = "initiator")
+    public List<Examination> getExaminations() {
+        return examinations;
+    }
+
+    public void setExaminations(List<Examination> examinations) {
+        this.examinations = examinations;
     }
 }

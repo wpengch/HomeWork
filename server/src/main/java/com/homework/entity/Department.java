@@ -2,7 +2,7 @@ package com.homework.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.homework.core.json.JSOGGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  *  2015-3-28-0028.
  */
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 @Entity
 public class Department implements Serializable {
     private int id;
