@@ -17,10 +17,7 @@
         vm.title = {};
         vm.addAnswer = addAnswer;
         vm.answers = [];
-        //vm.addStudent = addStudent;
-        //vm.removeStudent = removeStudent;
-        //vm.allUsers = Restangular.all('user').getList().$object;
-
+        vm.save = save;
         activate();
         ////////////////////////////////////////////////
         ////////////下面为私有函数定义////////////////////
@@ -45,6 +42,16 @@
             vm.answers.push({
                 userId:$rootScope.getSelfId()
             });
+        }
+
+        function save(ev) {
+            $rootScope.showProgress('正在添加答案', ev);
+            Restangular.one('title', $stateParams.id).all('answer').customPOST(vm.answers)
+                .then(function (data) {
+                    $rootScope.hideDialog();
+                    vm.answers = [];
+                    activate();
+                }).catch(DialogFactory.showError('答案添加失败',ev));
         }
 
         function addStudent(ev) {

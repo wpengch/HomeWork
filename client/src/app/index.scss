@@ -409,5 +409,32 @@ pre {
 
 /* End Docs Menu */
 
+//myself
+textarea {
+  min-height: 120px;
+}
+
+.container-padding{
+  padding:0 20px;
+}
+
+.link{
+  color: #333;
+  &:hover{
+    background: gray;
+    TEXT-DECORATION: none
+  }
+}
+.split-30{
+  margin-left: 30px;
+}
+
+.list-divider{
+  height: 1px;
+  margin:1px 24px;
+  background: gray;
+}
+
+
 // injector
 // endinjector

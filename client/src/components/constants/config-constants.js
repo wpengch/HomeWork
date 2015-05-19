@@ -240,8 +240,8 @@
         ],
         Urls: {
             fileUrl: 'http://192.168.0.240:9050/file/direct/origin/',
-            //RestUrl: '192.168.0.138:8080'
-            RestUrl: undefined
+            RestUrl: 'http://192.168.0.15:8080/'
+//            RestUrl: undefined
         },
         Names: {
             repository: 'repository',      //仓库

@@ -9,9 +9,9 @@
 
   angular.module('home').factory('DialogFactory', DialogFactory);
 
-  DialogFactory.$inject = ['$log', '$mdDialog'];
+  DialogFactory.$inject = ['$log', '$mdDialog','$rootScope'];
 
-  function DialogFactory($log, $mdDialog) {
+  function DialogFactory($log, $mdDialog,$rootScope) {
     //接口定义
     var factory = {};
     factory.registerCallback = registerCallback;
@@ -25,6 +25,41 @@
 
     factory.success = function (txt, ev) {
       return $mdDialog.show($mdDialog.alert().title('成功').content(txt).ok('确定').targetEvent(ev));
+    };
+
+    factory.errorFromResponse = function(response) {
+      if(!response){
+        return '';
+      }
+
+      if(response.status) {
+        return '跟服务器间的通信出现问题,请联系系统管理员';
+      }
+
+      if(response.rm) {
+        return response.rm;
+      }
+
+      if(angular.isString(response)) {
+        return response;
+      }
+
+      return '';
+    };
+
+    factory.showError = function(header, ev) {
+      return function(response){
+        $rootScope.hideDialog();
+        header = header || '';
+        var msg = factory.errorFromResponse(response);
+        var show;
+        if(msg && header) {
+          show = header + ", " + msg;
+        }else{
+          show = header + msg;
+        }
+        factory.fail(show, ev);
+      }
     };
 
     var callbacks = {};

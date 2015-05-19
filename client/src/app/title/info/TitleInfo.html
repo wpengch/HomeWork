@@ -1,41 +1,44 @@
-<div layout="row">
-    <md-whiteframe class="md-whiteframe-z4" layout="column" flex>
-        <md-toolbar md-theme="altTheme" layout="row" class="toolbar-border">
-            <div class="md-toolbar-tools" flex>题目详情</div>
-            <md-button ng-click="">添加学生</md-button>
-        </md-toolbar>
-        <div layout="column">
-            <div>
-                <span>题目: </span>
-                <span>{{vm.title.content}}</span>
-            </div>
-            <div>
-                <span>描述: </span>
-                <span>{{vm.title.description}}</span>
-            </div>
+<md-content layout="column" flex>
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools" flex>题目详情</div>
+        <md-button ng-click="back()">返回</md-button>
+    </md-toolbar>
+    <div layout="column" style="padding: 24px">
+        <div>
+            <span>题目: </span>
+            <span>{{vm.title.content}}</span>
+        </div>
+        <div>
+            <span>描述: </span>
+            <span>{{vm.title.description}}</span>
+        </div>
 
-            <div>
-                <h2>答案</h2>
+        <div>
+            <h2>答案</h2>
 
-                <div ng-repeat="answer in vm.title.answers" layout="row" layout-align="center center">
-                    <div>{{$index + 1}}</div>
-                    <div flex>{{answer.content}}</div>
-                    <div>{{answer.correct ? "正确答案" : ''}}</div>
+            <div ng-repeat="answer in vm.title.answers" layout="column" style="border: dashed green 1px; margin: 10px; border-radius: 5px">
+                <h4>答案{{$index + 1}}:</h4>
+
+                <div layout="row" layout-align="center center">
+                    <div style="border: solid 1px;padding: 10px;margin: 3px;border-radius: 5px" flex>{{answer.content}}</div>
+                    <div style="color: green;">{{answer.correct ? "正确答案" : ''}}</div>
                 </div>
-                <div ng-repeat="answer in vm.answers" layout="row">
+
+            </div>
+            <form name="vm.answerForm">
+                <div ng-repeat="answer in vm.answers" layout="column" style="border: dashed blue 1px; margin: 10px; border-radius: 5px">
                     <md-input-container flex>
-                        <label>答案</label>
-                        <input type="text" required ng-model="answer.content">
+                        <label>新增答案{{$index+1}}</label>
+                        <textarea type="text" required ng-model="answer.content"></textarea>
                     </md-input-container>
-                    <md-checkbox ng-model="answer.correct">正确答案</md-checkbox>
+                    <md-checkbox ng-model="answer.correct">答案是否正确</md-checkbox>
                 </div>
                 <div layout="row">
                     <label flex></label>
                     <md-button ng-click="vm.addAnswer($event)">添加答案</md-button>
-                    <md-button ng-click="vm.save($event)">保存</md-button>
+                    <md-button ng-click="vm.save($event)" ng-if="vm.answers.length > 0 && vm.answerForm.$valid">保存</md-button>
                 </div>
-            </div>
+            </form>
         </div>
-
-    </md-whiteframe>
-</div>
+    </div>
+</md-content>

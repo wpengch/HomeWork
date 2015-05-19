@@ -1,16 +1,26 @@
-<div layout="row">
-    <md-whiteframe class="md-whiteframe-z4" layout="column" flex>
-        <md-toolbar md-theme="altTheme" layout="row" class="toolbar-border">
-            <div class="md-toolbar-tools" flex>我的题目</div>
-            <md-button ng-href="/#/main/title/add">添加</md-button>
-        </md-toolbar>
-        <div layout="row" ng-repeat="title in vm.user.titles">
-            <lable>{{$index+1}}</lable>
-            <md-button flex ng-href="/#/main/title/info?id={{title.id}}">{{title.content}}</md-button>
-            <label flex>{{title.description}}</label>
+<md-content layout="column" flex>
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools" flex>我的题目</div>
+        <md-button ng-href="/#/main/title/add">添加</md-button>
+    </md-toolbar>
+    <div >
+        <div layout="column" ng-repeat="title in vm.user.titles">
+            <a ng-href="/#/main/title/info?id={{title.id}}" class="link container-padding" flex>
+                <div layout="row" layout-align="center center">
+                    <h3>{{$index+1}}</h3>
+                    <span class="split-30"></span>
+                    <div layout="column" flex>
+                        <span><h2>{{title.content}}</h2></span>
+                        <label>{{title.description}}</label>
+                    </div>
+
+                </div>
+            </a>
+            <div class="list-divider" ng-if="!$last"></div>
         </div>
         <div ng-if="!vm.user.titles || vm.user.titles.length === 0">
             <md-button ng-href="/#/main/title/add">没有出过题目，点此添加</md-button>
         </div>
-    </md-whiteframe>
-</div>
+    </div>
+
+</md-content>
