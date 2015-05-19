@@ -2,18 +2,40 @@
  Navicat MySQL Data Transfer
 
  Source Server         : localhost
+ Source Server Type    : MySQL
  Source Server Version : 50624
  Source Host           : localhost
  Source Database       : home
 
+ Target Server Type    : MySQL
  Target Server Version : 50624
  File Encoding         : utf-8
 
- Date: 04/27/2015 16:25:55 PM
+ Date: 05/19/2015 10:31:55 AM
 */
 
 SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+--  Table structure for `answer`
+-- ----------------------------
+DROP TABLE IF EXISTS `answer`;
+CREATE TABLE `answer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `content` varchar(255) COLLATE utf8_bin NOT NULL,
+  `user` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `title` int(4) DEFAULT NULL,
+  `correct` int(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `answer`
+-- ----------------------------
+BEGIN;
+INSERT INTO `answer` VALUES ('1', '收费方式', 'xiaohua', '6', '1');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `course`
@@ -118,7 +140,14 @@ CREATE TABLE `title` (
   `initiator` varchar(255) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+--  Records of `title`
+-- ----------------------------
+BEGIN;
+INSERT INTO `title` VALUES ('1', 0xe4bda0e5a5bd, '老师了罚款了罚款了看来反馈来看了', 'xiaohua'), ('2', 0xe698afe88083e89991e588b0e4ba86e5bab7e5b888e58285, null, 'xiaohua'), ('3', 0xe698afe88083e89991e588b0e4ba86e5bab7e5b888e58285, null, 'xiaohua'), ('4', 0x5344e58da1e5858be9878ce696afe4b881, '舒服舒服舒服', 'xiaohua'), ('5', 0xe5ae9ee68993e5ae9ee79a84e7acace4b889e696b9, '舒服舒服的水电费', 'xiaohua'), ('6', 0xe88c83e5beb7e890a8e58f91e7949f, '双方的发生的', 'xiaohua');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `user`
@@ -148,7 +177,7 @@ CREATE TABLE `user` (
 --  Records of `user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` VALUES ('nihao', null, null, null, null, null, null, '你好', '202cb962ac59075b964b07152d234b70', '0', 'dsfdsfkl', null, null, '0', null, null), ('wangpengchao', null, null, null, null, null, '0:0:0:0:0:0:0:1', '王鹏超', '202cb962ac59075b964b07152d234b70', '0', '123', null, 'tmSj8d0krWjc3B961EgBhwK1Go8hm3EkOgyAOPMNdb63zLAkDPtw9eBZvAdppiaardyd80fGfEI/uL26K6UOJSIvWI9tzNTU0htJKqBm7OjmiZ96b1cMHObcsWRxWAmJP6BkL5AtG7nWhEetcQv6Ig==', '0', '7', '0'), ('xiaohua', null, null, null, null, null, '0:0:0:0:0:0:0:1', '笑话', '202cb962ac59075b964b07152d234b70', '0', '2332', null, 'v6nScNj3NOFt90tvfU6AL/f3abEwrljeKzDr2KC2xp3Thf0EgWI6leqIBp0wpKKEC3DGQUulk2TZkn3XnoeKXje3XK1Q7Y+4KyKQ9gyq5zoKQiKOjGKpB7tf4D2pz2tBraMzwjPw1ZS3xklEgN9Cwg==', '1', null, null);
+INSERT INTO `user` VALUES ('nihao', null, null, null, null, null, null, '你好', '202cb962ac59075b964b07152d234b70', '0', 'dsfdsfkl', null, null, '0', null, null), ('wangpengchao', null, null, null, null, null, '0:0:0:0:0:0:0:1', '王鹏超', '202cb962ac59075b964b07152d234b70', '0', '123', null, 'tmSj8d0krWjc3B961EgBhwK1Go8hm3EkOgyAOPMNdb63zLAkDPtw9eBZvAdppiaardyd80fGfEI/uL26K6UOJSIvWI9tzNTU0htJKqBm7OjmiZ96b1cMHObcsWRxWAmJP6BkL5AtG7nWhEetcQv6Ig==', '0', '7', '0'), ('xiaohua', null, null, null, null, null, '0:0:0:0:0:0:0:1', '笑话', '202cb962ac59075b964b07152d234b70', '0', '2332', null, 'v6nScNj3NOFt90tvfU6AL/f3abEwrljeKzDr2KC2xp3Thf0EgWI6leqIBp0wpKKEVgXz0D2no4xW2J0izEhi4zxDnsYhKZhZaxoMFxYvuP4KQiKOjGKpB7tf4D2pz2tBraMzwjPw1ZS3xklEgN9Cwg==', '1', null, null);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
