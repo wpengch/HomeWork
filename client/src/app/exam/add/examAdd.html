@@ -2,6 +2,7 @@
     <md-toolbar layout="row">
         <div class="md-toolbar-tools" flex>试卷</div>
         <md-button ng-click="vm.saveExamination($event)" ng-if="vm.addForm.$valid">保存试卷</md-button>
+        <md-button ng-click="back()">返回</md-button>
     </md-toolbar>
     <div layout="column" style="background-color: white">
         <md-input-container layout-align="center center" style="font-size: large;">
