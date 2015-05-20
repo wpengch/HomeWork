@@ -4,7 +4,11 @@ import com.homework.core.Result;
 import com.homework.core.service.BaseService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * 由 田黄雪薇 创建于 2015-3-27-0027.
@@ -43,8 +47,18 @@ public abstract class BaseControllerImpl<T, ID> implements BaseController<T, ID>
     @Override
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
-    public Result getAll() {
-        return Result.getResult(() -> getService().getAll());
+    public Result getAll(HttpServletRequest request, HttpServletResponse response) {
+        return Result.getResult(() -> {
+            HashMap<String, Object> objectHashMap = new HashMap<>();
+            request.getParameterMap().entrySet().forEach(new Consumer() {
+                @Override
+                public void accept(Object o) {
+                    Map.Entry entry  = (Map.Entry) o;
+                    objectHashMap.put(entry.getKey().toString(), ((String[])entry.getValue())[0]);
+                }
+            });
+            return getService().getList(objectHashMap);
+        });
     }
 
     @Override

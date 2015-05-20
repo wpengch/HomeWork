@@ -93,6 +93,21 @@
         };
     }
 
+
+    if(!Array.prototype.joinMember) {
+        Array.prototype.joinMember = function(member, sperator) {
+            var results = [];
+            angular.forEach(this, function (obj) {
+                if(obj[member]) {
+                    results.push(obj[member]);
+                }
+            });
+            return results.join(sperator);
+        };
+    }
+
+
+
     /**
      *
      * @param elOrFunc 元素 或者 函数

@@ -10,7 +10,7 @@ if(!selectTitleCtrl) {
         //接口定义
         var vm = this;
         vm.titles = titles;
-        vm.selects = [];
+        courseSelectedvm.selects = [];
         angular.forEach(vm.titles, function () {
             vm.selects.push(false);
         });

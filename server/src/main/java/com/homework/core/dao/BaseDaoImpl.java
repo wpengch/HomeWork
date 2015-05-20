@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  2015-3-27-0027.
+ * 2015-3-27-0027.
  */
 public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
     private Class<T> entityClass;
@@ -67,7 +67,24 @@ public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
         Criteria cri = session.createCriteria(entityClass);
         for (Map.Entry<String, Object> entry : condition.entrySet()) {
             if (entry.getValue() != null) {
-                cri.add(Restrictions.eq(entry.getKey(), entry.getValue()));
+                try {
+                    Field field = entityClass.getDeclaredField(entry.getKey());
+                    Object value = null;
+                    String tmp = entry.getValue() instanceof String ? (String)entry.getValue() : entry.getValue().toString();
+                    if (field.getType() == Integer.class) {
+                        value = Integer.parseInt(tmp);
+                    } else if (field.getType() == Double.class) {
+                        value = Double.parseDouble(tmp);
+                    } else if (field.getType() == Boolean.class) {
+                        value = Boolean.parseBoolean(tmp);
+                    }else {
+                        value = entry.getValue();
+                    }
+                    cri.add(Restrictions.eq(entry.getKey(), value));
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
         return cri.list();

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 由 pengchao 创建于 2015-4-25-0025.
@@ -28,16 +27,6 @@ public class CourseController extends BaseControllerImpl<Course, Integer> implem
     @Override
     public <D extends BaseService<Course, Integer>> D getService() {
         return (D) courseService;
-    }
-
-    @Override
-    @ResponseBody
-    @RequestMapping(method = RequestMethod.GET)
-    public Result getAll() {
-        return Result.getResult(() -> {
-            List<Course> courses = getService().getAll();
-            return courses;
-        });
     }
 
 

@@ -1,0 +1,25 @@
+<md-content layout="column" flex>
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools" flex>我的试卷</div>
+        <md-button ng-href="/#/main/exam/add">添加</md-button>
+    </md-toolbar>
+    <div >
+        <div layout="column" ng-repeat="title in vm.user.examinations">
+            <a ng-href="/#/main/exam/info?id={{title.id}}" class="link container-padding" flex>
+                <div layout="row" layout-align="center center">
+                    <h3>{{$index+1}}</h3>
+                    <span class="split-30"></span>
+                    <div layout="column" flex>
+                        <span><h2>{{title.name}}</h2></span>
+                        <label>{{title.description}}</label>
+                    </div>
+                </div>
+            </a>
+            <div class="list-divider" ng-if="!$last"></div>
+        </div>
+        <div ng-if="!vm.user.titles || vm.user.examinations.length === 0">
+            <md-button ng-href="/#/main/exam/add">没有出过试卷，点此添加</md-button>
+        </div>
+    </div>
+
+</md-content>

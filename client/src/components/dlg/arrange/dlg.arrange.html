@@ -1,0 +1,26 @@
+<md-dialog>
+    <md-dialog-content>
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="课程">
+                <md-content class="md-padding">
+                    <md-checkbox ng-repeat="course in vm.user.courses" ng-model="vm.courseSelected[$index]">
+                        {{course.name}}
+                    </md-checkbox>
+                </md-content>
+
+            </md-tab>
+            <md-tab label="学生">
+                <md-content class="md-padding">
+                    <md-checkbox ng-repeat="user in vm.users" ng-model="vm.userSelected[$index]">
+                        {{user.name}}
+                    </md-checkbox>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-dialog-content>
+    <div class="md-actions" layout="row">
+        <label flex></label>
+        <md-button ng-click="vm.ok($event)">确定</md-button>
+        <md-button ng-click="vm.cancel()">取消</md-button>
+    </div>
+</md-dialog>

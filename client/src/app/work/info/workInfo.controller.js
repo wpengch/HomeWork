@@ -1,17 +1,17 @@
 /**
  * 创建人：pengchao
  * 创建时间：2015-3-23-0023
- * 工厂名字：ExamInfoCtrl
+ * 工厂名字：WorkInfoCtrl
  * 作用：管理部门列表控制器
  */
 (function () {
     'use strict';
 
-    angular.module('home').controller('ExamInfoCtrl', ExamInfoCtrl);
+    angular.module('home').controller('WorkInfoCtrl', WorkInfoCtrl);
 
-    ExamInfoCtrl.$inject = ['$log', '$timeout', '$rootScope', 'Restangular', 'DialogFactory', '$mdDialog', '$stateParams'];
+    WorkInfoCtrl.$inject = ['$log', '$timeout', '$rootScope', 'Restangular', 'DialogFactory', '$mdDialog', '$stateParams'];
 
-    function ExamInfoCtrl($log, $timeout, $rootScope, Restangular, DialogFactory, $mdDialog, $stateParams) {
+    function WorkInfoCtrl($log, $timeout, $rootScope, Restangular, DialogFactory, $mdDialog, $stateParams) {
         //接口定义
         var vm = this;
         vm.exam = Restangular.one('exam', $stateParams.id).get().$object;
@@ -25,7 +25,7 @@
          * 启动逻辑逻辑
          */
         function activate() {
-            $log.info('加载ExamInfoCtrl');
+            $log.info('加载WorkInfoCtrl');
             Restangular.one('title', $stateParams.id).get()
                 .then(function (data) {
 
