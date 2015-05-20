@@ -3,6 +3,7 @@ bower_components/
 .sass-cache/
 .tmp/
 dist/
+.idea/
 /workspace.xml
 /npm-debug.log
 /.DS_Store

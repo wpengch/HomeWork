@@ -19,6 +19,7 @@ public class Examination {
     private List<BigTitle> titles;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false, insertable = true, updatable = true)
     public Integer getId() {
         return id;

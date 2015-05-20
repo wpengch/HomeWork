@@ -62,8 +62,8 @@
         });
     }
 
-    runConfig.$inject = ['$rootScope', 'Config', '$previousState', 'AuthFactory', '$state','$cookieStore','Restangular','$mdDialog'];
-    function runConfig($rootScope, Config, $previousState, AuthFactory, $state,$cookieStore,Restangular,$mdDialog) {
+    runConfig.$inject = ['$rootScope', 'Config', '$previousState', 'AuthFactory', '$state','$cookieStore','Restangular','$mdDialog','$mdToast'];
+    function runConfig($rootScope, Config, $previousState, AuthFactory, $state,$cookieStore,Restangular,$mdDialog,$mdToast) {
         //与登陆与验证有关的初始化
         $rootScope.toLogin = function () {
             $state.go('login');
@@ -96,6 +96,15 @@
                     content: content
                 }
             });
+        };
+
+        $rootScope.hideAndSuccess = function(content) {
+            $rootScope.hideDialog();
+            $mdToast.show(
+                $mdToast.simple()
+                    .content(content)
+                    .hideDelay(2000)
+            );
         };
 
         $rootScope.showInputText = function (header, name, ev) {

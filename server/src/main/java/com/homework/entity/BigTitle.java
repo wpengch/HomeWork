@@ -20,6 +20,7 @@ public class BigTitle {
     private List<Title> titles;
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false, insertable = true, updatable = true)
     public Integer getId() {
         return id;

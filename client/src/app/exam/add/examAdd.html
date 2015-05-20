@@ -1,46 +1,99 @@
-<form name="vm.addForm" layout="column" novalidate flex>
+<form name="vm.addForm" class="md-whiteframe-z1" layout="column" novalidate flex>
     <md-toolbar layout="row">
         <div class="md-toolbar-tools" flex>试卷</div>
-        <md-button ng-click="vm.addTitle($event)" ng-if="vm.addForm.$valid">添加</md-button>
+        <md-button ng-click="vm.saveExamination($event)" ng-if="vm.addForm.$valid">保存试卷</md-button>
     </md-toolbar>
-    <div layout="column" class="container-padding">
-        <div ng-repeat="bigTitle in vm.exam.bigTitles">
+    <div layout="column" style="background-color: white">
+        <md-input-container layout-align="center center" style="font-size: large;">
+            <label>试卷名称</label>
+            <input required ng-model="vm.exam.name" name="examName">
+
+            <div ng-messages="vm.addForm.examName.$error">
+                <div ng-message="required">*</div>
+            </div>
+        </md-input-container>
+        <div ng-repeat="bigTitle in vm.exam.bigTitles" style="background-color: #eee;margin: 10px 5px;">
             <h2>{{($index + 1)+ ' : ' + bigTitle.name + '(每题 ' + bigTitle.percent + " 分)"}}</h2>
-            <div ng-repeat="title in bigTitle.titles">
-                <h4 style="color: #333333">{{($index + 1) + ': ' + title.content}}</h4>
-                <div ng-if="bigTitle.type === 1 || bigTitle.type === 2">
+
+            <div ng-repeat="title in bigTitle.titles" style="margin-bottom: 10px;padding: 10px; background: #dedede">
+                <div layout="row">
+                    <h4 style="color: #333333" flex>{{($index + 1) + ': ' + title.content}}</h4>
+                    <md-button class="md-raised md-primary" ng-click="vm.deleteTitle(bigTitle, title, $index, $event)">删除</md-button>
+                    <md-button class="md-raised md-primary" ng-click="vm.up(bigTitle, title, $index, $event)" ng-if="!$first">上移</md-button>
+                    <md-button class="md-raised md-primary" ng-click="vm.down(bigTitle, title, $index, $event)" ng-if="!$last">下移</md-button>
+                    <md-button class="md-raised md-primary" ng-click="vm.upTop(bigTitle, title, $index, $event)" ng-if="!$first">移到顶</md-button>
+                    <md-button class="md-raised md-primary" ng-click="vm.downBottom(bigTitle, title, $index, $event)" ng-if="!$last">移到底</md-button>
+                </div>
+
+                <div ng-if="bigTitle.type === 0 || bigTitle.type === 1">
                     <div ng-repeat="answer in title.answers" style="margin-left: 10px" ng-class="{true:'trueColor', false:'falseColor'}[answer.correct]">
                         <label>{{$index | abcd:'upper'}}. </label>
                         <label>{{answer.content}}</label>
                     </div>
                 </div>
             </div>
-            <div layout="row">
-                <md-button class="md-primary" ng-click="vm.selectTitle(bigTitle, $event)">选择题目</md-button>
-                <md-button class="md-primary">新增题目</md-button>
-            </div>
-        </div>
-        <div ng-if="vm.addBigTitle" style="border: dashed 1px green">
-            <form name="vm.addBigTitleForm">
-                <label>题目类型: </label>
-                <md-input-container flex>
-                    <md-select placeholder="请选择" required ng-model="vm.addBig.type" name="type">
-                        <md-option data-ng-value="type.id" ng-repeat="type in Config.TitleTypes">{{type.name}}</md-option>
-                    </md-select>
-                    <div ng-messages="vm.addBigTitleForm.type.$error">
+            <div ng-if="vm.enableTitleAdds[$index]" style="margin-bottom: 10px;padding: 10px; background: #dedede">
+                <md-input-container>
+                    <label>题目</label>
+                    <textarea required ng-model="vm.addTitle.content" name="titleContent"></textarea>
+
+                    <div ng-messages="vm.addForm.titleContent.$error">
                         <div ng-message="required">*</div>
                     </div>
                 </md-input-container>
                 <md-input-container>
-                    <label>每题分值</label>
-                    <input type="number" required ng-model="vm.addBig.percent" name="percent">
-                    <div ng-messages="vm.addBigTitleForm.percent.$error">
+                    <label>描述</label>
+                    <textarea required ng-model="vm.addTitle.description" name="titleDescription"></textarea>
+
+                    <div ng-messages="vm.addForm.titleDescription.$error">
                         <div ng-message="required">*</div>
                     </div>
                 </md-input-container>
+                <div ng-repeat="answer in vm.addTitle.answers">
+                    <div layout="row" layout-align="center center">
+                        <label>{{$index | abcd:'upper'}}. </label>
+                        <md-input-container flex>
+                            <label>答案</label>
+                            <textarea required ng-model="answer.content" name="answerName"></textarea>
 
-                <md-button ng-click="vm.addBTitle($event)">添加</md-button>
-            </form>
+                            <div ng-messages="vm.addForm.answerName.$error">
+                                <div ng-message="required">*</div>
+                            </div>
+                        </md-input-container>
+                        <md-checkbox ng-model="answer.correct">是否为正确答案</md-checkbox>
+                    </div>
+                </div>
+                <md-button class="md-primary" ng-if="vm.addForm.$valid" ng-click="vm.saveTitle(bigTitle, $index, $event)">保存题目</md-button>
+                <md-button class="md-primary" ng-click="vm.addTitle.answers.push({})">添加答案</md-button>
+                <md-button class="md-primary" ng-click="vm.addTitle = {answers:[]}">清除内容</md-button>
+            </div>
+
+            <div layout="row">
+                <md-button class="md-primary" ng-click="vm.selectTitle(bigTitle, $event)">选择题目</md-button>
+                <md-button class="md-primary" ng-click="vm.enableTitleAdds[$index]=!vm.enableTitleAdds[$index]">{{vm.enableTitleAdds[$index] ? '取消添加' : '新增题目'}}</md-button>
+
+            </div>
+        </div>
+        <div ng-if="vm.addBigTitle" style="background-color: #eee;margin: 10px 5px;">
+            <label>题目类型: </label>
+            <md-input-container flex>
+                <md-select placeholder="请选择" required ng-model="vm.addBig.type" name="type">
+                    <md-option data-ng-value="type.id" ng-repeat="type in Config.TitleTypes">{{type.name}}</md-option>
+                </md-select>
+                <div ng-messages="vm.addForm.type.$error">
+                    <div ng-message="required">*</div>
+                </div>
+            </md-input-container>
+            <md-input-container>
+                <label>每题分值</label>
+                <input type="number" required ng-model="vm.addBig.percent" name="percent">
+
+                <div ng-messages="vm.addForm.percent.$error">
+                    <div ng-message="required">*</div>
+                </div>
+            </md-input-container>
+
+            <md-button class="md-raised md-primary" ng-if="vm.addForm.$valid" ng-click="vm.addBTitle($event)">添加</md-button>
         </div>
         <md-button ng-click="vm.addBigTitle = true" ng-if="!vm.addBigTitle">添加大题</md-button>
     </div>

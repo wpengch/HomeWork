@@ -27,10 +27,6 @@ public class Title {
         this.id = id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false, insertable = true, updatable = true)

@@ -420,9 +420,11 @@ textarea {
 
 .link{
   color: #333;
+  cursor: hand;
   &:hover{
     background: gray;
-    TEXT-DECORATION: none
+    TEXT-DECORATION: none;
+    cursor: hand;
   }
 }
 .split-30{

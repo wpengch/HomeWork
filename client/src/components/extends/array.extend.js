@@ -29,11 +29,11 @@
         return results;
     };
 
-    if(!Array.prototype.customFilter) {
-        Array.prototype.customFilter = function(func) {
+    if (!Array.prototype.customFilter) {
+        Array.prototype.customFilter = function (func) {
             var results = [];
             angular.forEach(this, function (obj) {
-                if(func(obj)) {
+                if (func(obj)) {
                     results.push(obj);
                 }
             });
@@ -41,6 +41,57 @@
         };
     }
 
+    if (!Array.prototype.remove) {
+        Array.prototype.remove = function (index) {
+            this.splice(index, 1);
+        };
+    }
+
+    if (!Array.prototype.exchange) {
+        Array.prototype.exchange = function (dx1, dx2) {
+            var tmp   = this[dx1];
+            this[dx1] = this[dx2];
+            this[dx2] = tmp;
+        };
+    }
+
+    if (!Array.prototype.insert) {
+        Array.prototype.insert = function (index, item) {
+            this.splice(index, 0, item);
+        };
+    }
+
+    if (!Array.prototype.moveTo) {
+        Array.prototype.moveTo = function (init, to) {
+            if (to > init) {
+                this.insert(to, this[init]);
+                this.splice(init, 1);
+            }else{
+                var tmp = this[init];
+                this.splice(init, 1);
+                this.insert(to);
+            }
+        };
+    }
+
+    if(!Array.prototype.moveToFirst) {
+        Array.prototype.moveToFirst = function(dx) {
+            if(dx != 0) {
+                var item = this[dx];
+                this.remove(dx);
+                this.insert(0, item);
+            }
+        };
+    }
+    if(!Array.prototype.moveToLast) {
+        Array.prototype.moveToLast = function(dx) {
+            if(dx != this.length - 1) {
+                var item = this[dx];
+                this.remove(dx);
+                this.push(item);
+            }
+        };
+    }
 
     /**
      *
@@ -53,7 +104,7 @@
             return 0;
         }
         var result = 0;
-        all = all || false;
+        all        = all || false;
         var isFunc = angular.isFunction(elOrFunc);
         if (all) {
             for (var i = this.length - 1; i >= 0; i--) {
