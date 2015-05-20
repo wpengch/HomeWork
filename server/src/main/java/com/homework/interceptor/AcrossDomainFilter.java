@@ -28,7 +28,8 @@ public class AcrossDomainFilter extends HttpServlet implements Filter{
 		response.setHeader("Access-Control-Allow-Origin","http://"+s);
 		response.setHeader("Access-Control-Allow-Methods","GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH");
 		response.setHeader("Access-Control-Allow-Credentials","true");
-		response.setHeader("Access-Control-Allow-Headers"," Origin, X-Requested-With, Content-Type, Accept");
+		response.setHeader("Access-Control-Allow-Headers"," Origin, X-Requested-With, Content-Type, Accept,authToken");
+//		response.setHeader("Access-Control-Allow-Headers","*");
 		response.setHeader("Access-Control-Max-Age", "86400");
 //		//预检的时候,返回false
 		if(! method.equals("OPTIONS")){

@@ -14,6 +14,7 @@ public class Arrange {
     private Integer id;
     private String courseIds;
     private String userIds;
+    private Examination examination;
 
     @Id
     @GeneratedValue
@@ -44,5 +45,15 @@ public class Arrange {
 
     public void setUserIds(String userIds) {
         this.userIds = userIds;
+    }
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "examId", insertable = true, updatable = true, nullable = false)
+    public Examination getExamination() {
+        return examination;
+    }
+
+    public void setExamination(Examination examination) {
+        this.examination = examination;
     }
 }

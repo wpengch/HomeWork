@@ -14,7 +14,7 @@
     function WorkListCtrl($log, Config, $state, Restangular, DialogFactory, $mdDialog, $rootScope) {
         //接口定义
         var vm = this;
-        vm.user = Restangular.one('user', $rootScope.getSelfId()).get().$object;
+        vm.exams = Restangular.one('user', $rootScope.getSelfId()).all('work').getList().$object;
 
         activate();
         ////////////////////////////////////////////////

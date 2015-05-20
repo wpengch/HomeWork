@@ -163,6 +163,29 @@
                             controllerAs: 'vm'
                         }
                     ]
+                },
+                {
+                    name: 'work',
+                    url: '/work',
+                    templateUrl: 'app/work/work.html',
+                    controller: 'WorkCtrl',
+                    controllerAs: 'vm',
+                    children:[
+                        {
+                            name: 'list',
+                            url: '/list',
+                            templateUrl: 'app/work/list/workList.html',
+                            controller: 'WorkListCtrl',
+                            controllerAs: 'vm'
+                        },
+                        {
+                            name: 'info',
+                            url: '/info?id',
+                            templateUrl: 'app/work/info/workInfo.html',
+                            controller: 'WorkInfoCtrl',
+                            controllerAs: 'vm'
+                        }
+                    ]
                 }
             ]
         },

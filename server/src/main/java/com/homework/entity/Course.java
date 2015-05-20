@@ -12,7 +12,7 @@ import java.util.List;
 @JsonIdentityInfo(generator=JSOGGenerator.class)
 @Entity
 public class Course {
-    private int id;
+    private Integer id;
     private String name;
     private String type;
     private User teach;
@@ -21,11 +21,11 @@ public class Course {
     @Id
     @Column(name = "id", nullable = false, insertable = true, updatable = true)
     @GeneratedValue
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

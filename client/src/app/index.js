@@ -6,7 +6,7 @@
     'use strict';
 
     angular.module('home', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'restangular', 'ui.router', 'ui.tree', 'ngMaterial', 'ngMessages', 'angular-datepicker', 'textAngular', 'ui.router.stateHelper'])
-        .config(['RestangularProvider', '$urlRouterProvider', 'stateHelperProvider', '$mdThemingProvider', 'Theme', 'Router', 'Config', configProvider])
+        .config(['RestangularProvider', '$urlRouterProvider', 'stateHelperProvider', '$httpProvider', 'Theme', 'Router', 'Config', configProvider])
         .run(runConfig);
 
     /**
@@ -18,7 +18,7 @@
      * @param Theme
      * @param Router
      */
-    function configProvider(RestangularProvider, $urlRouterProvider, stateHelperProvider, $mdThemingProvider, Theme, Router, Config) {
+    function configProvider(RestangularProvider, $urlRouterProvider, stateHelperProvider, $httpProvider, Theme, Router, Config) {
         /**
          * 主题
          */
@@ -42,6 +42,8 @@
             RestangularProvider.setBaseUrl(Config.Urls.RestUrl);
         }
 
+//        $httpProvider.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
+//        RestangularProvider.setDefaultHeaders({authToken:'token'});
 
         RestangularProvider.addResponseInterceptor(function (data, operation, what, url, response, deferred) {
             var header = data.header;
@@ -51,9 +53,9 @@
                 return model;
             } else {
                 if (header) {
-//                    if(header.rc === 1 && location.hash !== '#/') {
-//                        location.href = "/";
-//                    }
+                    if(header.rc === 1 && location.hash !== '#/') {
+                        location.href = "/";
+                    }
                     deferred.reject(header);
                 } else {
                     deferred.reject(data.header);
