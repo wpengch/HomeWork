@@ -1,6 +1,6 @@
 <md-content layout="column" flex>
     <md-toolbar layout="row">
-        <div class="md-toolbar-tools" flex>我的试卷</div>
+        <div class="md-toolbar-tools" flex>已提交作业</div>
         <md-button ng-href="/#/main/exam/add">添加</md-button>
     </md-toolbar>
     <div >
@@ -18,7 +18,7 @@
             <div class="list-divider" ng-if="!$last"></div>
         </div>
         <div ng-if="!vm.arranges || vm.arranges.length === 0">
-            <label>你很棒,所有试题都组完了</label>
+            <label>暂无提交作业</label>
         </div>
     </div>
 

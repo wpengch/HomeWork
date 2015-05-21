@@ -5,12 +5,14 @@ import com.homework.core.dao.BaseDao;
 import com.homework.core.service.BaseServiceImpl;
 import com.homework.dao.MenuDao;
 import com.homework.entity.Menu;
+import com.homework.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 由 田黄雪薇 创建于 2015-3-27-0027.
@@ -27,8 +29,9 @@ public class MenuService extends BaseServiceImpl<Menu, String> {
         return (D) menuDao;
     }
 
-    public List<Menu> menuTree() {
+    public List<Menu> menuTree(User user) {
         List<Menu> menus = menuDao.getAll();
+        menus = menus.stream().filter(menu -> menu.getPower() == 0 || menu.getPower() == user.getType() + 1).collect(Collectors.toList());
 
         return CollectionUtil.generateTree(menus, new CollectionUtil.TreeHelper<Menu, Object>() {
             @Override

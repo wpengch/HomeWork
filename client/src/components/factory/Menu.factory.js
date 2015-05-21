@@ -9,13 +9,13 @@
 
   angular.module('home').factory('MenuFactory', MenuFactory);
 
-  MenuFactory.$inject = ['$log', 'Config', 'Restangular', '$q'];
+  MenuFactory.$inject = ['$log', 'Config', 'Restangular', '$q','$rootScope'];
 
-  function MenuFactory($log, Config, Restangular, $q) {
+  function MenuFactory($log, Config, Restangular, $q,$rootScope) {
     var callbacks = [];
     //接口定义
     var factory = {};
-    factory.getSections = function(){return  Restangular.all('menu').getList().$object;};
+    factory.getSections = function(){return  Restangular.all('menu').getList({user:$rootScope.getSelfId()}).$object;};
     factory.selectPage = selectPage;
     factory.selectSection = function (section) { factory.openedSection = section; };
     factory.toggleSelectSection = function (section) { factory.openedSection = (factory.openedSection === section ? null : section); };

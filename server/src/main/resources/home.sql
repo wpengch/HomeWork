@@ -11,7 +11,7 @@
  Target Server Version : 50624
  File Encoding         : utf-8
 
- Date: 05/21/2015 19:11:23 PM
+ Date: 05/21/2015 19:25:57 PM
 */
 
 SET NAMES utf8;
@@ -243,7 +243,7 @@ CREATE TABLE `menu` (
 --  Records of `menu`
 -- ----------------------------
 BEGIN;
-INSERT INTO `menu` VALUES ('1', '首页', null, 'link', 'main.main', '0'), ('2', '系统管理', null, 'heading', '', '0'), ('3', '用户维护', '2', 'toggle', null, '0'), ('4', '学校管理', '3', 'link', 'main.dep.list', '0'), ('5', '用户管理', '3', 'link', 'main.user.list', '0'), ('6', '我的工作', '2', 'toggle', null, '0'), ('7', '课程管理', '6', 'link', 'main.course.list', '0'), ('8', '我的题目', '6', 'link', 'main.title.list', '0'), ('9', '我的试卷', '6', 'link', 'main.exam.list', '0'), ('10', '未做作业', '6', 'link', 'main.work.list', '0'), ('11', '提交试卷', '6', 'link', 'main.work.submits', '0'), ('12', '试卷历史', '6', 'link', 'main.work.histories', '0'), ('13', '批改作业', '6', 'link', 'main.work.corrects', '0');
+INSERT INTO `menu` VALUES ('1', '首页', null, 'link', 'main.main', '0'), ('2', '系统管理', null, 'heading', '', '0'), ('3', '用户维护', '2', 'toggle', null, '0'), ('4', '学校管理', '3', 'link', 'main.dep.list', '0'), ('5', '用户管理', '3', 'link', 'main.user.list', '0'), ('6', '我的工作', '2', 'toggle', null, '0'), ('7', '课程管理', '6', 'link', 'main.course.list', '2'), ('8', '我的题目', '6', 'link', 'main.title.list', '2'), ('9', '我的试卷', '6', 'link', 'main.exam.list', '2'), ('10', '未做作业', '6', 'link', 'main.work.list', '1'), ('11', '已交作业', '6', 'link', 'main.work.submits', '1'), ('12', '作业历史', '6', 'link', 'main.work.histories', '1'), ('13', '批改作业', '6', 'link', 'main.work.corrects', '2');
 COMMIT;
 
 -- ----------------------------
@@ -305,7 +305,7 @@ CREATE TABLE `user` (
 --  Records of `user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` VALUES ('nihao', null, null, null, null, null, null, '你好', '202cb962ac59075b964b07152d234b70', '0', 'dsfdsfkl', null, null, '0', null, null), ('wangpengchao', null, null, null, null, null, '192.168.0.15', '王鹏超', '202cb962ac59075b964b07152d234b70', '0', '123', null, 'tmSj8d0krWjc3B961EgBhwK1Go8hm3EkOgyAOPMNdb63zLAkDPtw9eBZvAdppiaardyd80fGfEI/uL26K6UOJX1FgNum2Gm1VxqrPyArZflUQA8ESDkLpWk9zMBrG8tmIiwa6DzJdearNj4eNSAK/A==', '0', '7', '0'), ('xiaohua', null, null, null, null, null, '192.168.0.15', '笑话', '202cb962ac59075b964b07152d234b70', '0', '2332', null, 'v6nScNj3NOFt90tvfU6AL/f3abEwrljeKzDr2KC2xp3Thf0EgWI6leqIBp0wpKKE4hWjQXpyXltS68HvmdTPsmvtr9oIJTQpbJ7P8AArwyC232gELSv7OuaEWgkuMtqHPy/1sc4b65gml+tfPfN+8g==', '1', '7', null);
+INSERT INTO `user` VALUES ('nihao', null, null, null, null, null, null, '你好', '202cb962ac59075b964b07152d234b70', '0', 'dsfdsfkl', null, null, '0', null, null), ('wangpengchao', null, null, null, null, null, '192.168.0.15', '王鹏超', '202cb962ac59075b964b07152d234b70', '0', '123', null, 'tmSj8d0krWjc3B961EgBhwK1Go8hm3EkOgyAOPMNdb63zLAkDPtw9eBZvAdppiaardyd80fGfEI/uL26K6UOJX1FgNum2Gm1VxqrPyArZflUQA8ESDkLpWk9zMBrG8tmIiwa6DzJdearNj4eNSAK/A==', '0', '7', '0'), ('xiaohua', null, null, null, null, null, '192.168.0.15', '笑话', '202cb962ac59075b964b07152d234b70', '0', '2332', null, 'v6nScNj3NOFt90tvfU6AL/f3abEwrljeKzDr2KC2xp3Thf0EgWI6leqIBp0wpKKElhgDrmaSiTIRjgSSk3qoQ7pg8FeSe8HBG+S1p0hdp8y232gELSv7OuaEWgkuMtqHPy/1sc4b65gml+tfPfN+8g==', '1', '7', null);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
