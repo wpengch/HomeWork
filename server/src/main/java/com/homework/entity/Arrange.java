@@ -14,7 +14,16 @@ public class Arrange {
     private Integer id;
     private String courseIds;
     private String userIds;
+    private String name;
+    private User teach;
     private Examination examination;
+
+    public Arrange(){}
+
+
+    public Arrange(Integer id) {
+        this.id = id;
+    }
 
     @Id
     @GeneratedValue
@@ -55,5 +64,25 @@ public class Arrange {
 
     public void setExamination(Examination examination) {
         this.examination = examination;
+    }
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "teach", insertable = true, updatable = true, nullable = false)
+    public User getTeach() {
+        return teach;
+    }
+
+    public void setTeach(User teach) {
+        this.teach = teach;
+    }
+
+    @Basic
+    @Column(name = "name", nullable = false, insertable = true, updatable = true, length = 255)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

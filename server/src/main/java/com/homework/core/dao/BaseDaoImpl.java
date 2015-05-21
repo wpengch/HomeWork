@@ -1,9 +1,6 @@
 package com.homework.core.dao;
 
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,6 +8,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +40,26 @@ public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
         ID id = (ID) session.save(entity);
         session.flush();
         return id;
+    }
+
+    @Override
+    public void creates(T... entities) {
+        Session session = getSession();
+        Transaction ts = session.beginTransaction();
+        for (T entity : entities) {
+            session.save(entity);
+        }
+        session.flush();
+        ts.commit();
+    }
+
+    @Override
+    public void creates(Collection<T> entities) {
+        Session session = getSession();
+        Transaction ts = session.beginTransaction();
+        entities.forEach(session::save);
+        session.flush();
+        ts.commit();
     }
 
     @Override

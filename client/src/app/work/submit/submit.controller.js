@@ -1,17 +1,17 @@
 /**
  * 创建人：pengchao
  * 创建时间：2015-3-23-0023
- * 工厂名字：WorkInfoCtrl
+ * 工厂名字：SubmitCtrl
  * 作用：管理部门列表控制器
  */
 (function () {
     'use strict';
 
-    angular.module('home').controller('WorkInfoCtrl', WorkInfoCtrl);
+    angular.module('home').controller('SubmitCtrl', SubmitCtrl);
 
-    WorkInfoCtrl.$inject = ['$log', '$timeout', '$rootScope', 'Restangular', 'DialogFactory', '$mdDialog', '$stateParams'];
+    SubmitCtrl.$inject = ['$log', '$timeout', '$rootScope', 'Restangular', 'DialogFactory', '$mdDialog', '$stateParams'];
 
-    function WorkInfoCtrl($log, $timeout, $rootScope, Restangular, DialogFactory, $mdDialog, $stateParams) {
+    function SubmitCtrl($log, $timeout, $rootScope, Restangular, DialogFactory, $mdDialog, $stateParams) {
         //接口定义
         var vm = this;
         vm.startAnswer = startAnswer;
@@ -26,8 +26,8 @@
          * 启动逻辑逻辑
          */
         function activate() {
-            $log.info('加载WorkInfoCtrl');
-            Restangular.one('userarrange', $stateParams.id).get()
+            $log.info('加载SubmitCtrl');
+            Restangular.one('userarrange', $stateParams.id).one('respondent').get()
                 .then(function (data) {
                     $timeout(function () {
                         vm.userarrange = data.plain();
@@ -36,16 +36,16 @@
                 });
         }
 
-
-        function startAnswer(ev) {
-            vm.start = true;
-        }
-
         vm.filterCorrect = function (arr) {
             return arr.customFilter(function (obj) {
                 return obj.correct === true;
             });
         };
+
+
+        function startAnswer(ev) {
+            vm.start = true;
+        }
 
         function submit(ev) {
             var model = answer();

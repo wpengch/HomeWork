@@ -1,7 +1,8 @@
 <md-content class="md-whiteframe-z1" layout="column" flex>
     <md-toolbar layout="row">
         <div class="md-toolbar-tools" flex>试卷</div>
-        <md-button ng-click="vm.arrange($event)">下发试卷</md-button>
+        <md-button ng-click="vm.startAnswer($event)" ng-if="!vm.start">开始答题</md-button>
+        <md-button ng-click="vm.submit($event)" ng-if="vm.start">提交</md-button>
         <md-button ng-click="back()">返回</md-button>
     </md-toolbar>
     <div layout="column" style="background-color: white; padding-bottom: 550px">
@@ -26,7 +27,7 @@
                             <h4 style="color: #333333" flex>{{(($index + 1)) + ': ' + title.content}}</h4>
                             <label style="margin:0px 10px;">(&nbsp;&nbsp;&nbsp;&nbsp;)</label>
                         </div>
-                        <md-radio-group ng-model="title.answerId">
+                        <md-radio-group ng-model="title.answer">
                             <md-radio-button ng-repeat="answer in title.answers" style="margin-left: 10px" data-ng-value="answer.id">
                                 {{($index | abcd:'upper') + '. ' + answer.content}}
                             </md-radio-button>

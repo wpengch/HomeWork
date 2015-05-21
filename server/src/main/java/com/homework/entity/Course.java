@@ -18,6 +18,12 @@ public class Course {
     private User teach;
     private List<User> students;
 
+    public Course(){}
+
+    public Course(Integer id) {
+        this.id = id;
+    }
+
     @Id
     @Column(name = "id", nullable = false, insertable = true, updatable = true)
     @GeneratedValue

@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * 由 田黄雪薇 创建于 2015-3-27-0027.
@@ -50,12 +49,9 @@ public abstract class BaseControllerImpl<T, ID> implements BaseController<T, ID>
     public Result getAll(HttpServletRequest request, HttpServletResponse response) {
         return Result.getResult(() -> {
             HashMap<String, Object> objectHashMap = new HashMap<>();
-            request.getParameterMap().entrySet().forEach(new Consumer() {
-                @Override
-                public void accept(Object o) {
-                    Map.Entry entry  = (Map.Entry) o;
-                    objectHashMap.put(entry.getKey().toString(), ((String[])entry.getValue())[0]);
-                }
+            request.getParameterMap().entrySet().forEach(o -> {
+                Map.Entry entry  = (Map.Entry) o;
+                objectHashMap.put(entry.getKey().toString(), ((String[])entry.getValue())[0]);
             });
             return getService().getList(objectHashMap);
         });
@@ -69,4 +65,14 @@ public abstract class BaseControllerImpl<T, ID> implements BaseController<T, ID>
     }
 
     public abstract <D extends BaseService<T, ID>> D getService();
+
+
+    public Map<String, String> getParams(HttpServletRequest request) {
+        Map<String, String> results = new HashMap<>();
+        for (Object entry : request.getParameterMap().entrySet()) {
+            Map.Entry<String, String[]> item = (Map.Entry<String, String[]>) entry;
+            results.put(item.getKey(), item.getValue()[0]);
+        }
+        return results;
+    }
 }

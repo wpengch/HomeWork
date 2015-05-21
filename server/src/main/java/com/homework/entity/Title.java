@@ -18,6 +18,9 @@ public class Title {
     private User initiator;
     private List<Answer> answers;
     private List<BigTitle> titles;
+    private String answer;
+    private Integer percent;
+    private Integer respondentId;
 
     public Title() {
 
@@ -107,5 +110,32 @@ public class Title {
 
     public void setTitles(List<BigTitle> titles) {
         this.titles = titles;
+    }
+
+    @Transient
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    @Transient
+    public Integer getPercent() {
+        return percent;
+    }
+
+    public void setPercent(Integer percent) {
+        this.percent = percent;
+    }
+
+    @Transient
+    public Integer getRespondentId() {
+        return respondentId;
+    }
+
+    public void setRespondentId(Integer respondentId) {
+        this.respondentId = respondentId;
     }
 }

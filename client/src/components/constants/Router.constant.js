@@ -179,10 +179,52 @@
                             controllerAs: 'vm'
                         },
                         {
+                            name: 'submits',
+                            url: '/submits',
+                            templateUrl: 'app/work/submits/submits.html',
+                            controller: 'SubmitsCtrl',
+                            controllerAs: 'vm'
+                        },
+                        {
+                            name: 'corrects',
+                            url: '/corrects',
+                            templateUrl: 'app/work/corrects/corrects.html',
+                            controller: 'CorrectsCtrl',
+                            controllerAs: 'vm'
+                        },
+                        {
+                            name: 'histories',
+                            url: '/histories',
+                            templateUrl: 'app/work/histories/histories.html',
+                            controller: 'HistoriesCtrl',
+                            controllerAs: 'vm'
+                        },
+                        {
                             name: 'info',
                             url: '/info?id',
                             templateUrl: 'app/work/info/workInfo.html',
                             controller: 'WorkInfoCtrl',
+                            controllerAs: 'vm'
+                        },
+                        {
+                            name: 'submit',
+                            url: '/submit?id',
+                            templateUrl: 'app/work/submit/submit.html',
+                            controller: 'SubmitCtrl',
+                            controllerAs: 'vm'
+                        },
+                        {
+                            name: 'correct',
+                            url: '/correct?id',
+                            templateUrl: 'app/work/correct/correct.html',
+                            controller: 'CorrectCtrl',
+                            controllerAs: 'vm'
+                        },
+                        {
+                            name: 'history',
+                            url: '/history?id',
+                            templateUrl: 'app/work/history/history.html',
+                            controller: 'HistoryCtrl',
                             controllerAs: 'vm'
                         }
                     ]

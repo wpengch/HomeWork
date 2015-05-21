@@ -50,6 +50,9 @@
                 var model = {};
                 model.courseIds = data.courses.joinMember('id', ',');
                 model.userIds = data.users.joinMember('id', ',');
+                model.teach = {id: $rootScope.getSelfId()};
+                model.name = vm.exam.name;
+                model.examination = {id: vm.exam.id};
                 $rootScope.showProgress('正在安排作业', ev);
                 Restangular.all('arrange').customPOST(model)
                     .then(function (data) {

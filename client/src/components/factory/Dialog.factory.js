@@ -27,6 +27,13 @@
       return $mdDialog.show($mdDialog.alert().title('成功').content(txt).ok('确定').targetEvent(ev));
     };
 
+    factory.confirm = function (txt, ev, title, okLabel, cancelLabel) {
+      okLabel     = okLabel || "确定";
+      cancelLabel = cancelLabel || "取消";
+      title = title || '确认';
+      return $mdDialog.show($mdDialog.confirm().title(title).content(txt).ariaLabel('confirm').ok(okLabel).cancel(cancelLabel).targetEvent(ev));
+    };
+
     factory.errorFromResponse = function(response) {
       if(!response){
         return '';

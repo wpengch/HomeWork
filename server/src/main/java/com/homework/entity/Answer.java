@@ -12,16 +12,17 @@ import javax.persistence.*;
 @Entity
 @Table(name = "answer")
 public class Answer {
-    private int id;
+    private Integer id;
     private String content;
     private User user;
     private Title title;
     private Boolean correct;
+    private Boolean select;
 
     @Id
     @Column(name = "id")
     @GeneratedValue
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -89,10 +90,25 @@ public class Answer {
     @Basic
     @Column(name = "correct")
     public Boolean isCorrect() {
+        if (correct == null) {
+            correct = false;
+        }
         return correct;
     }
 
     public void setCorrect(Boolean correct) {
         this.correct = correct;
+    }
+
+    @Transient
+    public Boolean getSelect() {
+        if (select == null) {
+            select = false;
+        }
+        return select;
+    }
+
+    public void setSelect(Boolean select) {
+        this.select = select;
     }
 }

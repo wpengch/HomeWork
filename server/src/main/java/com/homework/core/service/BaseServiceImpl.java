@@ -3,6 +3,7 @@ package com.homework.core.service;
 
 import com.homework.core.dao.BaseDao;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,6 +15,16 @@ public abstract class BaseServiceImpl<T,ID> implements BaseService<T, ID> {
     @Override
     public ID create(T entity) {
         return getDao().create(entity);
+    }
+
+    @Override
+    public void creates(T... entities) {
+         getDao().creates(entities);
+    }
+
+    @Override
+    public void creates(Collection<T> entities) {
+        getDao().creates(entities);
     }
 
     @Override

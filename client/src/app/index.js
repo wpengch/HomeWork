@@ -53,9 +53,9 @@
                 return model;
             } else {
                 if (header) {
-                    if(header.rc === 1 && location.hash !== '#/') {
-                        location.href = "/";
-                    }
+//                    if(header.rc === 1 && location.hash !== '#/') {
+//                        location.href = "/";
+//                    }
                     deferred.reject(header);
                 } else {
                     deferred.reject(data.header);

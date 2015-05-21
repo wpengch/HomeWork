@@ -59,7 +59,7 @@ public class UserController extends BaseControllerImpl<User, String> {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/work")
-    public Result getWorks(@PathVariable("id") String userId) {
+    public Result getWorks(@PathVariable("id") String userId,@RequestParam(value = "status", required = false, defaultValue = "0")Integer status) {
         return Result.getResult(() -> {
             List<Arrange> arranges = arrangeService.getAll();
             List<Course> courses = courseService.getAll();

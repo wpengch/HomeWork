@@ -1,5 +1,6 @@
 package com.homework.core.dao;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,6 +9,10 @@ import java.util.List;
  */
 public interface BaseDao<T, ID> {
     ID create(T entity);
+
+    void creates(T ...entities);
+
+    void creates(Collection<T> entities);
 
     boolean delete(T entity);
 

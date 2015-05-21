@@ -5,13 +5,13 @@
     </md-toolbar>
     <div >
         <div layout="column" ng-repeat="title in vm.arranges">
-            <a ng-href="/#/main/work/info?id={{title.id}}" class="link container-padding" flex>
+            <a ng-href="/#/main/work/correct?id={{title.id}}" class="link container-padding" flex>
                 <div layout="row" layout-align="center center">
                     <h3>{{$index+1}}</h3>
                     <span class="split-30"></span>
                     <div layout="row" layout-align="center center" flex>
                         <span flex><h2>{{title.arrange.name}}</h2></span>
-                        <label>教师: {{title.teach.name}}</label>
+                        <label>学生: {{title.user.name}}</label>
                     </div>
                 </div>
             </a>
