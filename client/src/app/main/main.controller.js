@@ -28,6 +28,8 @@
     vm.toggleOpen = toggleOpen;
     vm.autoFocusContent = false;
     vm.goSelect = goSelect;
+    vm.quit = quit;
+    vm.change = change;
 
     var mainContentArea = document.querySelector("[role='main']");
 
@@ -35,6 +37,16 @@
     ////////////////////////////////////////////////
     ////////////下面为私有函数定义////////////////////
     ////////////////////////////////////////////////
+
+
+    function quit() {
+      $state.go('login');
+    }
+
+    function change() {
+      $state.go('main.change');
+
+    }
 
     /**
      * 启动逻辑逻辑

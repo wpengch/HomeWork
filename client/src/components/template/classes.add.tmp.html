@@ -2,17 +2,17 @@
   <md-whiteframe layout="column" flex="30">
     <div class="md-padding">
       <md-input-container class="add-edit">
-        <label>学校名称</label>
+        <label>班级名称</label>
         <input required ng-model="vm.department.name" type="text">
         <div ng-messages="vm.addForm.department.name.$error">
-          <div ng-message="required">学校名称不能为空</div>
+          <div ng-message="required">班级名称不能为空</div>
         </div>
       </md-input-container>
       <md-input-container class="add-edit">
-        <label>学校地址</label>
+        <label>班级地址</label>
         <input required ng-model="vm.department.address" type="text">
         <div ng-messages="vm.addForm.department.address.$error">
-          <div ng-message="required">学校地址不能为空</div>
+          <div ng-message="required">班级地址不能为空</div>
         </div>
       </md-input-container>
     </div>

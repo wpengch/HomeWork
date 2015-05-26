@@ -160,7 +160,7 @@
          */
         function addDepartment(scope) {
             if (!scope) {
-                $state.go('main.dep.add', {typeId: '1', depId: null});
+                $state.go('main.dep.add', {typeId: '1', depId: undefined});
             } else {
                 var dep = scope.$modelValue;
                 $state.go('main.dep.add', {typeId: vm.type, depId: dep.id});

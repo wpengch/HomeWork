@@ -153,3 +153,5 @@
   return JSOG;
 
 }).call(this);
+
+//JSON.stringify = JSOG.stringify;

@@ -18,6 +18,15 @@
 
     <md-content flex role="navigation">
       <ul class="docs-menu">
+        <div layout="column" layout-align="center center" style="background-color: #f0f0f0">
+          <p>{{self.name}}</p>
+          <div layout="row" layout-align="center center">
+            <md-button ng-click="vm.quit()">退出系统</md-button>
+            <md-button ng-click="vm.change()">修改个人资料</md-button>
+          </div>
+        </div>
+
+
         <li ng-repeat="section in vm.sections"  class="parent-list-item"
             ng-class="{'parentActive' : vm.isSectionSelected(section)}">
           <h2 class="menu-heading" ng-if="section.type === 'heading'" id="heading_{{ section.name | nospace}}">

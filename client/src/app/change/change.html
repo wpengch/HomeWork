@@ -1,0 +1,24 @@
+<form name="vm.addForm">
+    <md-content class="md-padding">
+        <md-toolbar layout="row">
+            <div flex style="width: 50px;">修改个人资料</div>
+            <md-button class="button-ctrl" ng-click="vm.submit($event)" ng-if="vm.addForm.$valid">保存</md-button>
+            <md-button class="button-ctrl" ng-click="back('main.desktop')">取消</md-button>
+        </md-toolbar>
+        <md-list flex class="change-userinfo">
+            <md-item>
+                <md-input-container>
+                    <label align="left">姓名</label>
+                    <input ng-model="vm.user.name"/>
+                </md-input-container>
+                <md-select ng-model="vm.user.sex" placeholder="性别" style="margin: 0;display: block;height: 46px;">
+                    <md-option data-ng-value="sex.id" ng-repeat="sex in Config.Sexes">{{sex.name}}</md-option>
+                </md-select>
+                <md-input-container>
+                    <label align="left">现居地址</label>
+                    <input ng-model="vm.user.address" placeholder="请填写现居地址">
+                </md-input-container>
+            </md-item>
+        </md-list>
+    </md-content>
+</form>
