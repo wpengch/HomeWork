@@ -46,7 +46,7 @@
 
     function reload() {
       var deferred = $q.defer();
-      Restangular.all('menu').getList()
+      Restangular.all('menu').getList({user:$rootScope.getSelfId()})
           .then(function (data) {
             factory.sections = data;
             deferred.resolve(0);
