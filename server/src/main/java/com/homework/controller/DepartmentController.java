@@ -42,7 +42,8 @@ public class DepartmentController extends BaseControllerImpl<Department,Integer>
     @RequestMapping(value = "/{depId}/user")
     public Result getUsersByDepId(@PathVariable("depId") int depId) {
         return Result.getResult(() -> {
-            List<Department> departments = departmentService.departmentTree();
+            List<Department> departments = departmentService.getAll();
+//            List<Department> departments = departmentService.departmentTree();
             List<Department> results = new ArrayList<>(departments);
             Department department = null;
             while (results.size() > 0) {
