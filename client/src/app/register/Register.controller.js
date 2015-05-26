@@ -9,13 +9,13 @@
 
     angular.module('home').controller('RegisterController', RegisterController);
 
-    RegisterController.$inject = ['$log', 'Config', '$timeout','$stateParams','Restangular','DialogFactory','md5Factory'];
+    RegisterController.$inject = ['$log', '$state', '$timeout','$stateParams','Restangular','DialogFactory','md5Factory'];
 
-    function RegisterController($log, Config, $timeout,$stateParams,Restangular,DialogFactory,md5Factory) {
+    function RegisterController($log, $state, $timeout,$stateParams,Restangular,DialogFactory,md5Factory) {
         //接口定义
         var vm = this;
         vm.user = {
-            type:$stateParams.type
+            type:$stateParams.type === '0' ? 0 : 1
         };
         vm.submit = submit;
         vm.ssn = vm.user.type == 0 ? '学号' : '教师编号';

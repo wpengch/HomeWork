@@ -21,7 +21,7 @@
         if(vm.type !== 4) {
             param.type = 1;
         }
-        vm.users = Restangular.all('user').getList(param).$object;
+        vm.users = Restangular.all('user').getList().$object;
         vm.updateUser = updateUser;
         vm.cancel = cancel;
 

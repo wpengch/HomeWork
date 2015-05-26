@@ -35,6 +35,13 @@ public class UserArrangeController extends BaseControllerImpl<UserArrange, Integ
 
     @Override
     @ResponseBody
+    @RequestMapping(method = RequestMethod.POST)
+    public Result create(@RequestBody UserArrange entity) {
+        return super.create(entity);
+    }
+
+    @Override
+    @ResponseBody
     @RequestMapping(value = "/{id}/respondent")
     public Result getById(@PathVariable("id") Integer integer) {
         return Result.getResult(() -> {

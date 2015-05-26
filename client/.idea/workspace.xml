@@ -2,156 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="126c170d-910a-4a7f-a221-34d766d91c1c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../server/src/main/webapp/scripts/app-6f95f3d9.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/utils/encrypt/AES.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/utils/encrypt/AES.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/interceptor/AcrossDomainFilter.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/interceptor/AcrossDomainFilter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/test/test/com/homework/AppTests.class" afterPath="$PROJECT_DIR$/../server/out/test/test/com/homework/AppTests.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/interceptor/AuthInterceptor.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/interceptor/AuthInterceptor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/controller/AuthenticationController.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/controller/AuthenticationController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/controller/BaseController.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/controller/BaseController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/controller/BaseControllerImpl.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/controller/BaseControllerImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/dao/BaseDao.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/dao/BaseDao.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/dao/BaseDaoImpl.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/dao/BaseDaoImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/constant/BaseException.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/constant/BaseException.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/service/BaseService.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/service/BaseService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/service/BaseServiceImpl.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/service/BaseServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/utils/CollectionUtil$TreeHelper.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/utils/CollectionUtil$TreeHelper.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/utils/CollectionUtil.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/utils/CollectionUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/entity/Course.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/entity/Course.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/utils/DateUtil.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/utils/DateUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/entity/Department.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/entity/Department.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/controller/DepartmentController.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/controller/DepartmentController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/dao/DepartmentDao.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/dao/DepartmentDao.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/service/DepartmentService$1.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/service/DepartmentService$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/service/DepartmentService.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/service/DepartmentService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/Header.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/Header.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/test/test/com/homework/HibernateUtil.class" afterPath="$PROJECT_DIR$/../server/out/test/test/com/homework/HibernateUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/IResult.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/IResult.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/constant/LocalConstant.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/constant/LocalConstant.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/utils/encrypt/MD5.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/utils/encrypt/MD5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/entity/Menu.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/entity/Menu.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/controller/MenuController.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/controller/MenuController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/dao/MenuDao.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/dao/MenuDao.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/service/MenuService$1.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/service/MenuService$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/service/MenuService.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/service/MenuService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/utils/encrypt/ParseHexStr.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/utils/encrypt/ParseHexStr.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/test/test/com/homework/PersistenceTest.class" afterPath="$PROJECT_DIR$/../server/out/test/test/com/homework/PersistenceTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/Result.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/core/Result.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/constant/Return$Code.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/constant/Return$Code.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/constant/Return$Message.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/constant/Return$Message.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/constant/Return.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/common/constant/Return.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/entity/Subject.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/entity/Subject.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/controller/TreeController.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/controller/TreeController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/entity/User.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/entity/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/controller/UserController.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/controller/UserController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/dao/UserDao.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/dao/UserDao.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/com/homework/service/UserService.class" afterPath="$PROJECT_DIR$/../server/out/production/main/com/homework/service/UserService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/fonts/fontawesome-webfont.eot" afterPath="$PROJECT_DIR$/../server/src/main/webapp/fonts/fontawesome-webfont.eot" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/fonts/fontawesome-webfont.ttf" afterPath="$PROJECT_DIR$/../server/src/main/webapp/fonts/fontawesome-webfont.ttf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/fonts/fontawesome-webfont.woff2" afterPath="$PROJECT_DIR$/../server/src/main/webapp/fonts/fontawesome-webfont.woff2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/fonts/fontawesome-webfont.woff" afterPath="$PROJECT_DIR$/../server/src/main/webapp/fonts/fontawesome-webfont.woff" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/fonts/glyphicons-halflings-regular.eot" afterPath="$PROJECT_DIR$/../server/src/main/webapp/fonts/glyphicons-halflings-regular.eot" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/fonts/glyphicons-halflings-regular.ttf" afterPath="$PROJECT_DIR$/../server/src/main/webapp/fonts/glyphicons-halflings-regular.ttf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/fonts/glyphicons-halflings-regular.woff2" afterPath="$PROJECT_DIR$/../server/src/main/webapp/fonts/glyphicons-halflings-regular.woff2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/fonts/glyphicons-halflings-regular.woff" afterPath="$PROJECT_DIR$/../server/src/main/webapp/fonts/glyphicons-halflings-regular.woff" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/utils/encrypt/AES.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/utils/encrypt/AES.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/interceptor/AcrossDomainFilter.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/interceptor/AcrossDomainFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Answer.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Answer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/AnswerAdd.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/AnswerAdd.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/AnswerController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/AnswerController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/AnswerDao.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/AnswerDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/AnswerService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/AnswerService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/test/java/com/homework/AppTests.java" afterPath="$PROJECT_DIR$/../server/src/test/java/com/homework/AppTests.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Arrange.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Arrange.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/ArrangeController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/ArrangeController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/ArrangeDao.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/ArrangeDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/ArrangeService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/ArrangeService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/interceptor/AuthInterceptor.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/interceptor/AuthInterceptor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/AuthenticationController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/AuthenticationController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/controller/BaseController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/controller/BaseController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/controller/BaseControllerImpl.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/controller/BaseControllerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/dao/BaseDao.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/dao/BaseDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/dao/BaseDaoImpl.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/dao/BaseDaoImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/constant/BaseException.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/constant/BaseException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/service/BaseService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/service/BaseService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/service/BaseServiceImpl.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/service/BaseServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/BigTitle.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/BigTitle.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/BigTitleController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/BigTitleController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/BigTitleDao.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/BigTitleDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/BigTitleService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/BigTitleService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/utils/CollectionUtil.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/utils/CollectionUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Course.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Course.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/CourseController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/CourseController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/CourseDao.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/CourseDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/CourseService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/CourseService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/utils/DateUtil.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/utils/DateUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Department.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Department.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/DepartmentController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/DepartmentController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/DepartmentDao.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/DepartmentDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/DepartmentService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/DepartmentService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Examination.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Examination.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/ExaminationController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/ExaminationController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/ExaminationDao.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/ExaminationDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/ExaminationService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/ExaminationService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/Header.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/Header.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/extend/HibernateObjectMapper.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/extend/HibernateObjectMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/test/java/com/homework/HibernateUtil.java" afterPath="$PROJECT_DIR$/../server/src/test/java/com/homework/HibernateUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/IResult.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/IResult.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/constant/LocalConstant.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/constant/LocalConstant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/utils/encrypt/MD5.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/utils/encrypt/MD5.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/factory/Menu.factory.js" afterPath="$PROJECT_DIR$/src/components/factory/Menu.factory.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Menu.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Menu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/MenuController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/MenuController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/MenuDao.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/MenuDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/MenuService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/MenuService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/utils/encrypt/ParseHexStr.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/utils/encrypt/ParseHexStr.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/test/java/com/homework/PersistenceTest.java" afterPath="$PROJECT_DIR$/../server/src/test/java/com/homework/PersistenceTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Respondent.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Respondent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/RespondentController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/RespondentController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/RespondentDao.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/RespondentDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/RespondentService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/RespondentService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/Result.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/core/Result.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/constant/Return.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/common/constant/Return.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Subject.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Subject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Title.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/Title.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/TitleAdd.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/TitleAdd.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/TitleController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/TitleController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/TitleDao.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/TitleDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/TitleService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/TitleService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/TreeController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/TreeController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/User.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/UserArrange.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/entity/UserArrange.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/course/list/CourseList.controller.js" afterPath="$PROJECT_DIR$/src/app/course/list/CourseList.controller.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/register/Register.controller.js" afterPath="$PROJECT_DIR$/src/app/register/Register.controller.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/user/add/UserAdd.controller.js" afterPath="$PROJECT_DIR$/src/app/user/add/UserAdd.controller.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/UserArrangeController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/UserArrangeController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/UserArrangeDao.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/UserArrangeDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/UserArrangeService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/UserArrangeService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/UserController.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/controller/UserController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/UserDao.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/dao/UserDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/UserService.java" afterPath="$PROJECT_DIR$/../server/src/main/java/com/homework/service/UserService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/styles/app-665bf6e0.css" afterPath="$PROJECT_DIR$/../server/src/main/webapp/styles/app-665bf6e0.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/c3p0.properties" afterPath="$PROJECT_DIR$/../server/out/production/main/c3p0.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/constants/config-constants.js" afterPath="$PROJECT_DIR$/src/components/constants/config-constants.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/fonts/fontawesome-webfont.svg" afterPath="$PROJECT_DIR$/../server/src/main/webapp/fonts/fontawesome-webfont.svg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/fonts/glyphicons-halflings-regular.svg" afterPath="$PROJECT_DIR$/../server/src/main/webapp/fonts/glyphicons-halflings-regular.svg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/hibernate.properties" afterPath="$PROJECT_DIR$/../server/out/production/main/hibernate.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/test/test/hibernate.properties" afterPath="$PROJECT_DIR$/../server/out/test/test/hibernate.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/resources/hibernate.properties" afterPath="$PROJECT_DIR$/../server/src/main/resources/hibernate.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/home.sql" afterPath="$PROJECT_DIR$/../server/out/production/main/home.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/resources/home.sql" afterPath="$PROJECT_DIR$/../server/src/main/resources/home.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/work/corrects/corrects.html" afterPath="$PROJECT_DIR$/src/app/work/corrects/corrects.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/../server/src/main/webapp/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/log4j.xml" afterPath="$PROJECT_DIR$/../server/out/production/main/log4j.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/resources/log4j.xml" afterPath="$PROJECT_DIR$/../server/src/main/resources/log4j.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/main.iml" afterPath="$PROJECT_DIR$/../server/src/main/main.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/main1.iml" afterPath="$PROJECT_DIR$/../server/src/main/main1.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/mchange-log.properties" afterPath="$PROJECT_DIR$/../server/out/production/main/mchange-log.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml" afterPath="$PROJECT_DIR$/../server/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/pom.xml" afterPath="$PROJECT_DIR$/../server/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/out/production/main/spring-core.xml" afterPath="$PROJECT_DIR$/../server/out/production/main/spring-core.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/resources/spring-core.xml" afterPath="$PROJECT_DIR$/../server/src/main/resources/spring-core.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/test/test.iml" afterPath="$PROJECT_DIR$/../server/src/test/test.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/test/test1.iml" afterPath="$PROJECT_DIR$/../server/src/test/test1.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/scripts/vendor-4f48cc9f.js" afterPath="$PROJECT_DIR$/../server/src/main/webapp/scripts/vendor-4f48cc9f.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/styles/vendor-ba664d3e.css" afterPath="$PROJECT_DIR$/../server/src/main/webapp/styles/vendor-ba664d3e.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../server/src/main/webapp/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/../server/src/main/webapp/WEB-INF/web.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/dlg/selectTitle/selectTitleCtrl.controller.js" afterPath="$PROJECT_DIR$/src/components/dlg/selectTitle/selectTitleCtrl.controller.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="client.iws" />
@@ -173,94 +35,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="history.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/work/history/history.html">
+      <file leaf-file-name="UserAdd.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/user/add/UserAdd.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="2" column="45" selection-start-line="2" selection-start-column="45" selection-end-line="2" selection-end-column="45" />
-              <folding>
-                <element signature="n#style#0;n#h3#1;n#div#0;n#div#0;n#div#0;n#form#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#3;n#div#0;n#form#0;n#!!top" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="-10.645162">
+              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="histories.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/work/histories/histories.html">
+      <file leaf-file-name="UserAdd.controller.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/user/add/UserAdd.controller.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+              <caret line="19" column="38" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="corrects.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/work/corrects/corrects.html">
+      <file leaf-file-name="Register.controller.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/register/Register.controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.741936">
-              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="submits.controller.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/work/submits/submits.controller.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="work.controller.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/work/work.controller.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="submits.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/work/submits/submits.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="workList.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/work/list/workList.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="20" column="31" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.controller.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/main/main.controller.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="23" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config-constants.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/constants/config-constants.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6292135">
-              <caret line="240" column="15" selection-start-line="240" selection-start-column="15" selection-end-line="240" selection-end-column="15" />
+            <state vertical-scroll-proportion="0.59325844">
+              <caret line="39" column="30" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -281,9 +80,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/index.html" />
-        <option value="$PROJECT_DIR$/src/components/dlg/list.add.dlg.html" />
-        <option value="$PROJECT_DIR$/src/app/course/student/StudentList.controller.js" />
         <option value="$PROJECT_DIR$/src/app/title/Title.controller.js" />
         <option value="$PROJECT_DIR$/src/app/title/info/TitleInfo.controller.js" />
         <option value="$PROJECT_DIR$/src/app/title/list/TitleList.html" />
@@ -305,7 +101,6 @@
         <option value="$PROJECT_DIR$/src/app/exam/info/examInfo.html" />
         <option value="$PROJECT_DIR$/src/components/dlg/arrange/dlg.tmp.html" />
         <option value="$PROJECT_DIR$/src/components/dlg/arrange/dlg.arrange.html" />
-        <option value="$PROJECT_DIR$/src/components/dlg/selectTitle/selectTitleCtrl.controller.js" />
         <option value="$PROJECT_DIR$/src/components/dlg/arrange/arrangeCtrl.controller.js" />
         <option value="$PROJECT_DIR$/src/components/extends/array.extend.js" />
         <option value="$PROJECT_DIR$/src/app/work/work.controller.js" />
@@ -329,9 +124,13 @@
         <option value="$PROJECT_DIR$/src/app/work/list/workList.html" />
         <option value="$PROJECT_DIR$/src/app/work/submits/submits.html" />
         <option value="$PROJECT_DIR$/src/app/work/histories/histories.html" />
-        <option value="$PROJECT_DIR$/src/app/work/corrects/corrects.html" />
         <option value="$PROJECT_DIR$/src/components/factory/Menu.factory.js" />
         <option value="$PROJECT_DIR$/src/components/constants/config-constants.js" />
+        <option value="$PROJECT_DIR$/src/app/register/Register.controller.js" />
+        <option value="$PROJECT_DIR$/src/app/course/list/CourseList.controller.js" />
+        <option value="$PROJECT_DIR$/src/components/dlg/selectTitle/selectTitleCtrl.controller.js" />
+        <option value="$PROJECT_DIR$/src/app/work/corrects/corrects.html" />
+        <option value="$PROJECT_DIR$/src/app/user/add/UserAdd.controller.js" />
       </list>
     </option>
   </component>
@@ -485,6 +284,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -890,6 +690,76 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="user" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="user" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="add" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="register" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -942,9 +812,108 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="course" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="course" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="student" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="course" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="list" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="course" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="add" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1051,14 +1020,14 @@
     <editor active="false" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22339527" sideWeight="0.28225806" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26006314" sideWeight="0.7177419" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26006314" sideWeight="0.7177419" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32618827" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2548387" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2548387" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1094,59 +1063,11 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/components/filter/newType.filter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/filter/humanizeDoc.filter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/filter/userItem.filter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/filter/userName.filter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bower_components/angular-animate/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/main/main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.544458">
-          <caret line="60" column="18" selection-start-line="60" selection-start-column="18" selection-end-line="60" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/filter/default.filter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/exam/add/examAdd.controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.3024977">
           <caret line="76" column="63" selection-start-line="76" selection-start-column="63" selection-end-line="76" selection-end-column="63" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1221,13 +1142,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/dlg/selectTitle/selectTitleCtrl.controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24421832">
-          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/dlg/arrange/arrangeCtrl.controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1277,13 +1191,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/work/list/workList.controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="19" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/factory/Dialog.factory.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-14.96">
@@ -1312,13 +1219,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/work/submit/submit.controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="10" selection-start-line="42" selection-start-column="10" selection-end-line="42" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/index.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2086331">
@@ -1333,31 +1233,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/work/correct/correct.controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51910114">
-          <caret line="21" column="38" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/work/history/history.controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7168539">
           <caret line="29" column="83" selection-start-line="29" selection-start-column="83" selection-end-line="29" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/work/correct/correct.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1024447">
-          <caret line="4" column="38" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/work/submit/submit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7683353">
-          <caret line="80" column="88" selection-start-line="80" selection-start-column="88" selection-end-line="80" selection-end-column="88" />
         </state>
       </provider>
     </entry>
@@ -1372,7 +1251,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="41" column="9" selection-start-line="41" selection-start-column="9" selection-end-line="41" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1380,23 +1258,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="31" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/work/submits/submits.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/work/list/workList.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="31" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1405,8 +1266,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="2" column="45" selection-start-line="2" selection-start-column="45" selection-end-line="2" selection-end-column="45" />
           <folding>
-            <element signature="n#style#0;n#h3#1;n#div#0;n#div#0;n#div#0;n#form#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#3;n#div#0;n#form#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#h3#1;n#div#0;n#div#0;n#div#0;n#form#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#2;n#div#0;n#div#3;n#div#0;n#form#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1419,27 +1280,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/work/corrects/corrects.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.741936">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/work/submits/submits.controller.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../server/src/main/webapp/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.64144355">
           <caret line="31" column="54" selection-start-line="31" selection-start-column="54" selection-end-line="31" selection-end-column="54" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1447,6 +1291,37 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.72808987">
           <caret line="62" column="25" selection-start-line="62" selection-start-column="25" selection-end-line="62" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/constants/config-constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="229" column="34" selection-start-line="229" selection-start-column="34" selection-end-line="229" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/course/add/CourseAdd.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.8387096">
+          <caret line="4" column="39" selection-start-line="4" selection-start-column="39" selection-end-line="4" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/course/add/CourseAdd.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/course/list/CourseList.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="34" selection-start-line="38" selection-start-column="34" selection-end-line="38" selection-end-column="34" />
           <folding />
         </state>
       </provider>
@@ -1454,15 +1329,119 @@
     <entry file="file://$PROJECT_DIR$/src/app/main/main.controller.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="23" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
+          <caret line="52" column="28" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/constants/config-constants.js">
+    <entry file="file://$PROJECT_DIR$/src/app/course/Course.controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6292135">
-          <caret line="240" column="15" selection-start-line="240" selection-start-column="15" selection-end-line="240" selection-end-column="15" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/dlg/selectTitle/selectTitleCtrl.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/work/correct/correct.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.51910114">
+          <caret line="21" column="38" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/work/correct/correct.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3329453">
+          <caret line="13" column="57" selection-start-line="13" selection-start-column="57" selection-end-line="13" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/work/list/workList.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18426967">
+          <caret line="17" column="19" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/work/list/workList.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.51222354">
+          <caret line="20" column="31" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/work/submit/submit.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0247191">
+          <caret line="42" column="10" selection-start-line="42" selection-start-column="10" selection-end-line="42" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/work/submit/submit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.0488942">
+          <caret line="80" column="88" selection-start-line="80" selection-start-column="88" selection-end-line="80" selection-end-column="88" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/work/submits/submits.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.193548">
+          <caret line="20" column="25" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/work/submits/submits.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.59325844">
+          <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/work/corrects/corrects.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.48661235">
+          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/user/add/UserAdd.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="38" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/user/add/UserAdd.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.645162">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/register/Register.controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.59325844">
+          <caret line="39" column="30" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
           <folding />
         </state>
       </provider>

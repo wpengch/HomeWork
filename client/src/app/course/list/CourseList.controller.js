@@ -30,7 +30,6 @@
         }
 
         function addCourse(ev) {
-
             $mdDialog.show({
                 templateUrl: 'components/dlg/course.add.dlg.html',
                 disableParentScroll: true,
@@ -40,7 +39,7 @@
                 controllerAs: 'vm'
             }).then(function (data) {
                 if (data) {
-                    data.teach = vm.user;
+                    data.teach = {id: vm.user.id};
                     $rootScope.showProgress("正在添加课程", ev);
                     Restangular.all('course').customPOST(data)
                         .then(function (data) {

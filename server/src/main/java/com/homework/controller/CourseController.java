@@ -29,6 +29,12 @@ public class CourseController extends BaseControllerImpl<Course, Integer> implem
         return (D) courseService;
     }
 
+    @Override
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST)
+    public Result create(@RequestBody Course entity) {
+        return super.create(entity);
+    }
 
     @ResponseBody
     @RequestMapping(value = "/{id}/student/{stuId}", method = RequestMethod.DELETE)

@@ -40,6 +40,13 @@ public class UserController extends BaseControllerImpl<User, String> {
         return (D) userService;
     }
 
+    @Override
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST)
+    public Result create(@RequestBody User entity) {
+        return super.create(entity);
+    }
+
     @RequestMapping(method = RequestMethod.PUT)
     public Result updateUsers(@RequestBody List<User> userList) {
         return Result.getResult(() -> {

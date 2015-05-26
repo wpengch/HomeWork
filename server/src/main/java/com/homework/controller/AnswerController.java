@@ -6,8 +6,7 @@ import com.homework.core.controller.BaseControllerImpl;
 import com.homework.core.service.BaseService;
 import com.homework.entity.Answer;
 import com.homework.service.AnswerService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -22,5 +21,12 @@ public class AnswerController extends BaseControllerImpl<Answer,Integer> impleme
     @Override
     public <D extends BaseService<Answer, Integer>> D getService() {
         return (D) answerService;
+    }
+
+    @Override
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST)
+    public Result create(@RequestBody Answer entity) {
+        return super.create(entity);
     }
 }
