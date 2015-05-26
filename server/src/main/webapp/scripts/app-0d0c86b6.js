@@ -584,7 +584,7 @@ if(!selectTitleCtrl) {
         //接口定义
         var vm = this;
         vm.titles = titles;
-        courseSelectedvm.selects = [];
+        vm.selects = [];
         angular.forEach(vm.titles, function () {
             vm.selects.push(false);
         });
@@ -607,6 +607,34 @@ if(!selectTitleCtrl) {
         };
     }
 }
+
+var module = angular.module('home');
+
+module.directive('menuToggle', function () {
+  return {
+    scope: {
+      section: '='
+    },
+    templateUrl:'components/directive/menuToggle/menu-toggle.tmpl.html',
+    link:function($scope,$element) {
+      var controller = $element.parent().controller();
+
+      $scope.isOpen = function () {
+        return controller.isOpen($scope.section);
+      };
+
+      $scope.toggle = function () {
+        controller.toggleOpen($scope.section);
+      };
+
+      var parentNode = $element[0].parentNode.parentNode.parentNode;
+      if(parentNode.classList.contains("parent-list-item")) {
+        var heading = parentNode.querySelector('h2');
+        $element[0].firstChild.setAttribute('aria-describedby', heading.id);
+      }
+    }
+  };
+});
 
 /**
  * 创建人：luqiao
@@ -656,34 +684,6 @@ if(!arrangeCtrl) {
     }
 }
 
-var module = angular.module('home');
-
-module.directive('menuToggle', function () {
-  return {
-    scope: {
-      section: '='
-    },
-    templateUrl:'components/directive/menuToggle/menu-toggle.tmpl.html',
-    link:function($scope,$element) {
-      var controller = $element.parent().controller();
-
-      $scope.isOpen = function () {
-        return controller.isOpen($scope.section);
-      };
-
-      $scope.toggle = function () {
-        controller.toggleOpen($scope.section);
-      };
-
-      var parentNode = $element[0].parentNode.parentNode.parentNode;
-      if(parentNode.classList.contains("parent-list-item")) {
-        var heading = parentNode.querySelector('h2');
-        $element[0].firstChild.setAttribute('aria-describedby', heading.id);
-      }
-    }
-  };
-});
-
 /**
  *
  * @type {module}
@@ -713,6 +713,39 @@ module.directive('menuLink', function () {
   };
 });
 
+
+/**
+ * 创建人：pengchao
+ * 创建时间：2015-3-23-0023
+ * 工厂名字：SubmitsCtrl
+ * 作用：管理部门列表控制器
+ */
+(function () {
+    'use strict';
+
+    angular.module('home').controller('SubmitsCtrl', SubmitsCtrl);
+
+    SubmitsCtrl.$inject = ['$log', 'Config', '$state', 'Restangular', 'DialogFactory', '$mdDialog', '$rootScope'];
+
+    function SubmitsCtrl($log, Config, $state, Restangular, DialogFactory, $mdDialog, $rootScope) {
+        //接口定义
+        var vm = this;
+        vm.arranges = Restangular.all('userarrange').getList({user:$rootScope.getSelfId(), status:1}).$object;
+        activate();
+        ////////////////////////////////////////////////
+        ////////////下面为私有函数定义////////////////////
+        ////////////////////////////////////////////////
+
+        /**
+         * 启动逻辑逻辑
+         */
+        function activate() {
+            $log.info('加载SubmitsCtrl');
+        }
+
+    }
+
+})();
 
 /**
  * 创建人：pengchao
@@ -812,39 +845,6 @@ module.directive('menuLink', function () {
 
             return {answers: answers, unAnswers: unAnswers};
         }
-    }
-
-})();
-
-/**
- * 创建人：pengchao
- * 创建时间：2015-3-23-0023
- * 工厂名字：SubmitsCtrl
- * 作用：管理部门列表控制器
- */
-(function () {
-    'use strict';
-
-    angular.module('home').controller('SubmitsCtrl', SubmitsCtrl);
-
-    SubmitsCtrl.$inject = ['$log', 'Config', '$state', 'Restangular', 'DialogFactory', '$mdDialog', '$rootScope'];
-
-    function SubmitsCtrl($log, Config, $state, Restangular, DialogFactory, $mdDialog, $rootScope) {
-        //接口定义
-        var vm = this;
-        vm.arranges = Restangular.all('userarrange').getList({user:$rootScope.getSelfId(), status:1}).$object;
-        activate();
-        ////////////////////////////////////////////////
-        ////////////下面为私有函数定义////////////////////
-        ////////////////////////////////////////////////
-
-        /**
-         * 启动逻辑逻辑
-         */
-        function activate() {
-            $log.info('加载SubmitsCtrl');
-        }
-
     }
 
 })();
@@ -1389,7 +1389,7 @@ module.directive('menuLink', function () {
         if(vm.type !== 4) {
             param.type = 1;
         }
-        vm.users = Restangular.all('user').getList(param).$object;
+        vm.users = Restangular.all('user').getList().$object;
         vm.updateUser = updateUser;
         vm.cancel = cancel;
 
@@ -2408,6 +2408,44 @@ module.directive('menuLink', function () {
 /**
  * 创建人：pengchao
  * 创建时间：2015-3-23-0023
+ * 工厂名字：CourseAddCtrl
+ * 作用：管理部门列表控制器
+ */
+(function () {
+    'use strict';
+
+    angular.module('home').controller('CourseAddCtrl', CourseAddCtrl);
+
+    CourseAddCtrl.$inject = ['$log', 'Config', '$state', 'Restangular', 'DialogFactory', '$timeout', '$rootScope'];
+
+    function CourseAddCtrl($log, Config, $state, Restangular, DialogFactory, $timeout, $rootScope) {
+        //接口定义
+        var vm = this;
+        vm.courses = Restangular.one('user', $rootScope.getSelfId()).all('course').getList().$object;
+        vm.addCourse = addCourse;
+
+        activate();
+        ////////////////////////////////////////////////
+        ////////////下面为私有函数定义////////////////////
+        ////////////////////////////////////////////////
+
+        /**
+         * 启动逻辑逻辑
+         */
+        function activate() {
+            $log.info('加载CourseAddCtrl');
+        }
+
+        function addCourse(ev) {
+
+        }
+    }
+
+})();
+
+/**
+ * 创建人：pengchao
+ * 创建时间：2015-3-23-0023
  * 工厂名字：CourseListCtrl
  * 作用：管理部门列表控制器
  */
@@ -2437,7 +2475,6 @@ module.directive('menuLink', function () {
         }
 
         function addCourse(ev) {
-
             $mdDialog.show({
                 templateUrl: 'components/dlg/course.add.dlg.html',
                 disableParentScroll: true,
@@ -2447,7 +2484,7 @@ module.directive('menuLink', function () {
                 controllerAs: 'vm'
             }).then(function (data) {
                 if (data) {
-                    data.teach = vm.user;
+                    data.teach = {id: vm.user.id};
                     $rootScope.showProgress("正在添加课程", ev);
                     Restangular.all('course').customPOST(data)
                         .then(function (data) {
@@ -2479,44 +2516,6 @@ module.directive('menuLink', function () {
             vm.getShow = function (item) {
                 return item.name;
             };
-        }
-    }
-
-})();
-
-/**
- * 创建人：pengchao
- * 创建时间：2015-3-23-0023
- * 工厂名字：CourseAddCtrl
- * 作用：管理部门列表控制器
- */
-(function () {
-    'use strict';
-
-    angular.module('home').controller('CourseAddCtrl', CourseAddCtrl);
-
-    CourseAddCtrl.$inject = ['$log', 'Config', '$state', 'Restangular', 'DialogFactory', '$timeout', '$rootScope'];
-
-    function CourseAddCtrl($log, Config, $state, Restangular, DialogFactory, $timeout, $rootScope) {
-        //接口定义
-        var vm = this;
-        vm.courses = Restangular.one('user', $rootScope.getSelfId()).all('course').getList().$object;
-        vm.addCourse = addCourse;
-
-        activate();
-        ////////////////////////////////////////////////
-        ////////////下面为私有函数定义////////////////////
-        ////////////////////////////////////////////////
-
-        /**
-         * 启动逻辑逻辑
-         */
-        function activate() {
-            $log.info('加载CourseAddCtrl');
-        }
-
-        function addCourse(ev) {
-
         }
     }
 
@@ -5423,13 +5422,13 @@ module.directive('menuLink', function () {
 
     angular.module('home').controller('RegisterController', RegisterController);
 
-    RegisterController.$inject = ['$log', 'Config', '$timeout','$stateParams','Restangular','DialogFactory','md5Factory'];
+    RegisterController.$inject = ['$log', '$state', '$timeout','$stateParams','Restangular','DialogFactory','md5Factory'];
 
-    function RegisterController($log, Config, $timeout,$stateParams,Restangular,DialogFactory,md5Factory) {
+    function RegisterController($log, $state, $timeout,$stateParams,Restangular,DialogFactory,md5Factory) {
         //接口定义
         var vm = this;
         vm.user = {
-            type:$stateParams.type
+            type:$stateParams.type === '0' ? 0 : 1
         };
         vm.submit = submit;
         vm.ssn = vm.user.type == 0 ? '学号' : '教师编号';
@@ -5761,8 +5760,8 @@ angular.module("home").run(["$templateCache", function($templateCache) {$templat
 $templateCache.put("app/exam/exam.html","<div ui-view=\"\" class=\"content-padding\"></div>");
 $templateCache.put("app/dep/Department.html","<div ui-view=\"\" class=\"content-padding\"></div>");
 $templateCache.put("app/login/login.html","<div style=\"position:absolute;top:50%;left:50%;\"><div layout=\"row\" style=\"width:500px;height:230px;position: relative; margin:-115px auto auto -250px;\"><div flex=\"\" hide-sm=\"\" flex-order=\"1\" align=\"right\" layout-padding=\"\"><img src=\"../assets/images/img/login_01.png\" layout-padding=\"\"><div class=\"login-font\">作业管理系统</div><p class=\"login-font-p\">2015年田黄雪薇版权所有</p></div><div flex=\"\" flex-order=\"2\" align=\"center\"><form name=\"vm.loginForm\" layout=\"column\" layout-align=\"center center\"><md-input-container flex=\"\"><label align=\"left\">账号</label> <input required=\"\" ng-model=\"vm.user.userName\" placeholder=\"请输入用户名\"><div ng-messages=\"vm.loginForm.user.userName.$error\"><div ng-message=\"required\">账号不能为空</div></div></md-input-container><md-input-container flex=\"\"><label align=\"left\">密码</label> <input required=\"\" ng-model=\"vm.user.password\" type=\"password\" placeholder=\"请输入密码\"><div ng-messages=\"vm.loginForm.user.password.$error\"><div ng-message=\"required\">密码不能为空</div></div></md-input-container><md-button class=\"md-raised md-primary\" style=\"width: 175px;box-shadow: none;color:#fff\" ng-click=\"vm.login($event)\" flex=\"\">登陆</md-button></form><md-button ng-click=\"vm.stuRegister($event)\" style=\"margin-top: 20px;color: green;padding: 10px\">学生注册</md-button><md-button ng-click=\"vm.teacherRegister($event)\" style=\"margin-top: 20px;color: green;padding: 10px\">老师注册</md-button></div></div></div>");
-$templateCache.put("app/main/main.html","<section layout=\"row\" flex=\"\" class=\"body\"><md-sidenav class=\"site-sidenav md-sidenav-left md-whiteframe-z2\" md-component-id=\"left\" md-is-locked-open=\"$mdMedia(\'gt-sm\')\"><md-toolbar><h1 class=\"md-toolbar-tools\"><a ng-href=\"/\" layout=\"row\" flex=\"\" style=\"color:#fff\"><svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewbox=\"0 0 100 100\" enable-background=\"new 0 0 100 100\" xml:space=\"preserve\" style=\"width: 40px; height: 40px;\"><path d=\"M 50 0 L 100 14 L 92 80 L 50 100 L 8 80 L 0 14 Z\" fill=\"#b2b2b2\"></path><path d=\"M 50 5 L 6 18 L 13.5 77 L 50 94 Z\" fill=\"#E42939\"></path><path d=\"M 50 5 L 94 18 L 86.5 77 L 50 94 Z\" fill=\"#B72833\"></path><path d=\"M 50 7 L 83 75 L 72 75 L 65 59 L 50 59 L 50 50 L 61 50 L 50 26 Z\" fill=\"#b2b2b2\"></path><path d=\"M 50 7 L 17 75 L 28 75 L 35 59 L 50 59 L 50 50 L 39 50 L 50 26 Z\" fill=\"#fff\"></path></svg><div class=\"docs-logotype\">作业管理系统</div></a></h1></md-toolbar><md-content flex=\"\" role=\"navigation\"><ul class=\"docs-menu\"><li ng-repeat=\"section in vm.sections\" class=\"parent-list-item\" ng-class=\"{\'parentActive\' : vm.isSectionSelected(section)}\"><h2 class=\"menu-heading\" ng-if=\"section.type === \'heading\'\" id=\"heading_{{ section.name | nospace}}\">{{section.name}}</h2><menu-link section=\"section\" ng-if=\"section.type === \'link\'\"></menu-link><menu-toggle section=\"section\" ng-if=\"section.type === \'toggle\'\"></menu-toggle><ul ng-if=\"section.children\" class=\"menu-nested-list\"><li ng-repeat=\"child in section.children\" ng-class=\"{\'childActive\' : isSectionSelected(child)}\"><menu-toggle section=\"child\"></menu-toggle></li></ul></li></ul></md-content></md-sidenav><div layout=\"column\" tabindex=\"-1\" role=\"main\" flex=\"\"><md-toolbar><div class=\"md-toolbar-tools\" ng-click=\"vm.openMenu()\"><button class=\"docs-menu-icon\" hide-gt-sm=\"\" aria-label=\"Toggle Menu\"><md-icon md-svg-src=\"../assets/images/svg/ic_menu_24px.svg\"></md-icon></button><div layout=\"row\" flex=\"\" class=\"fill-height\"><div class=\"md-toolbar-item md-breadcrumb\" style=\"color: #fff\"><span ng-if=\"vm.menu.currentPage.name !== vm.menu.currentSection.name\"><span hide-sm=\"\" hide-md=\"\">{{vm.menu.currentSection.name}}</span> <span class=\"docs-menu-separator-icon\" style=\"\" hide-sm=\"\" hide-md=\"\"><img src=\"../assets/images/icons/docArrow.png\" alt=\"\" aria-hidden=\"true\">]</span></span> <span class=\"md-breadcrumb-page\">{{(vm.menu.currentPage) || \'OA\' }}</span></div><span flex=\"\"></span><div class=\"md-toolbar-item md-tools docs-tools\" layout=\"column\" layout-gt-md=\"row\"><div><img src=\"../assets/images/img/face.jpg\" class=\"face\" alt=\"这个是我自己\"></div></div></div></div></md-toolbar><md-content ui-view=\"\" md-scroll-y=\"\" flex=\"\" style=\"background: #eee;height: 100%\"></md-content></div></section>");
 $templateCache.put("app/register/Register.html","<md-content class=\"md-padding\" layout=\"column\" layout-align=\"center center\"><form name=\"vm.newForm\" layout=\"column\" layout-align=\"center center\"><md-input-container><label>账户</label> <input required=\"\" ng-model=\"vm.user.id\" placeholder=\"请输入账号\"></md-input-container><md-input-container><label>名字</label> <input required=\"\" ng-model=\"vm.user.name\" placeholder=\"请输入名字\"></md-input-container><md-input-container><label>{{vm.ssn}}</label> <input required=\"\" ng-model=\"vm.user.sn\" placeholder=\"请输入编号\"></md-input-container><md-input-container><label>密码</label> <input required=\"\" type=\"password\" ng-model=\"vm.user.password\" placeholder=\"请输入密码\"></md-input-container><md-input-container><label>确认密码</label> <input required=\"\" type=\"password\" ng-model=\"vm.password\" placeholder=\"请输入确认密码\"></md-input-container><md-button class=\"md-primary\" style=\"margin-top: 50px;min-width: 200px\" ng-click=\"vm.submit($event)\">提交</md-button></form></md-content>");
+$templateCache.put("app/main/main.html","<section layout=\"row\" flex=\"\" class=\"body\"><md-sidenav class=\"site-sidenav md-sidenav-left md-whiteframe-z2\" md-component-id=\"left\" md-is-locked-open=\"$mdMedia(\'gt-sm\')\"><md-toolbar><h1 class=\"md-toolbar-tools\"><a ng-href=\"/\" layout=\"row\" flex=\"\" style=\"color:#fff\"><svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewbox=\"0 0 100 100\" enable-background=\"new 0 0 100 100\" xml:space=\"preserve\" style=\"width: 40px; height: 40px;\"><path d=\"M 50 0 L 100 14 L 92 80 L 50 100 L 8 80 L 0 14 Z\" fill=\"#b2b2b2\"></path><path d=\"M 50 5 L 6 18 L 13.5 77 L 50 94 Z\" fill=\"#E42939\"></path><path d=\"M 50 5 L 94 18 L 86.5 77 L 50 94 Z\" fill=\"#B72833\"></path><path d=\"M 50 7 L 83 75 L 72 75 L 65 59 L 50 59 L 50 50 L 61 50 L 50 26 Z\" fill=\"#b2b2b2\"></path><path d=\"M 50 7 L 17 75 L 28 75 L 35 59 L 50 59 L 50 50 L 39 50 L 50 26 Z\" fill=\"#fff\"></path></svg><div class=\"docs-logotype\">作业管理系统</div></a></h1></md-toolbar><md-content flex=\"\" role=\"navigation\"><ul class=\"docs-menu\"><li ng-repeat=\"section in vm.sections\" class=\"parent-list-item\" ng-class=\"{\'parentActive\' : vm.isSectionSelected(section)}\"><h2 class=\"menu-heading\" ng-if=\"section.type === \'heading\'\" id=\"heading_{{ section.name | nospace}}\">{{section.name}}</h2><menu-link section=\"section\" ng-if=\"section.type === \'link\'\"></menu-link><menu-toggle section=\"section\" ng-if=\"section.type === \'toggle\'\"></menu-toggle><ul ng-if=\"section.children\" class=\"menu-nested-list\"><li ng-repeat=\"child in section.children\" ng-class=\"{\'childActive\' : isSectionSelected(child)}\"><menu-toggle section=\"child\"></menu-toggle></li></ul></li></ul></md-content></md-sidenav><div layout=\"column\" tabindex=\"-1\" role=\"main\" flex=\"\"><md-toolbar><div class=\"md-toolbar-tools\" ng-click=\"vm.openMenu()\"><button class=\"docs-menu-icon\" hide-gt-sm=\"\" aria-label=\"Toggle Menu\"><md-icon md-svg-src=\"../assets/images/svg/ic_menu_24px.svg\"></md-icon></button><div layout=\"row\" flex=\"\" class=\"fill-height\"><div class=\"md-toolbar-item md-breadcrumb\" style=\"color: #fff\"><span ng-if=\"vm.menu.currentPage.name !== vm.menu.currentSection.name\"><span hide-sm=\"\" hide-md=\"\">{{vm.menu.currentSection.name}}</span> <span class=\"docs-menu-separator-icon\" style=\"\" hide-sm=\"\" hide-md=\"\"><img src=\"../assets/images/icons/docArrow.png\" alt=\"\" aria-hidden=\"true\">]</span></span> <span class=\"md-breadcrumb-page\">{{(vm.menu.currentPage) || \'OA\' }}</span></div><span flex=\"\"></span><div class=\"md-toolbar-item md-tools docs-tools\" layout=\"column\" layout-gt-md=\"row\"><div><img src=\"../assets/images/img/face.jpg\" class=\"face\" alt=\"这个是我自己\"></div></div></div></div></md-toolbar><md-content ui-view=\"\" md-scroll-y=\"\" flex=\"\" style=\"background: #eee;height: 100%\"></md-content></div></section>");
 $templateCache.put("app/title/Title.html","<div ui-view=\"\" class=\"content-padding\"></div>");
 $templateCache.put("app/user/User.html","<div ui-view=\"\" class=\"content-padding\"></div>");
 $templateCache.put("app/work/work.html","<div ui-view=\"\" class=\"content-padding\"></div>");
@@ -5792,8 +5791,8 @@ $templateCache.put("app/course/add/CourseAdd.html","<div layout=\"row\"><form na
 $templateCache.put("app/course/list/CourseList.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">课程列表</div><md-button ng-click=\"vm.addCourse($event)\">添加</md-button></md-toolbar><div layout=\"column\" ng-repeat=\"course in vm.user.courses\"><a ng-href=\"/#/main/course/students?id={{course.id}}\" class=\"link container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"column\" flex=\"\"><h2>{{course.name}}</h2><label>{{course.type}}</label></div><span>学生数: {{course.students.length}}</span></div></a><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.user.courses || vm.user.courses.length === 0\"><md-button ng-click=\"vm.addCourse($event)\">没有课程，点此添加</md-button></div></md-content>");
 $templateCache.put("app/course/student/StudentList.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">{{vm.course.name}} 学生列表</div><md-button ng-click=\"vm.addStudent($event)\">添加学生</md-button></md-toolbar><div layout=\"column\" ng-repeat=\"student in vm.course.students\"><div class=\"container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"column\" flex=\"\"><h2>{{student.name}}</h2></div><md-button ng-click=\"vm.removeStudent(student, $index, $event)\">删除</md-button></div></div><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.course.students || vm.course.students.length === 0\"><md-button ng-click=\"vm.addStudent($event)\">没有学生，点此添加</md-button></div></md-content>");
 $templateCache.put("app/exam/add/examAdd.html","<form name=\"vm.addForm\" class=\"md-whiteframe-z1\" layout=\"column\" novalidate=\"\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">试卷</div><md-button ng-click=\"vm.saveExamination($event)\" ng-if=\"vm.addForm.$valid\">保存试卷</md-button><md-button ng-click=\"back()\">返回</md-button></md-toolbar><div layout=\"column\" style=\"background-color: white\"><md-input-container layout-align=\"center center\" style=\"font-size: large;\"><label>试卷名称</label> <input required=\"\" ng-model=\"vm.exam.name\" name=\"examName\"><div ng-messages=\"vm.addForm.examName.$error\"><div ng-message=\"required\">*</div></div></md-input-container><div ng-repeat=\"bigTitle in vm.exam.bigTitles\" style=\"background-color: #eee;margin: 10px 5px;\"><h2>{{($index + 1)+ \' : \' + bigTitle.name + \'(每题 \' + bigTitle.percent + \" 分)\"}}</h2><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px; background: #dedede\"><div layout=\"row\"><h4 style=\"color: #333333\" flex=\"\">{{($index + 1) + \': \' + title.content}}</h4><md-button class=\"md-raised md-primary\" ng-click=\"vm.deleteTitle(bigTitle, title, $index, $event)\">删除</md-button><md-button class=\"md-raised md-primary\" ng-click=\"vm.up(bigTitle, title, $index, $event)\" ng-if=\"!$first\">上移</md-button><md-button class=\"md-raised md-primary\" ng-click=\"vm.down(bigTitle, title, $index, $event)\" ng-if=\"!$last\">下移</md-button><md-button class=\"md-raised md-primary\" ng-click=\"vm.upTop(bigTitle, title, $index, $event)\" ng-if=\"!$first\">移到顶</md-button><md-button class=\"md-raised md-primary\" ng-click=\"vm.downBottom(bigTitle, title, $index, $event)\" ng-if=\"!$last\">移到底</md-button></div><div ng-if=\"bigTitle.type === 0 || bigTitle.type === 1\"><div ng-repeat=\"answer in title.answers\" style=\"margin-left: 10px\" ng-class=\"{true:\'trueColor\', false:\'falseColor\'}[answer.correct]\"><label>{{$index | abcd:\'upper\'}}.</label> <label>{{answer.content}}</label></div></div></div><div ng-if=\"vm.enableTitleAdds[$index]\" style=\"margin-bottom: 10px;padding: 10px; background: #dedede\"><md-input-container><label>题目</label> <textarea required=\"\" ng-model=\"vm.addTitle.content\" name=\"titleContent\"></textarea><div ng-messages=\"vm.addForm.titleContent.$error\"><div ng-message=\"required\">*</div></div></md-input-container><md-input-container><label>描述</label> <textarea required=\"\" ng-model=\"vm.addTitle.description\" name=\"titleDescription\"></textarea><div ng-messages=\"vm.addForm.titleDescription.$error\"><div ng-message=\"required\">*</div></div></md-input-container><div ng-repeat=\"answer in vm.addTitle.answers\"><div layout=\"row\" layout-align=\"center center\"><label>{{$index | abcd:\'upper\'}}.</label><md-input-container flex=\"\"><label>答案</label> <textarea required=\"\" ng-model=\"answer.content\" name=\"answerName\"></textarea><div ng-messages=\"vm.addForm.answerName.$error\"><div ng-message=\"required\">*</div></div></md-input-container><md-checkbox ng-model=\"answer.correct\">是否为正确答案</md-checkbox></div></div><md-button class=\"md-primary\" ng-if=\"vm.addForm.$valid\" ng-click=\"vm.saveTitle(bigTitle, $index, $event)\">保存题目</md-button><md-button class=\"md-primary\" ng-click=\"vm.addTitle.answers.push({})\">添加答案</md-button><md-button class=\"md-primary\" ng-click=\"vm.addTitle = {answers:[]}\">清除内容</md-button></div><div layout=\"row\"><md-button class=\"md-primary\" ng-click=\"vm.selectTitle(bigTitle, $event)\">选择题目</md-button><md-button class=\"md-primary\" ng-click=\"vm.enableTitleAdds[$index]=!vm.enableTitleAdds[$index]\">{{vm.enableTitleAdds[$index] ? \'取消添加\' : \'新增题目\'}}</md-button></div></div><div ng-if=\"vm.addBigTitle\" style=\"background-color: #eee;margin: 10px 5px;\"><label>题目类型:</label><md-input-container flex=\"\"><md-select placeholder=\"请选择\" required=\"\" ng-model=\"vm.addBig.type\" name=\"type\"><md-option data-ng-value=\"type.id\" ng-repeat=\"type in Config.TitleTypes\">{{type.name}}</md-option></md-select><div ng-messages=\"vm.addForm.type.$error\"><div ng-message=\"required\">*</div></div></md-input-container><md-input-container><label>每题分值</label> <input type=\"number\" required=\"\" ng-model=\"vm.addBig.percent\" name=\"percent\"><div ng-messages=\"vm.addForm.percent.$error\"><div ng-message=\"required\">*</div></div></md-input-container><md-button class=\"md-raised md-primary\" ng-if=\"vm.addForm.$valid\" ng-click=\"vm.addBTitle($event)\">添加</md-button></div><md-button ng-click=\"vm.addBigTitle = true\" ng-if=\"!vm.addBigTitle\">添加大题</md-button></div></form>");
-$templateCache.put("app/exam/list/examList.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">我的试卷</div><md-button ng-href=\"/#/main/exam/add\">添加</md-button></md-toolbar><div><div layout=\"column\" ng-repeat=\"title in vm.user.examinations\"><a ng-href=\"/#/main/exam/info?id={{title.id}}\" class=\"link container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"column\" flex=\"\"><span><h2>{{title.name}}</h2></span> <label>{{title.description}}</label></div></div></a><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.user.titles || vm.user.examinations.length === 0\"><md-button ng-href=\"/#/main/exam/add\">没有出过试卷，点此添加</md-button></div></div></md-content>");
 $templateCache.put("app/exam/info/examInfo.html","<md-content class=\"md-whiteframe-z1\" layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">试卷</div><md-button ng-click=\"vm.arrange($event)\">下发试卷</md-button><md-button ng-click=\"back()\">返回</md-button></md-toolbar><div layout=\"column\" style=\"background-color: white; padding-bottom: 550px\"><div layout-align=\"center center\" layout=\"column\"><h1>{{vm.exam.name}}</h1><h3>{{\'共\' + vm.exam.titles.length + \' 题, 满分: \' + vm.exam.percent + \'分\' }}</h3></div><div style=\"border: dotted 1px #aaa;\"></div><div ng-repeat=\"bigTitle in vm.exam.titles\" style=\"margin: 10px 5px;\"><h2 flex=\"\">{{(($index + 1) | sequence:\'zh\')+ \' : \' + bigTitle.name + \'(每题 \' + bigTitle.percent + \"分, 共\" + bigTitle.titles.length + \" * \" + bigTitle.percent + \"= \" + (bigTitle.titles.length * bigTitle.percent) + \" 分)\"}}</h2><div ng-switch=\"bigTitle.type\"><div ng-switch-when=\"0\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-radio-group ng-model=\"title.answerId\"><md-radio-button ng-repeat=\"answer in title.answers\" style=\"margin-left: 10px\" data-ng-value=\"answer.id\">{{($index | abcd:\'upper\') + \'. \' + answer.content}}</md-radio-button></md-radio-group></div></div><div ng-switch-when=\"1\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-checkbox ng-repeat=\"answer in title.answers\" style=\"margin-left: 10px\" ng-model=\"answer.select\">{{($index | abcd:\'upper\') + \'. \' + answer.content}}</md-checkbox></div></div><div ng-switch-default=\"\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4></div><md-input-container><label>答案:</label> <textarea ng-model=\"title.answer\" style=\"min-height: 300px\"></textarea></md-input-container></div></div></div></div></div></md-content>");
+$templateCache.put("app/exam/list/examList.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">我的试卷</div><md-button ng-href=\"/#/main/exam/add\">添加</md-button></md-toolbar><div><div layout=\"column\" ng-repeat=\"title in vm.user.examinations\"><a ng-href=\"/#/main/exam/info?id={{title.id}}\" class=\"link container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"column\" flex=\"\"><span><h2>{{title.name}}</h2></span> <label>{{title.description}}</label></div></div></a><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.user.titles || vm.user.examinations.length === 0\"><md-button ng-href=\"/#/main/exam/add\">没有出过试卷，点此添加</md-button></div></div></md-content>");
 $templateCache.put("app/dep/add/DepartmentAdd.html","<form name=\"vm.addForm\" layout=\"column\" class=\"doc-content\"><md-whiteframe class=\"md-padding\" layout=\"column\"><md-toolbar layout=\"row\" md-theme=\"altTheme\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">添加{{vm.type.name}}</div><md-button class=\"btn-ctrl\" ng-click=\"vm.addDepartment($event)\">提交</md-button><md-button class=\"btn-ctrl\" ng-click=\"back()\">取消</md-button></md-toolbar><md-content class=\"content-border\"><div ng-include=\"\" src=\"vm.type.addUrl\" class=\"info-border\"></div></md-content></md-whiteframe></form>");
 $templateCache.put("app/dep/change/DepartmentChange.html","<form name=\"vm.addForm\" layout=\"column\" class=\"doc-content\"><md-whiteframe class=\"md-padding\" layout=\"column\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">编辑{{vm.department.name}}资料</div><md-button ng-click=\"vm.submit($event)\" class=\"btn-ctrl\">提交</md-button><md-button ng-click=\"back()\" class=\"btn-ctrl\">取消</md-button></md-toolbar><md-content class=\"content-border\"><div ng-include=\"\" src=\"vm.type.editUrl\" class=\"info-border\"></div></md-content></md-whiteframe></form>");
 $templateCache.put("app/dep/list/DepartmentList.html","<div layout=\"row\"><md-content layout=\"column\" style=\"width: 300px;height: auto\"><md-toolbar layout=\"row\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" style=\"width:120px;\" flex=\"\">组织结构</div><md-button ng-click=\"vm.addDepartment()\" class=\"btn-ctrl\">添加学校</md-button></md-toolbar><div class=\"content-border\" ng-include=\"\" src=\"\'components/template/department-add.tmp.html\'\"></div></md-content><md-content flex=\"98\" style=\"margin-left: 2%;\"><md-toolbar layout=\"row\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">{{vm.selectDep.name}}</div><md-button ng-click=\"vm.editDepartment($event)\" ng-if=\"!!vm.selectDep\" class=\"btn-ctrl\">编辑资料</md-button><md-button ng-click=\"vm.deleteDepartment($event)\" ng-if=\"!!vm.selectDep\" class=\"btn-ctrl\">删除部门</md-button></md-toolbar><md-content ng-include=\"\" src=\"vm.template.infoUrl\" class=\"content-border\"></md-content></md-content></div>");
@@ -5801,14 +5800,14 @@ $templateCache.put("app/title/add/TitleAdd.html","<form name=\"vm.addForm\" layo
 $templateCache.put("app/title/info/TitleInfo.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">题目详情</div><md-button ng-click=\"back()\">返回</md-button></md-toolbar><div layout=\"column\" style=\"padding: 24px\"><div><span>题目:</span> <span>{{vm.title.content}}</span></div><div><span>描述:</span> <span>{{vm.title.description}}</span></div><div><h2>答案</h2><div ng-repeat=\"answer in vm.title.answers\" layout=\"column\" style=\"border: dashed green 1px; margin: 10px; border-radius: 5px\"><h4>答案{{$index + 1}}:</h4><div layout=\"row\" layout-align=\"center center\"><div style=\"border: solid 1px;padding: 10px;margin: 3px;border-radius: 5px\" flex=\"\">{{answer.content}}</div><div style=\"color: green;\">{{answer.correct ? \"正确答案\" : \'\'}}</div></div></div><form name=\"vm.answerForm\"><div ng-repeat=\"answer in vm.answers\" layout=\"column\" style=\"border: dashed blue 1px; margin: 10px; border-radius: 5px\"><md-input-container flex=\"\"><label>新增答案{{$index+1}}</label> <textarea type=\"text\" required=\"\" ng-model=\"answer.content\"></textarea></md-input-container><md-checkbox ng-model=\"answer.correct\">答案是否正确</md-checkbox></div><div layout=\"row\"><label flex=\"\"></label><md-button ng-click=\"vm.addAnswer($event)\">添加答案</md-button><md-button ng-click=\"vm.save($event)\" ng-if=\"vm.answers.length > 0 && vm.answerForm.$valid\">保存</md-button></div></form></div></div></md-content>");
 $templateCache.put("app/title/list/TitleList.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">我的题目</div><md-button ng-href=\"/#/main/title/add\">添加</md-button></md-toolbar><div><div layout=\"column\" ng-repeat=\"title in vm.user.titles\"><a ng-href=\"/#/main/title/info?id={{title.id}}\" class=\"link container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"column\" flex=\"\"><span><h2>{{title.content}}</h2></span> <label>{{title.description}}</label></div></div></a><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.user.titles || vm.user.titles.length === 0\"><md-button ng-href=\"/#/main/title/add\">没有出过题目，点此添加</md-button></div></div></md-content>");
 $templateCache.put("app/user/add/UserAdd.html","<form name=\"vm.addForm\"><md-content layout=\"column\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">选择师生添加到{{vm.department.name}}</div><md-button class=\"btn-ctrl\" ng-click=\"vm.updateUser($event)\">提交</md-button><md-button class=\"btn-ctrl\" ng-click=\"back()\">取消</md-button></md-toolbar><md-content><div layout=\"row\" ng-repeat=\"user in vm.users\"><md-button>{{$index+1}}</md-button><md-checkbox ng-model=\"user.selected\" flex=\"\">{{user.name}}</md-checkbox></div></md-content></md-content></form>");
-$templateCache.put("app/user/change/DepartmentChange.html","<form name=\"vm.addForm\" layout=\"column\" class=\"doc-content\"><md-whiteframe class=\"md-padding\" layout=\"column\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">编辑{{vm.department.name}}资料</div><md-button ng-click=\"vm.submit($event)\" class=\"btn-ctrl\">提交</md-button><md-button ng-click=\"back()\" class=\"btn-ctrl\">取消</md-button></md-toolbar><md-content class=\"content-border\"><div ng-include=\"\" src=\"vm.type.editUrl\" class=\"info-border\"></div></md-content></md-whiteframe></form>");
 $templateCache.put("app/user/list/UserList.html","<div layout=\"row\"><md-content flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">过滤</div></md-toolbar><div class=\"content-border\" ng-include=\"\" src=\"\'components/template/department.tmp.html\'\"></div></md-content><md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">{{vm.selectDep.name | default:\'全部\'}} 师生列表</div><md-button ng-click=\"vm.addUser($event)\">添加</md-button></md-toolbar><div layout=\"row\" ng-repeat=\"user in vm.users\"><md-button>{{$index+1}}</md-button><md-button>{{user.name}}</md-button><md-button>{{user.type === 0 ? \'学生\':\'老师\'}}</md-button></div><div ng-if=\"!vm.users || vm.users.length === 0\"><md-button ng-click=\"vm.addUser($event)\">一个师生都没有,点此添加</md-button></div></md-content></div>");
+$templateCache.put("app/user/change/DepartmentChange.html","<form name=\"vm.addForm\" layout=\"column\" class=\"doc-content\"><md-whiteframe class=\"md-padding\" layout=\"column\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">编辑{{vm.department.name}}资料</div><md-button ng-click=\"vm.submit($event)\" class=\"btn-ctrl\">提交</md-button><md-button ng-click=\"back()\" class=\"btn-ctrl\">取消</md-button></md-toolbar><md-content class=\"content-border\"><div ng-include=\"\" src=\"vm.type.editUrl\" class=\"info-border\"></div></md-content></md-whiteframe></form>");
 $templateCache.put("app/work/correct/correct.html","<form name=\"vm.correctForm\" class=\"md-whiteframe-z1\" layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">试卷</div><md-button ng-click=\"back()\">返回</md-button><md-button ng-click=\"vm.submit($event)\">提交</md-button></md-toolbar><div layout=\"column\" style=\"background-color: white; padding-bottom: 550px\"><div layout-align=\"center center\" layout=\"column\"><h1>{{vm.exam.name}}</h1><div layout=\"row\"><h3>{{\'共\' + vm.exam.titles.length + \' 题, 满分: \' + vm.exam.percent + \'分\' }}</h3><h2>学生: {{vm.userarrange.user.name}}</h2></div></div><div layout=\"column\"><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerAllRight\"></div><label flex=\"\">代表你选到答案,同时也是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerYou\"></div><label flex=\"\">代表你选到答案,但不是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerRight\"></div><label flex=\"\">代表正确答案</label></div></div><div style=\"border: dotted 1px #aaa;\"></div><div ng-repeat=\"(bIndex, bigTitle) in vm.exam.titles\" style=\"margin: 10px 5px;\"><h2 flex=\"\">{{((bIndex + 1) | sequence:\'zh\')+ \' : \' + bigTitle.name + \'(每题 \' + bigTitle.percent + \"分, 共\" + bigTitle.titles.length + \" * \" + bigTitle.percent + \"= \" + (bigTitle.titles.length * bigTitle.percent) + \" 分)\"}}</h2><div ng-switch=\"bigTitle.type\"><div ng-switch-when=\"0\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content + \' (分数: \' + title.percent + \' 分)\'}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-radio-group><md-radio-button ng-repeat=\"(aIndex, answer) in title.answers\" style=\"margin-left: 10px\" disabled=\"\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-radio-button></md-radio-group></div></div><div ng-switch-when=\"1\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content + \' (分数: \' + title.percent + \' 分)\'}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-checkbox disabled=\"\" ng-repeat=\"(aIndex,answer) in title.answers\" style=\"margin-left: 10px\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-checkbox></div></div><div ng-switch-default=\"\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content}}</h4></div><div style=\"margin: 10px\"><label>答案:</label><p>{{title.answer}}</p></div><md-input-container><label>分数</label> <input type=\"number\" required=\"\" ng-model=\"title.percent\"></md-input-container><div><md-button ng-if=\"vm.filterCorrect(title.answers).length > 0\" ng-click=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\'] = !vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\">参考答案</md-button><div ng-if=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\" layout=\"row\" ng-repeat=\"(aIndex,answer) in vm.filterCorrect(title.answers)\"><label>{{aIndex+1}}:</label><p style=\"margin: 0px 20px\">{{answer.content}}</p></div></div></div></div></div></div></div></form>");
+$templateCache.put("app/work/corrects/corrects.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">待批改作业</div></md-toolbar><div><div layout=\"column\" ng-repeat=\"title in vm.arranges\"><a ng-href=\"/#/main/work/correct?id={{title.id}}\" class=\"link container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"row\" layout-align=\"center center\" flex=\"\"><span flex=\"\"><h2>{{title.arrange.name}}</h2></span> <label>学生: {{title.user.name}}</label></div></div></a><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.arranges || vm.arranges.length === 0\"><label>暂无待批改作业</label></div></div></md-content>");
 $templateCache.put("app/work/histories/histories.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">历史作业</div><md-button ng-href=\"/#/main/exam/add\">添加</md-button></md-toolbar><div><div layout=\"column\" ng-repeat=\"title in vm.arranges\"><a ng-href=\"/#/main/work/history?id={{title.id}}\" class=\"link container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"row\" layout-align=\"center center\" flex=\"\"><span flex=\"\"><h2>{{title.arrange.name}}</h2></span> <label>教师: {{title.teach.name}}</label></div></div></a><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.arranges || vm.arranges.length === 0\"><label>暂无历史作业</label></div></div></md-content>");
-$templateCache.put("app/work/corrects/corrects.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">待批改作业</div><md-button ng-href=\"/#/main/exam/add\">添加</md-button></md-toolbar><div><div layout=\"column\" ng-repeat=\"title in vm.arranges\"><a ng-href=\"/#/main/work/correct?id={{title.id}}\" class=\"link container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"row\" layout-align=\"center center\" flex=\"\"><span flex=\"\"><h2>{{title.arrange.name}}</h2></span> <label>学生: {{title.user.name}}</label></div></div></a><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.arranges || vm.arranges.length === 0\"><label>暂无待批改作业</label></div></div></md-content>");
 $templateCache.put("app/work/history/history.html","<form name=\"vm.correctForm\" class=\"md-whiteframe-z1\" layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">作业</div><md-button ng-click=\"back()\">返回</md-button></md-toolbar><div layout=\"column\" style=\"background-color: white; padding-bottom: 550px\"><div layout-align=\"center center\" layout=\"column\"><h1>{{vm.exam.name}}</h1><div layout=\"row\"><h3>{{\'共\' + vm.exam.titles.length + \' 题, 满分: \' + vm.exam.percent + \'分\' }}</h3><h3 style=\"margin-left: 30px\">学生: {{vm.userarrange.user.name}} 得分: {{vm.userarrange.percent}}</h3></div></div><div layout=\"column\"><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerAllRight\"></div><label flex=\"\">代表你选到答案,同时也是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerYou\"></div><label flex=\"\">代表你选到答案,但不是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerRight\"></div><label flex=\"\">代表正确答案</label></div></div><div style=\"border: dotted 1px #aaa;\"></div><div ng-repeat=\"(bIndex, bigTitle) in vm.exam.titles\" style=\"margin: 10px 5px;\"><h2 flex=\"\">{{((bIndex + 1) | sequence:\'zh\')+ \' : \' + bigTitle.name + \'(每题 \' + bigTitle.percent + \"分, 共\" + bigTitle.titles.length + \" * \" + bigTitle.percent + \"= \" + (bigTitle.titles.length * bigTitle.percent) + \" 分)\"}}</h2><div ng-switch=\"bigTitle.type\"><div ng-switch-when=\"0\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content + \' (分数: \' + title.percent + \' 分)\'}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-radio-group><md-radio-button ng-repeat=\"(aIndex, answer) in title.answers\" style=\"margin-left: 10px\" disabled=\"\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-radio-button></md-radio-group></div></div><div ng-switch-when=\"1\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content + \' (分数: \' + title.percent + \' 分)\'}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-checkbox disabled=\"\" ng-repeat=\"(aIndex,answer) in title.answers\" style=\"margin-left: 10px\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-checkbox></div></div><div ng-switch-default=\"\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content}}</h4><label>得分: {{title.percent}}</label></div><div style=\"margin: 10px\"><label>答案:</label><p>{{title.answer}}</p></div><div><md-button ng-if=\"vm.filterCorrect(title.answers).length > 0\" ng-click=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\'] = !vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\">参考答案</md-button><div ng-if=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\" layout=\"row\" ng-repeat=\"(aIndex,answer) in vm.filterCorrect(title.answers)\"><label>{{aIndex+1}}:</label><p style=\"margin: 0px 20px\">{{answer.content}}</p></div></div></div></div></div></div></div></form>");
-$templateCache.put("app/work/info/workInfo.html","<md-content class=\"md-whiteframe-z1\" layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">试卷</div><md-button ng-click=\"vm.startAnswer($event)\" ng-if=\"!vm.start\">开始答题</md-button><md-button ng-click=\"vm.submit($event)\" ng-if=\"vm.start\">提交</md-button><md-button ng-click=\"back()\">返回</md-button></md-toolbar><div layout=\"column\" style=\"background-color: white; padding-bottom: 550px\"><div layout-align=\"center center\" layout=\"column\"><h1>{{vm.exam.name}}</h1><h3>{{\'共\' + vm.exam.titles.length + \' 题, 满分: \' + vm.exam.percent + \'分\' }}</h3></div><div style=\"border: dotted 1px #aaa;\"></div><div ng-repeat=\"bigTitle in vm.exam.titles\" style=\"margin: 10px 5px;\"><h2 flex=\"\">{{(($index + 1) | sequence:\'zh\')+ \' : \' + bigTitle.name + \'(每题 \' + bigTitle.percent + \"分, 共\" + bigTitle.titles.length + \" * \" + bigTitle.percent + \"= \" + (bigTitle.titles.length * bigTitle.percent) + \" 分)\"}}</h2><div ng-switch=\"bigTitle.type\"><div ng-switch-when=\"0\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-radio-group ng-model=\"title.answer\"><md-radio-button ng-repeat=\"answer in title.answers\" style=\"margin-left: 10px\" data-ng-value=\"answer.id\">{{($index | abcd:\'upper\') + \'. \' + answer.content}}</md-radio-button></md-radio-group></div></div><div ng-switch-when=\"1\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-checkbox ng-repeat=\"answer in title.answers\" style=\"margin-left: 10px\" ng-model=\"answer.select\">{{($index | abcd:\'upper\') + \'. \' + answer.content}}</md-checkbox></div></div><div ng-switch-default=\"\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4></div><md-input-container><label>答案:</label> <textarea ng-model=\"title.answer\" style=\"min-height: 300px\"></textarea></md-input-container></div></div></div></div></div></md-content>");
 $templateCache.put("app/work/list/workList.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">我的作业</div><md-button ng-href=\"/#/main/exam/add\">添加</md-button></md-toolbar><div><div layout=\"column\" ng-repeat=\"title in vm.arranges\"><a ng-href=\"/#/main/work/info?id={{title.id}}\" class=\"link container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"row\" layout-align=\"center center\" flex=\"\"><span flex=\"\"><h2>{{title.arrange.name}}</h2></span> <label>教师: {{title.teach.name}}</label></div></div></a><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.arranges || vm.arranges.length === 0\"><label>你很棒,所有试题都组完了</label></div></div></md-content>");
+$templateCache.put("app/work/info/workInfo.html","<md-content class=\"md-whiteframe-z1\" layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">试卷</div><md-button ng-click=\"vm.startAnswer($event)\" ng-if=\"!vm.start\">开始答题</md-button><md-button ng-click=\"vm.submit($event)\" ng-if=\"vm.start\">提交</md-button><md-button ng-click=\"back()\">返回</md-button></md-toolbar><div layout=\"column\" style=\"background-color: white; padding-bottom: 550px\"><div layout-align=\"center center\" layout=\"column\"><h1>{{vm.exam.name}}</h1><h3>{{\'共\' + vm.exam.titles.length + \' 题, 满分: \' + vm.exam.percent + \'分\' }}</h3></div><div style=\"border: dotted 1px #aaa;\"></div><div ng-repeat=\"bigTitle in vm.exam.titles\" style=\"margin: 10px 5px;\"><h2 flex=\"\">{{(($index + 1) | sequence:\'zh\')+ \' : \' + bigTitle.name + \'(每题 \' + bigTitle.percent + \"分, 共\" + bigTitle.titles.length + \" * \" + bigTitle.percent + \"= \" + (bigTitle.titles.length * bigTitle.percent) + \" 分)\"}}</h2><div ng-switch=\"bigTitle.type\"><div ng-switch-when=\"0\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-radio-group ng-model=\"title.answer\"><md-radio-button ng-repeat=\"answer in title.answers\" style=\"margin-left: 10px\" data-ng-value=\"answer.id\">{{($index | abcd:\'upper\') + \'. \' + answer.content}}</md-radio-button></md-radio-group></div></div><div ng-switch-when=\"1\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-checkbox ng-repeat=\"answer in title.answers\" style=\"margin-left: 10px\" ng-model=\"answer.select\">{{($index | abcd:\'upper\') + \'. \' + answer.content}}</md-checkbox></div></div><div ng-switch-default=\"\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4></div><md-input-container><label>答案:</label> <textarea ng-model=\"title.answer\" style=\"min-height: 300px\"></textarea></md-input-container></div></div></div></div></div></md-content>");
 $templateCache.put("app/work/submit/submit.html","<md-content class=\"md-whiteframe-z1\" layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">试卷</div><md-button ng-click=\"back()\">返回</md-button></md-toolbar><div layout=\"column\" style=\"background-color: white; padding-bottom: 550px\"><div layout-align=\"center center\" layout=\"column\"><h1>{{vm.exam.name}}</h1><div layout=\"row\"><h3>{{\'共\' + vm.exam.titles.length + \' 题, 满分: \' + vm.exam.percent + \'分\' }}</h3><h2 ng-if=\"vm.userarrange.status === 2\">您的得分: {{vm.userarrange.percent}}</h2></div></div><div layout=\"column\"><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerAllRight\"></div><label flex=\"\">代表你选到答案,同时也是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerYou\"></div><label flex=\"\">代表你选到答案,但不是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerRight\"></div><label flex=\"\">代表正确答案</label></div></div><div style=\"border: dotted 1px #aaa;\"></div><div ng-repeat=\"(bIndex, bigTitle) in vm.exam.titles\" style=\"margin: 10px 5px;\"><h2 flex=\"\">{{((bIndex + 1) | sequence:\'zh\')+ \' : \' + bigTitle.name + \'(每题 \' + bigTitle.percent + \"分, 共\" + bigTitle.titles.length + \" * \" + bigTitle.percent + \"= \" + (bigTitle.titles.length * bigTitle.percent) + \" 分)\"}}</h2><div ng-switch=\"bigTitle.type\"><div ng-switch-when=\"0\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-radio-group><md-radio-button ng-repeat=\"(aIndex, answer) in title.answers\" style=\"margin-left: 10px\" disabled=\"\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-radio-button></md-radio-group></div></div><div ng-switch-when=\"1\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-checkbox disabled=\"\" ng-repeat=\"(aIndex,answer) in title.answers\" style=\"margin-left: 10px\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-checkbox></div></div><div ng-switch-default=\"\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content}}</h4></div><div style=\"margin: 10px\"><label>答案:</label><p>{{title.answer}}</p></div><div><md-button ng-if=\"vm.filterCorrect(title.answers).length > 0\" ng-click=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\'] = !vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\">参考答案</md-button><div ng-if=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\" layout=\"row\" ng-repeat=\"(aIndex,answer) in vm.filterCorrect(title.answers)\"><label>{{aIndex+1}}:</label><p style=\"margin: 0px 20px\">{{answer.content}}</p></div></div></div></div></div></div></div></md-content>");
 $templateCache.put("app/work/submits/submits.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">已提交作业</div><md-button ng-href=\"/#/main/exam/add\">添加</md-button></md-toolbar><div><div layout=\"column\" ng-repeat=\"title in vm.arranges\"><a ng-href=\"/#/main/work/submit?id={{title.id}}\" class=\"link container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"row\" layout-align=\"center center\" flex=\"\"><span flex=\"\"><h2>{{title.arrange.name}}</h2></span> <label>教师: {{title.teach.name}}</label></div></div></a><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.arranges || vm.arranges.length === 0\"><label>暂无提交作业</label></div></div></md-content>");
 $templateCache.put("components/directive/menuLink/menu-link.tmpl.html","<md-button ng-class=\"{\'active\' : isSelected()}\" ng-click=\"focusSection(section,$event)\">{{section | humanizeDoc}} <span class=\"visually-hidden\" ng-if=\"isSelected()\">current page</span></md-button>");
