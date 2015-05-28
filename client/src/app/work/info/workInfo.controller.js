@@ -50,7 +50,7 @@
         function submit(ev) {
             var model = answer();
             if(model.unAnswers.length > 0) {
-                DialogFactory.confirm('你还有 ' + model.unAnswers.length + ' 到题没有做',ev).then(function () {
+                DialogFactory.confirm('你还有 ' + model.unAnswers.length + ' 道题没有做',ev).then(function () {
                     send(model.answers,ev);
                 });
             }else{
@@ -83,12 +83,12 @@
                         if(items.length === 0) {
                             unAnswers.push(answer);
                         }
-                        answer.answer = items.join(',');
+                        answer.answer = items.join(',') || '';
                     }else{
-                        if(answer.answer === '' || !answer.answer) {
+                        if(title.answer === '' || !title.answer) {
                             unAnswers.push(answer);
                         }
-                        answer.answer = title.answer;
+                        answer.answer = title.answer || '';
                     }
                     answers.push(answer);
                 });

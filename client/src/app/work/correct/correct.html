@@ -42,7 +42,7 @@
                 <div ng-switch-when="0">
                     <div ng-repeat="(tIndex,title) in bigTitle.titles" style="margin-bottom: 10px;padding: 10px;">
                         <div layout="row" layout-align="center center">
-                            <h4 style="color: #333333" flex>{{((tIndex + 1)) + ': ' + title.content + ' (分数: ' + title.percent + ' 分)'}}</h4>
+                            <h4 style="color: #333333" flex>{{((tIndex + 1)) + ': ' + title.content + ' (分数: ' + (title.percent || 0) + ' 分)'}}</h4>
                             <label style="margin:0px 10px;">(&nbsp;&nbsp;&nbsp;&nbsp;)</label>
                         </div>
                         <md-radio-group>
@@ -57,7 +57,7 @@
                 <div ng-switch-when="1">
                     <div ng-repeat="(tIndex,title) in bigTitle.titles" style="margin-bottom: 10px;padding: 10px;">
                         <div layout="row" layout-align="center center">
-                            <h4 style="color: #333333" flex>{{((tIndex + 1)) + ': ' + title.content + ' (分数: ' + title.percent + ' 分)'}}</h4>
+                            <h4 style="color: #333333" flex>{{((tIndex + 1)) + ': ' + title.content + ' (分数: ' + (title.percent || 0) + ' 分)'}}</h4>
                             <label style="margin:0px 10px;">(&nbsp;&nbsp;&nbsp;&nbsp;)</label>
                         </div>
                         <md-checkbox disabled ng-repeat="(aIndex,answer) in title.answers" style="margin-left: 10px" ng-model="answer.select"

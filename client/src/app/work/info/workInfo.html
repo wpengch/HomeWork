@@ -28,7 +28,7 @@
                             <label style="margin:0px 10px;">(&nbsp;&nbsp;&nbsp;&nbsp;)</label>
                         </div>
                         <md-radio-group ng-model="title.answer">
-                            <md-radio-button ng-repeat="answer in title.answers" style="margin-left: 10px" data-ng-value="answer.id">
+                            <md-radio-button ng-disabled="!vm.start" ng-repeat="answer in title.answers" style="margin-left: 10px" ng-value="answer.id">
                                 {{($index | abcd:'upper') + '. ' + answer.content}}
                             </md-radio-button>
                         </md-radio-group>
@@ -41,7 +41,7 @@
                             <h4 style="color: #333333" flex>{{(($index + 1)) + ': ' + title.content}}</h4>
                             <label style="margin:0px 10px;">(&nbsp;&nbsp;&nbsp;&nbsp;)</label>
                         </div>
-                        <md-checkbox ng-repeat="answer in title.answers" style="margin-left: 10px" ng-model="answer.select">
+                        <md-checkbox ng-disabled="!vm.start" ng-repeat="answer in title.answers" style="margin-left: 10px" ng-model="answer.select">
                             {{($index | abcd:'upper') + '. ' + answer.content}}
                         </md-checkbox>
                     </div>
@@ -55,7 +55,7 @@
                         </div>
                         <md-input-container>
                             <label>答案:</label>
-                            <textarea ng-model="title.answer" style="min-height: 300px"></textarea>
+                            <textarea ng-disabled="!vm.start" ng-model="title.answer" style="min-height: 300px"></textarea>
                         </md-input-container>
 
                     </div>
