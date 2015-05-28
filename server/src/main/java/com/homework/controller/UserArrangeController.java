@@ -40,10 +40,9 @@ public class UserArrangeController extends BaseControllerImpl<UserArrange, Integ
         return super.create(entity);
     }
 
-    @Override
     @ResponseBody
     @RequestMapping(value = "/{id}/respondent")
-    public Result getById(@PathVariable("id") Integer integer) {
+    public Result getByIdRespondent(@PathVariable("id") Integer integer) {
         return Result.getResult(() -> {
             UserArrange userArrange = userArrangeService.getById(integer);
             if (userArrange.getStatus() != 0) {
@@ -75,12 +74,17 @@ public class UserArrangeController extends BaseControllerImpl<UserArrange, Integ
                                 }
                             }
                         }
+                        else{
+                            title.setPercent(0);
+                        }
                     }
                 }
             }
             return userArrange;
         });
     }
+
+
 
     @Override
     public Result getAll(HttpServletRequest request, HttpServletResponse response) {
@@ -124,8 +128,9 @@ public class UserArrangeController extends BaseControllerImpl<UserArrange, Integ
             Integer total = 0;
             for (Respondent respondent : respondents) {
                 Respondent item = respondentService.getById(respondent.getId());
-                item.setPercent(respondent.getPercent());
-                total += respondent.getPercent();
+                Integer percent = respondent.getPercent() == null ? 0 : respondent.getPercent();
+                item.setPercent(percent);
+                total += percent;
                 respondentService.update(item);
             }
             UserArrange userArrange = userArrangeService.getById(id);

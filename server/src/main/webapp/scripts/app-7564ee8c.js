@@ -946,7 +946,7 @@ module.directive('menuLink', function () {
         function submit(ev) {
             var model = answer();
             if(model.unAnswers.length > 0) {
-                DialogFactory.confirm('你还有 ' + model.unAnswers.length + ' 到题没有做',ev).then(function () {
+                DialogFactory.confirm('你还有 ' + model.unAnswers.length + ' 道题没有做',ev).then(function () {
                     send(model.answers,ev);
                 });
             }else{
@@ -979,12 +979,12 @@ module.directive('menuLink', function () {
                         if(items.length === 0) {
                             unAnswers.push(answer);
                         }
-                        answer.answer = items.join(',');
+                        answer.answer = items.join(',') || '';
                     }else{
-                        if(answer.answer === '' || !answer.answer) {
+                        if(title.answer === '' || !title.answer) {
                             unAnswers.push(answer);
                         }
-                        answer.answer = title.answer;
+                        answer.answer = title.answer || '';
                     }
                     answers.push(answer);
                 });
@@ -1442,40 +1442,6 @@ module.directive('menuLink', function () {
 /**
  * 创建人：pengchao
  * 创建时间：2015-3-23-0023
- * 工厂名字：TitleListCtrl
- * 作用：管理部门列表控制器
- */
-(function () {
-    'use strict';
-
-    angular.module('home').controller('TitleListCtrl', TitleListCtrl);
-
-    TitleListCtrl.$inject = ['$log', 'Config', '$state', 'Restangular', 'DialogFactory', '$mdDialog', '$rootScope'];
-
-    function TitleListCtrl($log, Config, $state, Restangular, DialogFactory, $mdDialog, $rootScope) {
-        //接口定义
-        var vm = this;
-        vm.user = Restangular.one('user', $rootScope.getSelfId()).get().$object;
-
-        activate();
-        ////////////////////////////////////////////////
-        ////////////下面为私有函数定义////////////////////
-        ////////////////////////////////////////////////
-
-        /**
-         * 启动逻辑逻辑
-         */
-        function activate() {
-            $log.info('加载TitleListCtrl');
-        }
-
-    }
-
-})();
-
-/**
- * 创建人：pengchao
- * 创建时间：2015-3-23-0023
  * 工厂名字：TitleInfoCtrl
  * 作用：管理部门列表控制器
  */
@@ -1598,6 +1564,40 @@ module.directive('menuLink', function () {
                     DialogFactory.fail('学生删除失败', ev);
                 });
         }
+    }
+
+})();
+
+/**
+ * 创建人：pengchao
+ * 创建时间：2015-3-23-0023
+ * 工厂名字：TitleListCtrl
+ * 作用：管理部门列表控制器
+ */
+(function () {
+    'use strict';
+
+    angular.module('home').controller('TitleListCtrl', TitleListCtrl);
+
+    TitleListCtrl.$inject = ['$log', 'Config', '$state', 'Restangular', 'DialogFactory', '$mdDialog', '$rootScope'];
+
+    function TitleListCtrl($log, Config, $state, Restangular, DialogFactory, $mdDialog, $rootScope) {
+        //接口定义
+        var vm = this;
+        vm.user = Restangular.one('user', $rootScope.getSelfId()).get().$object;
+
+        activate();
+        ////////////////////////////////////////////////
+        ////////////下面为私有函数定义////////////////////
+        ////////////////////////////////////////////////
+
+        /**
+         * 启动逻辑逻辑
+         */
+        function activate() {
+            $log.info('加载TitleListCtrl');
+        }
+
     }
 
 })();
@@ -3109,6 +3109,385 @@ module.directive('menuLink', function () {
 })();
 /**
  * 创建人：pengchao
+ * 创建时间：2015-3-26-0026
+ * 工厂名字：String
+ * 作用：扩展String的方法
+ */
+(function () {
+    'use strict';
+
+
+    Array.prototype.customFind = function (func) {
+        for (var i = 0; i < this.length; i++) {
+            if (func(this[i])) {
+                return this[i];
+            }
+        }
+    };
+
+    Array.prototype.filterArr = function (arr, func) {
+        var results = [];
+        for (var i = 0; i < this.length; i++) {
+            var item = this[i];
+            if (!arr.customFind(function (obj) {
+                    return func(obj, item);
+                })) {
+                results.push(item);
+            }
+        }
+        return results;
+    };
+
+    if (!Array.prototype.customFilter) {
+        Array.prototype.customFilter = function (func) {
+            var results = [];
+            angular.forEach(this, function (obj) {
+                if (func(obj)) {
+                    results.push(obj);
+                }
+            });
+            return results;
+        };
+    }
+
+    if (!Array.prototype.remove) {
+        Array.prototype.remove = function (index) {
+            this.splice(index, 1);
+        };
+    }
+
+    if (!Array.prototype.exchange) {
+        Array.prototype.exchange = function (dx1, dx2) {
+            var tmp   = this[dx1];
+            this[dx1] = this[dx2];
+            this[dx2] = tmp;
+        };
+    }
+
+    if (!Array.prototype.insert) {
+        Array.prototype.insert = function (index, item) {
+            this.splice(index, 0, item);
+        };
+    }
+
+    if (!Array.prototype.moveTo) {
+        Array.prototype.moveTo = function (init, to) {
+            if (to > init) {
+                this.insert(to, this[init]);
+                this.splice(init, 1);
+            }else{
+                var tmp = this[init];
+                this.splice(init, 1);
+                this.insert(to);
+            }
+        };
+    }
+
+    if(!Array.prototype.moveToFirst) {
+        Array.prototype.moveToFirst = function(dx) {
+            if(dx != 0) {
+                var item = this[dx];
+                this.remove(dx);
+                this.insert(0, item);
+            }
+        };
+    }
+    if(!Array.prototype.moveToLast) {
+        Array.prototype.moveToLast = function(dx) {
+            if(dx != this.length - 1) {
+                var item = this[dx];
+                this.remove(dx);
+                this.push(item);
+            }
+        };
+    }
+
+
+    if(!Array.prototype.joinMember) {
+        Array.prototype.joinMember = function(member, sperator) {
+            var results = [];
+            angular.forEach(this, function (obj) {
+                if(obj[member]) {
+                    results.push(obj[member]);
+                }
+            });
+            return results.join(sperator);
+        };
+    }
+
+
+
+    /**
+     *
+     * @param elOrFunc 元素 或者 函数
+     * @param all 是否删除全部，如果为false，删除第一个预见的
+     * @returns {number}
+     */
+    Array.prototype.customRemove = function (elOrFunc, all) {
+        if (!elOrFunc) {
+            return 0;
+        }
+        var result = 0;
+        all        = all || false;
+        var isFunc = angular.isFunction(elOrFunc);
+        if (all) {
+            for (var i = this.length - 1; i >= 0; i--) {
+                if ((isFunc && elOrFunc(this[i])) || (!isFunc && (elOrFunc === this[i]))) {
+                    this.splice(i, 1);
+                    result++;
+                }
+            }
+        } else {
+            for (var i = 0; i < this.length; i++) {
+                if ((isFunc && elOrFunc(this[i])) || (!isFunc && (elOrFunc === this[i]))) {
+                    this.splice(i, 1);
+                    result++;
+                    break;
+                }
+            }
+        }
+        return result;
+    };
+})
+();
+
+/**
+ * 创建人：pengchao
+ * 创建时间：2015-3-26-0026
+ * 工厂名字：String
+ * 作用：扩展String的方法
+ */
+(function () {
+    'use strict';
+    if (!String.prototype.reverse) {
+        String.prototype.reverse = function () {
+            var str = "";
+            var end = this.length - 1;
+            for (; end >= 0; end--) {
+                str = str + this.charAt(end);
+            }
+
+            return str;
+        }
+    }
+
+
+    ///** 在字符串末尾追加字符串 **/
+    //String.prototype.append = function (str) {
+    //  return this.concat(str);
+    //};
+    //
+    ///** 删除指定索引位置的字符，索引无效将不删除任何字符 **/
+    //String.prototype.deleteCharAt = function (index) {
+    //  if (index < 0 || index >= this.length) {
+    //    return this.valueOf();
+    //  }
+    //  else if (index == 0) {
+    //    return this.substring(1, this.length);
+    //  }
+    //  else if (index == this.length - 1) {
+    //    return this.substring(0, this.length - 1);
+    //  }
+    //  else {
+    //    return this.substring(0, index) + this.substring(index + 1);
+    //  }
+    //};
+    //
+    ///** 删除指定索引区间的字符串 **/
+    //String.prototype.deleteString = function (start, end) {
+    //  if (start == end) {
+    //    return this.deleteCharAt(start);
+    //  }
+    //  else {
+    //    if (start > end) {
+    //      var temp = start;
+    //      start = end;
+    //      end = temp;
+    //    }
+    //    if (start < 0) {
+    //      start = 0;
+    //    }
+    //    if (end > this.length - 1) {
+    //      end = this.length - 1;
+    //    }
+    //    return this.substring(0, start) + this.substring(end + 1, this.length);
+    //  }
+    //};
+    //
+    ///** 检查字符串是否以subStr结尾 **/
+    //String.prototype.endWith = function (subStr) {
+    //  if (subStr.length > this.length) {
+    //    return false;
+    //  }
+    //  else {
+    //    return (this.lastIndexOf(subStr) == (this.length - subStr.length)) ? true : false;
+    //  }
+    //};
+    //
+    ///** 比较两个字符串是否相等，也可以直接用 == 进行比较 **/
+    //String.prototype.equal = function (str) {
+    //  if (this.length != str.length) {
+    //    return false;
+    //  }
+    //  else {
+    //    for (var i = 0; i < this.length; i++) {
+    //      if (this.charAt(i) != str.charAt(i)) {
+    //        return false;
+    //      }
+    //    }
+    //    return true;
+    //  }
+    //};
+    //
+    //
+    ///** 比较两个字符串是否相等，不区分大小写 **/
+    //String.prototype.equalIgnoreCase = function (str) {
+    //  var temp1 = this.toLowerCase();
+    //  var temp2 = str.toLowerCase();
+    //  return temp1.equal(temp2);
+    //};
+    //
+    ///** 将指定的字符串插入到指定的位置后面，索引无效将直接追加到字符串的末尾 **/
+    //String.prototype.insert = function (ofset, subStr) {
+    //  if (ofset < 0 || ofset >= this.length - 1) {
+    //    return this.append(subStr);
+    //  }
+    //  return this.substring(0, ofset + 1) + subStr + this.substring(ofset + 1);
+    //};
+    //
+    ///** 判断字符串是否数字串 **/
+    //String.prototype.isAllNumber = function () {
+    //  for (var i = 0; i < this.length; i++) {
+    //    if (this.charAt(i) < '0' || this.charAt(i) > '9') {
+    //      return false;
+    //    }
+    //  }
+    //  return true;
+    //};
+    //
+    ///** 将字符串反序排列 **/
+    //String.prototype.reserve = function () {
+    //  var temp = "";
+    //  for (var i = this.length - 1; i >= 0; i--) {
+    //    temp = temp.concat(this.charAt(i));
+    //  }
+    //  return temp;
+    //};
+    //
+    ///** 将指定的位置的字符设置为另外指定的字符或字符串.索引无效将直接返回不做任何处理 **/
+    //String.prototype.setCharAt = function (index, subStr) {
+    //  if (index < 0 || index > this.length - 1) {
+    //    return this.valueOf();
+    //  }
+    //  return this.substring(0, index) + subStr + this.substring(index + 1);
+    //};
+    //
+    ///** 检查字符串是否以subStr开头 **/
+    //String.prototype.startWith = function (subStr) {
+    //  if (subStr.length > this.length) {
+    //    return false;
+    //  }
+    //  return (this.indexOf(subStr) == 0) ? true : false;
+    //};
+    //
+    ///** 计算长度，每个汉字占两个长度，英文字符每个占一个长度 **/
+    //String.prototype.charLength = function () {
+    //  var temp = 0;
+    //  for (var i = 0; i < this.length; i++) {
+    //    if (this.charCodeAt(i) > 255) {
+    //      temp += 2;
+    //    }
+    //    else {
+    //      temp += 1;
+    //    }
+    //  }
+    //  return temp;
+    //};
+    //
+    //String.prototype.charLengthReg = function () {
+    //  return this.replace(/[^\x00-\xff]/g, "**").length;
+    //};
+    //
+    ///** 去掉首尾空格 **/
+    //String.prototype.trim = function () {
+    //  return this.replace(/(^\s*)|(\s*$)/g, "");
+    //};
+    ///** 测试是否是数字 **/
+    //String.prototype.isNumeric = function () {
+    //  var tmpFloat = parseFloat(this);
+    //  if (isNaN(tmpFloat))
+    //    return false;
+    //  var tmpLen = this.length - tmpFloat.toString().length;
+    //  return tmpFloat + "0".Repeat(tmpLen) == this;
+    //};
+    ///** 测试是否是整数 **/
+    //String.prototype.isInt = function () {
+    //  if (this == "NaN")
+    //    return false;
+    //  return this == parseInt(this).toString();
+    //};
+    //
+    ///** 获取N个相同的字符串 **/
+    //String.prototype.Repeat = function (num) {
+    //  var tmpArr = [];
+    //  for (var i = 0; i < num; i++) tmpArr.push(this);
+    //  return tmpArr.join("");
+    //};
+    //
+    ///** 合并多个空白为一个空白 **/
+    //String.prototype.resetBlank = function () {
+    //  return this.replace(/s+/g, " ");
+    //};
+    //
+    ///** 除去左边空白 **/
+    //String.prototype.LTrim = function () {
+    //  return this.replace(/^s+/g, "");
+    //};
+    //
+    ///** 除去右边空白 **/
+    //String.prototype.RTrim = function () {
+    //  return this.replace(/s+$/g, "");
+    //};
+    //
+    ///** 除去两边空白 **/
+    //String.prototype.trim = function () {
+    //  return this.replace(/(^s+)|(s+$)/g, "");
+    //};
+    //
+    ///** 保留数字 **/
+    //String.prototype.getNum = function () {
+    //  return this.replace(/[^d]/g, "");
+    //};
+    //
+    ///** 保留字母 **/
+    //String.prototype.getEn = function () {
+    //  return this.replace(/[^A-Za-z]/g, "");
+    //};
+    //
+    ///** 保留中文 **/
+    //String.prototype.getCn = function () {
+    //  return this.replace(/[^u4e00-u9fa5uf900-ufa2d]/g, "");
+    //};
+    //
+    ///** 得到字节长度 **/
+    //String.prototype.getRealLength = function () {
+    //  return this.replace(/[^x00-xff]/g, "--").length;
+    //};
+    //
+    ///** 从左截取指定长度的字串 **/
+    //String.prototype.left = function (n) {
+    //  return this.slice(0, n);
+    //};
+    //
+    ///** 从右截取指定长度的字串 **/
+    //String.prototype.right = function (n) {
+    //  return this.slice(this.length - n);
+    //};
+
+})();
+
+/**
+ * 创建人：pengchao
  * 创建时间：2015-3-23-0023
  * 工厂名字：md5Factory
  * 作用：md5码工厂
@@ -4139,385 +4518,6 @@ module.directive('menuLink', function () {
 
 
     }
-
-})();
-
-/**
- * 创建人：pengchao
- * 创建时间：2015-3-26-0026
- * 工厂名字：String
- * 作用：扩展String的方法
- */
-(function () {
-    'use strict';
-
-
-    Array.prototype.customFind = function (func) {
-        for (var i = 0; i < this.length; i++) {
-            if (func(this[i])) {
-                return this[i];
-            }
-        }
-    };
-
-    Array.prototype.filterArr = function (arr, func) {
-        var results = [];
-        for (var i = 0; i < this.length; i++) {
-            var item = this[i];
-            if (!arr.customFind(function (obj) {
-                    return func(obj, item);
-                })) {
-                results.push(item);
-            }
-        }
-        return results;
-    };
-
-    if (!Array.prototype.customFilter) {
-        Array.prototype.customFilter = function (func) {
-            var results = [];
-            angular.forEach(this, function (obj) {
-                if (func(obj)) {
-                    results.push(obj);
-                }
-            });
-            return results;
-        };
-    }
-
-    if (!Array.prototype.remove) {
-        Array.prototype.remove = function (index) {
-            this.splice(index, 1);
-        };
-    }
-
-    if (!Array.prototype.exchange) {
-        Array.prototype.exchange = function (dx1, dx2) {
-            var tmp   = this[dx1];
-            this[dx1] = this[dx2];
-            this[dx2] = tmp;
-        };
-    }
-
-    if (!Array.prototype.insert) {
-        Array.prototype.insert = function (index, item) {
-            this.splice(index, 0, item);
-        };
-    }
-
-    if (!Array.prototype.moveTo) {
-        Array.prototype.moveTo = function (init, to) {
-            if (to > init) {
-                this.insert(to, this[init]);
-                this.splice(init, 1);
-            }else{
-                var tmp = this[init];
-                this.splice(init, 1);
-                this.insert(to);
-            }
-        };
-    }
-
-    if(!Array.prototype.moveToFirst) {
-        Array.prototype.moveToFirst = function(dx) {
-            if(dx != 0) {
-                var item = this[dx];
-                this.remove(dx);
-                this.insert(0, item);
-            }
-        };
-    }
-    if(!Array.prototype.moveToLast) {
-        Array.prototype.moveToLast = function(dx) {
-            if(dx != this.length - 1) {
-                var item = this[dx];
-                this.remove(dx);
-                this.push(item);
-            }
-        };
-    }
-
-
-    if(!Array.prototype.joinMember) {
-        Array.prototype.joinMember = function(member, sperator) {
-            var results = [];
-            angular.forEach(this, function (obj) {
-                if(obj[member]) {
-                    results.push(obj[member]);
-                }
-            });
-            return results.join(sperator);
-        };
-    }
-
-
-
-    /**
-     *
-     * @param elOrFunc 元素 或者 函数
-     * @param all 是否删除全部，如果为false，删除第一个预见的
-     * @returns {number}
-     */
-    Array.prototype.customRemove = function (elOrFunc, all) {
-        if (!elOrFunc) {
-            return 0;
-        }
-        var result = 0;
-        all        = all || false;
-        var isFunc = angular.isFunction(elOrFunc);
-        if (all) {
-            for (var i = this.length - 1; i >= 0; i--) {
-                if ((isFunc && elOrFunc(this[i])) || (!isFunc && (elOrFunc === this[i]))) {
-                    this.splice(i, 1);
-                    result++;
-                }
-            }
-        } else {
-            for (var i = 0; i < this.length; i++) {
-                if ((isFunc && elOrFunc(this[i])) || (!isFunc && (elOrFunc === this[i]))) {
-                    this.splice(i, 1);
-                    result++;
-                    break;
-                }
-            }
-        }
-        return result;
-    };
-})
-();
-
-/**
- * 创建人：pengchao
- * 创建时间：2015-3-26-0026
- * 工厂名字：String
- * 作用：扩展String的方法
- */
-(function () {
-    'use strict';
-    if (!String.prototype.reverse) {
-        String.prototype.reverse = function () {
-            var str = "";
-            var end = this.length - 1;
-            for (; end >= 0; end--) {
-                str = str + this.charAt(end);
-            }
-
-            return str;
-        }
-    }
-
-
-    ///** 在字符串末尾追加字符串 **/
-    //String.prototype.append = function (str) {
-    //  return this.concat(str);
-    //};
-    //
-    ///** 删除指定索引位置的字符，索引无效将不删除任何字符 **/
-    //String.prototype.deleteCharAt = function (index) {
-    //  if (index < 0 || index >= this.length) {
-    //    return this.valueOf();
-    //  }
-    //  else if (index == 0) {
-    //    return this.substring(1, this.length);
-    //  }
-    //  else if (index == this.length - 1) {
-    //    return this.substring(0, this.length - 1);
-    //  }
-    //  else {
-    //    return this.substring(0, index) + this.substring(index + 1);
-    //  }
-    //};
-    //
-    ///** 删除指定索引区间的字符串 **/
-    //String.prototype.deleteString = function (start, end) {
-    //  if (start == end) {
-    //    return this.deleteCharAt(start);
-    //  }
-    //  else {
-    //    if (start > end) {
-    //      var temp = start;
-    //      start = end;
-    //      end = temp;
-    //    }
-    //    if (start < 0) {
-    //      start = 0;
-    //    }
-    //    if (end > this.length - 1) {
-    //      end = this.length - 1;
-    //    }
-    //    return this.substring(0, start) + this.substring(end + 1, this.length);
-    //  }
-    //};
-    //
-    ///** 检查字符串是否以subStr结尾 **/
-    //String.prototype.endWith = function (subStr) {
-    //  if (subStr.length > this.length) {
-    //    return false;
-    //  }
-    //  else {
-    //    return (this.lastIndexOf(subStr) == (this.length - subStr.length)) ? true : false;
-    //  }
-    //};
-    //
-    ///** 比较两个字符串是否相等，也可以直接用 == 进行比较 **/
-    //String.prototype.equal = function (str) {
-    //  if (this.length != str.length) {
-    //    return false;
-    //  }
-    //  else {
-    //    for (var i = 0; i < this.length; i++) {
-    //      if (this.charAt(i) != str.charAt(i)) {
-    //        return false;
-    //      }
-    //    }
-    //    return true;
-    //  }
-    //};
-    //
-    //
-    ///** 比较两个字符串是否相等，不区分大小写 **/
-    //String.prototype.equalIgnoreCase = function (str) {
-    //  var temp1 = this.toLowerCase();
-    //  var temp2 = str.toLowerCase();
-    //  return temp1.equal(temp2);
-    //};
-    //
-    ///** 将指定的字符串插入到指定的位置后面，索引无效将直接追加到字符串的末尾 **/
-    //String.prototype.insert = function (ofset, subStr) {
-    //  if (ofset < 0 || ofset >= this.length - 1) {
-    //    return this.append(subStr);
-    //  }
-    //  return this.substring(0, ofset + 1) + subStr + this.substring(ofset + 1);
-    //};
-    //
-    ///** 判断字符串是否数字串 **/
-    //String.prototype.isAllNumber = function () {
-    //  for (var i = 0; i < this.length; i++) {
-    //    if (this.charAt(i) < '0' || this.charAt(i) > '9') {
-    //      return false;
-    //    }
-    //  }
-    //  return true;
-    //};
-    //
-    ///** 将字符串反序排列 **/
-    //String.prototype.reserve = function () {
-    //  var temp = "";
-    //  for (var i = this.length - 1; i >= 0; i--) {
-    //    temp = temp.concat(this.charAt(i));
-    //  }
-    //  return temp;
-    //};
-    //
-    ///** 将指定的位置的字符设置为另外指定的字符或字符串.索引无效将直接返回不做任何处理 **/
-    //String.prototype.setCharAt = function (index, subStr) {
-    //  if (index < 0 || index > this.length - 1) {
-    //    return this.valueOf();
-    //  }
-    //  return this.substring(0, index) + subStr + this.substring(index + 1);
-    //};
-    //
-    ///** 检查字符串是否以subStr开头 **/
-    //String.prototype.startWith = function (subStr) {
-    //  if (subStr.length > this.length) {
-    //    return false;
-    //  }
-    //  return (this.indexOf(subStr) == 0) ? true : false;
-    //};
-    //
-    ///** 计算长度，每个汉字占两个长度，英文字符每个占一个长度 **/
-    //String.prototype.charLength = function () {
-    //  var temp = 0;
-    //  for (var i = 0; i < this.length; i++) {
-    //    if (this.charCodeAt(i) > 255) {
-    //      temp += 2;
-    //    }
-    //    else {
-    //      temp += 1;
-    //    }
-    //  }
-    //  return temp;
-    //};
-    //
-    //String.prototype.charLengthReg = function () {
-    //  return this.replace(/[^\x00-\xff]/g, "**").length;
-    //};
-    //
-    ///** 去掉首尾空格 **/
-    //String.prototype.trim = function () {
-    //  return this.replace(/(^\s*)|(\s*$)/g, "");
-    //};
-    ///** 测试是否是数字 **/
-    //String.prototype.isNumeric = function () {
-    //  var tmpFloat = parseFloat(this);
-    //  if (isNaN(tmpFloat))
-    //    return false;
-    //  var tmpLen = this.length - tmpFloat.toString().length;
-    //  return tmpFloat + "0".Repeat(tmpLen) == this;
-    //};
-    ///** 测试是否是整数 **/
-    //String.prototype.isInt = function () {
-    //  if (this == "NaN")
-    //    return false;
-    //  return this == parseInt(this).toString();
-    //};
-    //
-    ///** 获取N个相同的字符串 **/
-    //String.prototype.Repeat = function (num) {
-    //  var tmpArr = [];
-    //  for (var i = 0; i < num; i++) tmpArr.push(this);
-    //  return tmpArr.join("");
-    //};
-    //
-    ///** 合并多个空白为一个空白 **/
-    //String.prototype.resetBlank = function () {
-    //  return this.replace(/s+/g, " ");
-    //};
-    //
-    ///** 除去左边空白 **/
-    //String.prototype.LTrim = function () {
-    //  return this.replace(/^s+/g, "");
-    //};
-    //
-    ///** 除去右边空白 **/
-    //String.prototype.RTrim = function () {
-    //  return this.replace(/s+$/g, "");
-    //};
-    //
-    ///** 除去两边空白 **/
-    //String.prototype.trim = function () {
-    //  return this.replace(/(^s+)|(s+$)/g, "");
-    //};
-    //
-    ///** 保留数字 **/
-    //String.prototype.getNum = function () {
-    //  return this.replace(/[^d]/g, "");
-    //};
-    //
-    ///** 保留字母 **/
-    //String.prototype.getEn = function () {
-    //  return this.replace(/[^A-Za-z]/g, "");
-    //};
-    //
-    ///** 保留中文 **/
-    //String.prototype.getCn = function () {
-    //  return this.replace(/[^u4e00-u9fa5uf900-ufa2d]/g, "");
-    //};
-    //
-    ///** 得到字节长度 **/
-    //String.prototype.getRealLength = function () {
-    //  return this.replace(/[^x00-xff]/g, "--").length;
-    //};
-    //
-    ///** 从左截取指定长度的字串 **/
-    //String.prototype.left = function (n) {
-    //  return this.slice(0, n);
-    //};
-    //
-    ///** 从右截取指定长度的字串 **/
-    //String.prototype.right = function (n) {
-    //  return this.slice(this.length - n);
-    //};
 
 })();
 
@@ -5892,8 +5892,8 @@ $templateCache.put("app/dep/Department.html","<div ui-view=\"\" class=\"content-
 $templateCache.put("app/desktop/desktop.html","<md-content class=\"md-padding\">首页</md-content>");
 $templateCache.put("app/exam/exam.html","<div ui-view=\"\" class=\"content-padding\"></div>");
 $templateCache.put("app/login/login.html","<div style=\"position:absolute;top:50%;left:50%;\"><div layout=\"row\" style=\"width:500px;height:230px;position: relative; margin:-115px auto auto -250px;\"><div flex=\"\" hide-sm=\"\" flex-order=\"1\" align=\"right\" layout-padding=\"\"><img src=\"../assets/images/img/login_01.png\" layout-padding=\"\"><div class=\"login-font\">作业管理系统</div><p class=\"login-font-p\">2015年田黄雪薇版权所有</p></div><div flex=\"\" flex-order=\"2\" align=\"center\"><form name=\"vm.loginForm\" layout=\"column\" layout-align=\"center center\"><md-input-container flex=\"\"><label align=\"left\">账号</label> <input required=\"\" ng-model=\"vm.user.userName\" placeholder=\"请输入用户名\"><div ng-messages=\"vm.loginForm.user.userName.$error\"><div ng-message=\"required\">账号不能为空</div></div></md-input-container><md-input-container flex=\"\"><label align=\"left\">密码</label> <input required=\"\" ng-model=\"vm.user.password\" type=\"password\" placeholder=\"请输入密码\"><div ng-messages=\"vm.loginForm.user.password.$error\"><div ng-message=\"required\">密码不能为空</div></div></md-input-container><md-button class=\"md-raised md-primary\" style=\"width: 175px;box-shadow: none;color:#fff\" ng-click=\"vm.login($event)\" flex=\"\">登陆</md-button></form><md-button ng-click=\"vm.stuRegister($event)\" style=\"margin-top: 20px;color: green;padding: 10px\">学生注册</md-button><md-button ng-click=\"vm.teacherRegister($event)\" style=\"margin-top: 20px;color: green;padding: 10px\">老师注册</md-button></div></div></div>");
-$templateCache.put("app/register/Register.html","<md-content class=\"md-padding\" layout=\"column\" layout-align=\"center center\"><form name=\"vm.newForm\" layout=\"column\" layout-align=\"center center\"><md-input-container><label>账户</label> <input required=\"\" ng-model=\"vm.user.id\" placeholder=\"请输入账号\"></md-input-container><md-input-container><label>名字</label> <input required=\"\" ng-model=\"vm.user.name\" placeholder=\"请输入名字\"></md-input-container><md-input-container><label>{{vm.ssn}}</label> <input required=\"\" ng-model=\"vm.user.sn\" placeholder=\"请输入编号\"></md-input-container><md-input-container><label>密码</label> <input required=\"\" type=\"password\" ng-model=\"vm.user.password\" placeholder=\"请输入密码\"></md-input-container><md-input-container><label>确认密码</label> <input required=\"\" type=\"password\" ng-model=\"vm.password\" placeholder=\"请输入确认密码\"></md-input-container><md-button class=\"md-primary\" style=\"margin-top: 50px;min-width: 200px\" ng-click=\"vm.submit($event)\">提交</md-button></form></md-content>");
 $templateCache.put("app/main/main.html","<section layout=\"row\" flex=\"\" class=\"body\"><md-sidenav class=\"site-sidenav md-sidenav-left md-whiteframe-z2\" md-component-id=\"left\" md-is-locked-open=\"$mdMedia(\'gt-sm\')\"><md-toolbar><h1 class=\"md-toolbar-tools\"><a ng-href=\"/\" layout=\"row\" flex=\"\" style=\"color:#fff\"><svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewbox=\"0 0 100 100\" enable-background=\"new 0 0 100 100\" xml:space=\"preserve\" style=\"width: 40px; height: 40px;\"><path d=\"M 50 0 L 100 14 L 92 80 L 50 100 L 8 80 L 0 14 Z\" fill=\"#b2b2b2\"></path><path d=\"M 50 5 L 6 18 L 13.5 77 L 50 94 Z\" fill=\"#E42939\"></path><path d=\"M 50 5 L 94 18 L 86.5 77 L 50 94 Z\" fill=\"#B72833\"></path><path d=\"M 50 7 L 83 75 L 72 75 L 65 59 L 50 59 L 50 50 L 61 50 L 50 26 Z\" fill=\"#b2b2b2\"></path><path d=\"M 50 7 L 17 75 L 28 75 L 35 59 L 50 59 L 50 50 L 39 50 L 50 26 Z\" fill=\"#fff\"></path></svg><div class=\"docs-logotype\">作业管理系统</div></a></h1></md-toolbar><md-content flex=\"\" role=\"navigation\"><ul class=\"docs-menu\"><div layout=\"column\" layout-align=\"center center\" style=\"background-color: #f0f0f0\"><p>{{self.name}}</p><div layout=\"row\" layout-align=\"center center\"><md-button ng-click=\"vm.quit()\">退出系统</md-button><md-button ng-click=\"vm.change()\">修改个人资料</md-button></div></div><li ng-repeat=\"section in vm.sections\" class=\"parent-list-item\" ng-class=\"{\'parentActive\' : vm.isSectionSelected(section)}\"><h2 class=\"menu-heading\" ng-if=\"section.type === \'heading\'\" id=\"heading_{{ section.name | nospace}}\">{{section.name}}</h2><menu-link section=\"section\" ng-if=\"section.type === \'link\'\"></menu-link><menu-toggle section=\"section\" ng-if=\"section.type === \'toggle\'\"></menu-toggle><ul ng-if=\"section.children\" class=\"menu-nested-list\"><li ng-repeat=\"child in section.children\" ng-class=\"{\'childActive\' : isSectionSelected(child)}\"><menu-toggle section=\"child\"></menu-toggle></li></ul></li></ul></md-content></md-sidenav><div layout=\"column\" tabindex=\"-1\" role=\"main\" flex=\"\"><md-toolbar><div class=\"md-toolbar-tools\" ng-click=\"vm.openMenu()\"><button class=\"docs-menu-icon\" hide-gt-sm=\"\" aria-label=\"Toggle Menu\"><md-icon md-svg-src=\"../assets/images/svg/ic_menu_24px.svg\"></md-icon></button><div layout=\"row\" flex=\"\" class=\"fill-height\"><div class=\"md-toolbar-item md-breadcrumb\" style=\"color: #fff\"><span ng-if=\"vm.menu.currentPage.name !== vm.menu.currentSection.name\"><span hide-sm=\"\" hide-md=\"\">{{vm.menu.currentSection.name}}</span> <span class=\"docs-menu-separator-icon\" style=\"\" hide-sm=\"\" hide-md=\"\"><img src=\"../assets/images/icons/docArrow.png\" alt=\"\" aria-hidden=\"true\">]</span></span> <span class=\"md-breadcrumb-page\">{{(vm.menu.currentPage) || \'OA\' }}</span></div><span flex=\"\"></span><div class=\"md-toolbar-item md-tools docs-tools\" layout=\"column\" layout-gt-md=\"row\"><div><img src=\"../assets/images/img/face.jpg\" class=\"face\" alt=\"这个是我自己\"></div></div></div></div></md-toolbar><md-content ui-view=\"\" md-scroll-y=\"\" flex=\"\" style=\"background: #eee;height: 100%\"></md-content></div></section>");
+$templateCache.put("app/register/Register.html","<md-content class=\"md-padding\" layout=\"column\" layout-align=\"center center\"><form name=\"vm.newForm\" layout=\"column\" layout-align=\"center center\"><md-input-container><label>账户</label> <input required=\"\" ng-model=\"vm.user.id\" placeholder=\"请输入账号\"></md-input-container><md-input-container><label>名字</label> <input required=\"\" ng-model=\"vm.user.name\" placeholder=\"请输入名字\"></md-input-container><md-input-container><label>{{vm.ssn}}</label> <input required=\"\" ng-model=\"vm.user.sn\" placeholder=\"请输入编号\"></md-input-container><md-input-container><label>密码</label> <input required=\"\" type=\"password\" ng-model=\"vm.user.password\" placeholder=\"请输入密码\"></md-input-container><md-input-container><label>确认密码</label> <input required=\"\" type=\"password\" ng-model=\"vm.password\" placeholder=\"请输入确认密码\"></md-input-container><md-button class=\"md-primary\" style=\"margin-top: 50px;min-width: 200px\" ng-click=\"vm.submit($event)\">提交</md-button></form></md-content>");
 $templateCache.put("app/title/Title.html","<div ui-view=\"\" class=\"content-padding\"></div>");
 $templateCache.put("app/user/User.html","<div ui-view=\"\" class=\"content-padding\"></div>");
 $templateCache.put("app/work/work.html","<div ui-view=\"\" class=\"content-padding\"></div>");
@@ -5934,11 +5934,11 @@ $templateCache.put("app/title/list/TitleList.html","<md-content layout=\"column\
 $templateCache.put("app/user/add/UserAdd.html","<form name=\"vm.addForm\"><md-content layout=\"column\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">选择师生添加到{{vm.department.name}}</div><md-button class=\"btn-ctrl\" ng-click=\"vm.updateUser($event)\">提交</md-button><md-button class=\"btn-ctrl\" ng-click=\"back()\">取消</md-button></md-toolbar><md-content><div layout=\"row\" ng-repeat=\"user in vm.users\"><md-button>{{$index+1}}</md-button><md-checkbox ng-model=\"user.selected\" flex=\"\">{{user.name}}</md-checkbox></div></md-content></md-content></form>");
 $templateCache.put("app/user/change/DepartmentChange.html","<form name=\"vm.addForm\" layout=\"column\" class=\"doc-content\"><md-whiteframe class=\"md-padding\" layout=\"column\"><md-toolbar md-theme=\"altTheme\" layout=\"row\" class=\"box-shadow-none toolbar-border\"><div class=\"md-toolbar-tools\" flex=\"\">编辑{{vm.department.name}}资料</div><md-button ng-click=\"vm.submit($event)\" class=\"btn-ctrl\">提交</md-button><md-button ng-click=\"back()\" class=\"btn-ctrl\">取消</md-button></md-toolbar><md-content class=\"content-border\"><div ng-include=\"\" src=\"vm.type.editUrl\" class=\"info-border\"></div></md-content></md-whiteframe></form>");
 $templateCache.put("app/user/list/UserList.html","<div layout=\"row\"><md-content flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">过滤</div></md-toolbar><div class=\"content-border\" ng-include=\"\" src=\"\'components/template/department.tmp.html\'\"></div></md-content><md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">{{vm.selectDep.name | default:\'全部\'}} 师生列表</div><md-button ng-click=\"vm.addUser($event)\">添加</md-button></md-toolbar><div layout=\"row\" ng-repeat=\"user in vm.users\"><md-button>{{$index+1}}</md-button><md-button>{{user.name}}</md-button><md-button>{{user.type === 0 ? \'学生\':\'老师\'}}</md-button></div><div ng-if=\"!vm.users || vm.users.length === 0\"><md-button ng-click=\"vm.addUser($event)\">一个师生都没有,点此添加</md-button></div></md-content></div>");
+$templateCache.put("app/work/correct/correct.html","<form name=\"vm.correctForm\" class=\"md-whiteframe-z1\" layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">试卷</div><md-button ng-click=\"back()\">返回</md-button><md-button ng-click=\"vm.submit($event)\">提交</md-button></md-toolbar><div layout=\"column\" style=\"background-color: white; padding-bottom: 550px\"><div layout-align=\"center center\" layout=\"column\"><h1>{{vm.exam.name}}</h1><div layout=\"row\"><h3>{{\'共\' + vm.exam.titles.length + \' 题, 满分: \' + vm.exam.percent + \'分\' }}</h3><h2>学生: {{vm.userarrange.user.name}}</h2></div></div><div layout=\"column\"><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerAllRight\"></div><label flex=\"\">代表你选到答案,同时也是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerYou\"></div><label flex=\"\">代表你选到答案,但不是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerRight\"></div><label flex=\"\">代表正确答案</label></div></div><div style=\"border: dotted 1px #aaa;\"></div><div ng-repeat=\"(bIndex, bigTitle) in vm.exam.titles\" style=\"margin: 10px 5px;\"><h2 flex=\"\">{{((bIndex + 1) | sequence:\'zh\')+ \' : \' + bigTitle.name + \'(每题 \' + bigTitle.percent + \"分, 共\" + bigTitle.titles.length + \" * \" + bigTitle.percent + \"= \" + (bigTitle.titles.length * bigTitle.percent) + \" 分)\"}}</h2><div ng-switch=\"bigTitle.type\"><div ng-switch-when=\"0\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content + \' (分数: \' + (title.percent || 0) + \' 分)\'}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-radio-group><md-radio-button ng-repeat=\"(aIndex, answer) in title.answers\" style=\"margin-left: 10px\" disabled=\"\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-radio-button></md-radio-group></div></div><div ng-switch-when=\"1\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content + \' (分数: \' + (title.percent || 0) + \' 分)\'}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-checkbox disabled=\"\" ng-repeat=\"(aIndex,answer) in title.answers\" style=\"margin-left: 10px\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-checkbox></div></div><div ng-switch-default=\"\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content}}</h4></div><div style=\"margin: 10px\"><label>答案:</label><p>{{title.answer}}</p></div><md-input-container><label>分数</label> <input type=\"number\" required=\"\" ng-model=\"title.percent\"></md-input-container><div><md-button ng-if=\"vm.filterCorrect(title.answers).length > 0\" ng-click=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\'] = !vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\">参考答案</md-button><div ng-if=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\" layout=\"row\" ng-repeat=\"(aIndex,answer) in vm.filterCorrect(title.answers)\"><label>{{aIndex+1}}:</label><p style=\"margin: 0px 20px\">{{answer.content}}</p></div></div></div></div></div></div></div></form>");
 $templateCache.put("app/work/corrects/corrects.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">待批改作业</div></md-toolbar><div><div layout=\"column\" ng-repeat=\"title in vm.arranges\"><a ng-href=\"/#/main/work/correct?id={{title.id}}\" class=\"link container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"row\" layout-align=\"center center\" flex=\"\"><span flex=\"\"><h2>{{title.arrange.name}}</h2></span> <label>学生: {{title.user.name}}</label></div></div></a><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.arranges || vm.arranges.length === 0\"><label>暂无待批改作业</label></div></div></md-content>");
-$templateCache.put("app/work/correct/correct.html","<form name=\"vm.correctForm\" class=\"md-whiteframe-z1\" layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">试卷</div><md-button ng-click=\"back()\">返回</md-button><md-button ng-click=\"vm.submit($event)\">提交</md-button></md-toolbar><div layout=\"column\" style=\"background-color: white; padding-bottom: 550px\"><div layout-align=\"center center\" layout=\"column\"><h1>{{vm.exam.name}}</h1><div layout=\"row\"><h3>{{\'共\' + vm.exam.titles.length + \' 题, 满分: \' + vm.exam.percent + \'分\' }}</h3><h2>学生: {{vm.userarrange.user.name}}</h2></div></div><div layout=\"column\"><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerAllRight\"></div><label flex=\"\">代表你选到答案,同时也是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerYou\"></div><label flex=\"\">代表你选到答案,但不是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerRight\"></div><label flex=\"\">代表正确答案</label></div></div><div style=\"border: dotted 1px #aaa;\"></div><div ng-repeat=\"(bIndex, bigTitle) in vm.exam.titles\" style=\"margin: 10px 5px;\"><h2 flex=\"\">{{((bIndex + 1) | sequence:\'zh\')+ \' : \' + bigTitle.name + \'(每题 \' + bigTitle.percent + \"分, 共\" + bigTitle.titles.length + \" * \" + bigTitle.percent + \"= \" + (bigTitle.titles.length * bigTitle.percent) + \" 分)\"}}</h2><div ng-switch=\"bigTitle.type\"><div ng-switch-when=\"0\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content + \' (分数: \' + title.percent + \' 分)\'}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-radio-group><md-radio-button ng-repeat=\"(aIndex, answer) in title.answers\" style=\"margin-left: 10px\" disabled=\"\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-radio-button></md-radio-group></div></div><div ng-switch-when=\"1\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content + \' (分数: \' + title.percent + \' 分)\'}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-checkbox disabled=\"\" ng-repeat=\"(aIndex,answer) in title.answers\" style=\"margin-left: 10px\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-checkbox></div></div><div ng-switch-default=\"\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content}}</h4></div><div style=\"margin: 10px\"><label>答案:</label><p>{{title.answer}}</p></div><md-input-container><label>分数</label> <input type=\"number\" required=\"\" ng-model=\"title.percent\"></md-input-container><div><md-button ng-if=\"vm.filterCorrect(title.answers).length > 0\" ng-click=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\'] = !vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\">参考答案</md-button><div ng-if=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\" layout=\"row\" ng-repeat=\"(aIndex,answer) in vm.filterCorrect(title.answers)\"><label>{{aIndex+1}}:</label><p style=\"margin: 0px 20px\">{{answer.content}}</p></div></div></div></div></div></div></div></form>");
 $templateCache.put("app/work/histories/histories.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">历史作业</div><md-button ng-href=\"/#/main/exam/add\">添加</md-button></md-toolbar><div><div layout=\"column\" ng-repeat=\"title in vm.arranges\"><a ng-href=\"/#/main/work/history?id={{title.id}}\" class=\"link container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"row\" layout-align=\"center center\" flex=\"\"><span flex=\"\"><h2>{{title.arrange.name}}</h2></span> <label>教师: {{title.teach.name}}</label></div></div></a><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.arranges || vm.arranges.length === 0\"><label>暂无历史作业</label></div></div></md-content>");
 $templateCache.put("app/work/history/history.html","<form name=\"vm.correctForm\" class=\"md-whiteframe-z1\" layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">作业</div><md-button ng-click=\"back()\">返回</md-button></md-toolbar><div layout=\"column\" style=\"background-color: white; padding-bottom: 550px\"><div layout-align=\"center center\" layout=\"column\"><h1>{{vm.exam.name}}</h1><div layout=\"row\"><h3>{{\'共\' + vm.exam.titles.length + \' 题, 满分: \' + vm.exam.percent + \'分\' }}</h3><h3 style=\"margin-left: 30px\">学生: {{vm.userarrange.user.name}} 得分: {{vm.userarrange.percent}}</h3></div></div><div layout=\"column\"><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerAllRight\"></div><label flex=\"\">代表你选到答案,同时也是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerYou\"></div><label flex=\"\">代表你选到答案,但不是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerRight\"></div><label flex=\"\">代表正确答案</label></div></div><div style=\"border: dotted 1px #aaa;\"></div><div ng-repeat=\"(bIndex, bigTitle) in vm.exam.titles\" style=\"margin: 10px 5px;\"><h2 flex=\"\">{{((bIndex + 1) | sequence:\'zh\')+ \' : \' + bigTitle.name + \'(每题 \' + bigTitle.percent + \"分, 共\" + bigTitle.titles.length + \" * \" + bigTitle.percent + \"= \" + (bigTitle.titles.length * bigTitle.percent) + \" 分)\"}}</h2><div ng-switch=\"bigTitle.type\"><div ng-switch-when=\"0\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content + \' (分数: \' + title.percent + \' 分)\'}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-radio-group><md-radio-button ng-repeat=\"(aIndex, answer) in title.answers\" style=\"margin-left: 10px\" disabled=\"\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-radio-button></md-radio-group></div></div><div ng-switch-when=\"1\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content + \' (分数: \' + title.percent + \' 分)\'}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-checkbox disabled=\"\" ng-repeat=\"(aIndex,answer) in title.answers\" style=\"margin-left: 10px\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-checkbox></div></div><div ng-switch-default=\"\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content}}</h4><label>得分: {{title.percent}}</label></div><div style=\"margin: 10px\"><label>答案:</label><p>{{title.answer}}</p></div><div><md-button ng-if=\"vm.filterCorrect(title.answers).length > 0\" ng-click=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\'] = !vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\">参考答案</md-button><div ng-if=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\" layout=\"row\" ng-repeat=\"(aIndex,answer) in vm.filterCorrect(title.answers)\"><label>{{aIndex+1}}:</label><p style=\"margin: 0px 20px\">{{answer.content}}</p></div></div></div></div></div></div></div></form>");
-$templateCache.put("app/work/info/workInfo.html","<md-content class=\"md-whiteframe-z1\" layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">试卷</div><md-button ng-click=\"vm.startAnswer($event)\" ng-if=\"!vm.start\">开始答题</md-button><md-button ng-click=\"vm.submit($event)\" ng-if=\"vm.start\">提交</md-button><md-button ng-click=\"back()\">返回</md-button></md-toolbar><div layout=\"column\" style=\"background-color: white; padding-bottom: 550px\"><div layout-align=\"center center\" layout=\"column\"><h1>{{vm.exam.name}}</h1><h3>{{\'共\' + vm.exam.titles.length + \' 题, 满分: \' + vm.exam.percent + \'分\' }}</h3></div><div style=\"border: dotted 1px #aaa;\"></div><div ng-repeat=\"bigTitle in vm.exam.titles\" style=\"margin: 10px 5px;\"><h2 flex=\"\">{{(($index + 1) | sequence:\'zh\')+ \' : \' + bigTitle.name + \'(每题 \' + bigTitle.percent + \"分, 共\" + bigTitle.titles.length + \" * \" + bigTitle.percent + \"= \" + (bigTitle.titles.length * bigTitle.percent) + \" 分)\"}}</h2><div ng-switch=\"bigTitle.type\"><div ng-switch-when=\"0\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-radio-group ng-model=\"title.answer\"><md-radio-button ng-repeat=\"answer in title.answers\" style=\"margin-left: 10px\" data-ng-value=\"answer.id\">{{($index | abcd:\'upper\') + \'. \' + answer.content}}</md-radio-button></md-radio-group></div></div><div ng-switch-when=\"1\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-checkbox ng-repeat=\"answer in title.answers\" style=\"margin-left: 10px\" ng-model=\"answer.select\">{{($index | abcd:\'upper\') + \'. \' + answer.content}}</md-checkbox></div></div><div ng-switch-default=\"\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4></div><md-input-container><label>答案:</label> <textarea ng-model=\"title.answer\" style=\"min-height: 300px\"></textarea></md-input-container></div></div></div></div></div></md-content>");
+$templateCache.put("app/work/info/workInfo.html","<md-content class=\"md-whiteframe-z1\" layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">试卷</div><md-button ng-click=\"vm.startAnswer($event)\" ng-if=\"!vm.start\">开始答题</md-button><md-button ng-click=\"vm.submit($event)\" ng-if=\"vm.start\">提交</md-button><md-button ng-click=\"back()\">返回</md-button></md-toolbar><div layout=\"column\" style=\"background-color: white; padding-bottom: 550px\"><div layout-align=\"center center\" layout=\"column\"><h1>{{vm.exam.name}}</h1><h3>{{\'共\' + vm.exam.titles.length + \' 题, 满分: \' + vm.exam.percent + \'分\' }}</h3></div><div style=\"border: dotted 1px #aaa;\"></div><div ng-repeat=\"bigTitle in vm.exam.titles\" style=\"margin: 10px 5px;\"><h2 flex=\"\">{{(($index + 1) | sequence:\'zh\')+ \' : \' + bigTitle.name + \'(每题 \' + bigTitle.percent + \"分, 共\" + bigTitle.titles.length + \" * \" + bigTitle.percent + \"= \" + (bigTitle.titles.length * bigTitle.percent) + \" 分)\"}}</h2><div ng-switch=\"bigTitle.type\"><div ng-switch-when=\"0\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-radio-group ng-model=\"title.answer\"><md-radio-button ng-disabled=\"!vm.start\" ng-repeat=\"answer in title.answers\" style=\"margin-left: 10px\" ng-value=\"answer.id\">{{($index | abcd:\'upper\') + \'. \' + answer.content}}</md-radio-button></md-radio-group></div></div><div ng-switch-when=\"1\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-checkbox ng-disabled=\"!vm.start\" ng-repeat=\"answer in title.answers\" style=\"margin-left: 10px\" ng-model=\"answer.select\">{{($index | abcd:\'upper\') + \'. \' + answer.content}}</md-checkbox></div></div><div ng-switch-default=\"\"><div ng-repeat=\"title in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{(($index + 1)) + \': \' + title.content}}</h4></div><md-input-container><label>答案:</label> <textarea ng-disabled=\"!vm.start\" ng-model=\"title.answer\" style=\"min-height: 300px\"></textarea></md-input-container></div></div></div></div></div></md-content>");
 $templateCache.put("app/work/list/workList.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">我的作业</div><md-button ng-href=\"/#/main/exam/add\">添加</md-button></md-toolbar><div><div layout=\"column\" ng-repeat=\"title in vm.arranges\"><a ng-href=\"/#/main/work/info?id={{title.id}}\" class=\"link container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"row\" layout-align=\"center center\" flex=\"\"><span flex=\"\"><h2>{{title.arrange.name}}</h2></span> <label>教师: {{title.teach.name}}</label></div></div></a><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.arranges || vm.arranges.length === 0\"><label>你很棒,所有试题都组完了</label></div></div></md-content>");
 $templateCache.put("app/work/submit/submit.html","<md-content class=\"md-whiteframe-z1\" layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">试卷</div><md-button ng-click=\"back()\">返回</md-button></md-toolbar><div layout=\"column\" style=\"background-color: white; padding-bottom: 550px\"><div layout-align=\"center center\" layout=\"column\"><h1>{{vm.exam.name}}</h1><div layout=\"row\"><h3>{{\'共\' + vm.exam.titles.length + \' 题, 满分: \' + vm.exam.percent + \'分\' }}</h3><h2 ng-if=\"vm.userarrange.status === 2\">您的得分: {{vm.userarrange.percent}}</h2></div></div><div layout=\"column\"><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerAllRight\"></div><label flex=\"\">代表你选到答案,同时也是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerYou\"></div><label flex=\"\">代表你选到答案,但不是正确答案</label></div><div layout=\"row\" layout-align=\"center center\"><div style=\"height: 5px; width: 300px\" class=\"answerRight\"></div><label flex=\"\">代表正确答案</label></div></div><div style=\"border: dotted 1px #aaa;\"></div><div ng-repeat=\"(bIndex, bigTitle) in vm.exam.titles\" style=\"margin: 10px 5px;\"><h2 flex=\"\">{{((bIndex + 1) | sequence:\'zh\')+ \' : \' + bigTitle.name + \'(每题 \' + bigTitle.percent + \"分, 共\" + bigTitle.titles.length + \" * \" + bigTitle.percent + \"= \" + (bigTitle.titles.length * bigTitle.percent) + \" 分)\"}}</h2><div ng-switch=\"bigTitle.type\"><div ng-switch-when=\"0\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-radio-group><md-radio-button ng-repeat=\"(aIndex, answer) in title.answers\" style=\"margin-left: 10px\" disabled=\"\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-radio-button></md-radio-group></div></div><div ng-switch-when=\"1\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content}}</h4><label style=\"margin:0px 10px;\">(&nbsp;&nbsp;&nbsp;&nbsp;)</label></div><md-checkbox disabled=\"\" ng-repeat=\"(aIndex,answer) in title.answers\" style=\"margin-left: 10px\" ng-model=\"answer.select\" ng-class=\"{\'2\':\'answerAllRight\', \'1\':\'answerRight\', \'0\': \'answerYou\'}[answer.correct ? answer.select ? \'2\' : \'1\' : answer.select ? \'0\' : \'-1\']\">{{(aIndex | abcd:\'upper\') + \'. \' + answer.content}}</md-checkbox></div></div><div ng-switch-default=\"\"><div ng-repeat=\"(tIndex,title) in bigTitle.titles\" style=\"margin-bottom: 10px;padding: 10px;\"><div layout=\"row\" layout-align=\"center center\"><h4 style=\"color: #333333\" flex=\"\">{{((tIndex + 1)) + \': \' + title.content}}</h4></div><div style=\"margin: 10px\"><label>答案:</label><p>{{title.answer}}</p></div><div><md-button ng-if=\"vm.filterCorrect(title.answers).length > 0\" ng-click=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\'] = !vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\">参考答案</md-button><div ng-if=\"vm[\'_\'+bIndex + \'_\' + tIndex + \'_\']\" layout=\"row\" ng-repeat=\"(aIndex,answer) in vm.filterCorrect(title.answers)\"><label>{{aIndex+1}}:</label><p style=\"margin: 0px 20px\">{{answer.content}}</p></div></div></div></div></div></div></div></md-content>");
 $templateCache.put("app/work/submits/submits.html","<md-content layout=\"column\" flex=\"\"><md-toolbar layout=\"row\"><div class=\"md-toolbar-tools\" flex=\"\">已提交作业</div><md-button ng-href=\"/#/main/exam/add\">添加</md-button></md-toolbar><div><div layout=\"column\" ng-repeat=\"title in vm.arranges\"><a ng-href=\"/#/main/work/submit?id={{title.id}}\" class=\"link container-padding\" flex=\"\"><div layout=\"row\" layout-align=\"center center\"><h3>{{$index+1}}</h3><span class=\"split-30\"></span><div layout=\"row\" layout-align=\"center center\" flex=\"\"><span flex=\"\"><h2>{{title.arrange.name}}</h2></span> <label>教师: {{title.teach.name}}</label></div></div></a><div class=\"list-divider\" ng-if=\"!$last\"></div></div><div ng-if=\"!vm.arranges || vm.arranges.length === 0\"><label>暂无提交作业</label></div></div></md-content>");

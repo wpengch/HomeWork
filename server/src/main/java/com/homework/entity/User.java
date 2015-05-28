@@ -20,7 +20,7 @@ public class User implements Serializable {
     private String password;
     private Integer type;
     private Timestamp birthday;
-    private byte sex;
+    private Byte sex;
     private String avatar;
     private String address;
     private Timestamp admissionTime;
@@ -117,12 +117,12 @@ public class User implements Serializable {
     }
 
     @Basic
-    @Column(name = "sex", nullable = false, insertable = true, updatable = true)
-    public byte getSex() {
+    @Column(name = "sex", nullable = true, insertable = true, updatable = true)
+    public Byte getSex() {
         return sex;
     }
 
-    public void setSex(byte sex) {
+    public void setSex(Byte sex) {
         this.sex = sex;
     }
 
