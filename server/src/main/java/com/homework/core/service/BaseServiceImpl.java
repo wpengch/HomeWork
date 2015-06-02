@@ -10,6 +10,7 @@ import java.util.List;
 /**
  *  2015-3-27-0027.
  */
+
 public abstract class BaseServiceImpl<T,ID> implements BaseService<T, ID> {
 
     @Override

@@ -10,7 +10,7 @@
 	</appender>
 
 	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="Threshold" value="DEBUG" />
+		<param name="Threshold" value="INFO" />
 		<param name="File" value="${catalina.home}/logs/oa.log" />
 		<param name="Append" value="true" />
 
@@ -36,23 +36,23 @@
 	</logger>
 
 	<logger name="java.sql.Statement">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 
 	<logger name="java.sql.Connection">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 
 	<logger name="org.quartz">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 
 	<logger name="org.directwebremoting">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 
 	<root>
-		<level value="DEBUG" />
+		<level value="INFO" />
 		<appender-ref ref="FILE" />
 		<appender-ref ref="CONSOLE" />
 	</root>

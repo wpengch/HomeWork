@@ -3,6 +3,7 @@ package com.homework.core.dao;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -16,6 +17,7 @@ import java.util.Map;
 /**
  * 2015-3-27-0027.
  */
+@Transactional
 public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
     private Class<T> entityClass;
     private Class<ID> idClass;
@@ -31,7 +33,7 @@ public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
     }
 
     public Session getSession() {
-        return sessionFactory.openSession();
+        return sessionFactory.getCurrentSession();
     }
 
     @Override
@@ -81,7 +83,7 @@ public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
 
     @Override
     public List<T> getList(HashMap<String, Object> condition) {
-        Session session = sessionFactory.openSession();
+        Session session = getSession();
         Criteria cri = session.createCriteria(entityClass);
         for (Map.Entry<String, Object> entry : condition.entrySet()) {
             if (entry.getValue() != null) {
@@ -131,7 +133,7 @@ public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
 
     @Override
     public T uniqueResult(HashMap<String, Object> conditions) {
-        Session session = sessionFactory.openSession();
+        Session session = getSession();
         Criteria cri = session.createCriteria(entityClass);
         for (Map.Entry<String, Object> entry : conditions.entrySet()) {
             if (entry.getValue() != null) {
@@ -182,13 +184,13 @@ public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
 
     @Override
     public List<T> getAll() {
-        Query query = sessionFactory.openSession().createQuery("from " + entityClass.getSimpleName());
+        Query query = getSession().createQuery("from " + entityClass.getSimpleName());
         return query.list();
     }
 
     @Override
     public T getById(ID id) {
-        return (T) sessionFactory.openSession().get(entityClass.getName(), (Serializable) id);
+        return (T) getSession().get(entityClass.getName(), (Serializable) id);
     }
 
     @Override

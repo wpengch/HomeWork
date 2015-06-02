@@ -6,6 +6,7 @@ import com.homework.core.service.BaseServiceImpl;
 import com.homework.dao.AnswerDao;
 import com.homework.entity.Answer;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
  * Created by 田黄雪薇 on 15/5/16.
  */
 @Service
+@Transactional
 public class AnswerService extends BaseServiceImpl<Answer,Integer> implements BaseService<Answer,Integer> {
     @Resource
     AnswerDao answerDao;
