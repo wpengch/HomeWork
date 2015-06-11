@@ -6,7 +6,7 @@
       <md-button class="btn-ctrl" ng-click="back()">取消</md-button>
     </md-toolbar>
     <md-content>
-      <div layout="row" ng-repeat="user in vm.users">
+      <div layout="row" ng-repeat="user in vm.users | filter:{type:'!2'}">
         <md-button>{{$index+1}}</md-button>
         <md-checkbox ng-model="user.selected" flex>{{user.name}}</md-checkbox>
       </div>

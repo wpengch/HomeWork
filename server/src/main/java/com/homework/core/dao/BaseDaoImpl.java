@@ -196,7 +196,7 @@ public abstract class BaseDaoImpl<T, ID> implements BaseDao<T, ID> {
     @Override
     public boolean deleteById(ID id) {
         Session session = getSession();
-        String hql = "delete from " + entityClass.getName() + " where id=?";
+        String hql = String.format("delete from %s where id=?", entityClass.getName());
         Query query = session.createQuery(hql);
         query.setParameter(0, id);
         query.executeUpdate();

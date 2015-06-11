@@ -240,7 +240,7 @@
         ],
         Urls: {
             fileUrl: 'http://192.168.0.240:9050/file/direct/origin/',
-            RestUrl: 'http://192.168.0.15:8080/'
+            RestUrl: 'http://192.168.0.127:8080/'
 //            RestUrl: undefined
         },
         Names: {
