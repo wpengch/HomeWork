@@ -15,6 +15,7 @@
         //接口定义
         var vm = this;
         vm.user = Restangular.one('user', $rootScope.getSelfId()).get().$object;
+        vm.arranges = Restangular.all('userarrange').getList({user:$rootScope.getSelfId()}).$object;
         vm.submit = submit;
         activate();
         ////////////////////////////////////////////////

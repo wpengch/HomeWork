@@ -42,7 +42,7 @@
       }
       AuthFactory.login(vm.user.userName, vm.user.password, ev)
         .then(function () {
-          $state.go('main');
+          $state.go('main.main');
         });
     }
     function stuRegister(ev) {

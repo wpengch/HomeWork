@@ -1,3 +1,145 @@
-<md-content class="md-padding">
-    首页
-</md-content>
+<div class="md-padding">
+    <md-content layout="column" style="margin-top: 20px"  ng-if="vm.user.type === 1">
+        <md-toolbar>
+            <div class="md-toolbar-tools" flex>试卷</div>
+        </md-toolbar>
+        <div>
+            <div layout="column" ng-repeat="title in vm.user.examinations | limitTo:5">
+                <a ng-href="/#/main/exam/info?id={{title.id}}" class="link container-padding" flex>
+                    <div layout="row" layout-align="center center">
+                        <h3>{{$index+1}}</h3>
+                        <span class="split-30"></span>
+                        <div layout="column" flex>
+                            <span><h2>{{title.name}}</h2></span>
+                            <label>{{title.description}}</label>
+                        </div>
+                    </div>
+                </a>
+                <div class="list-divider" ng-if="!$last"></div>
+            </div>
+            <div ng-if="!vm.user.titles || vm.user.examinations.length === 0">
+                <md-button ng-href="/#/main/exam/add">没有出过试卷，点此添加</md-button>
+            </div>
+        </div>
+    </md-content>
+
+    <md-content layout="column" style="margin-top: 20px" ng-if="vm.user.type === 1">
+        <md-toolbar>
+            <div class="md-toolbar-tools" flex>课程</div>
+        </md-toolbar>
+        <div >
+            <div layout="column" ng-repeat="course in vm.user.courses | limitTo:5">
+                <a  ng-href="/#/main/course/students?id={{course.id}}" class="link container-padding" flex>
+                    <div layout="row" layout-align="center center">
+                        <h3>{{$index+1}}</h3>
+                        <span class="split-30"></span>
+                        <div layout="column" flex>
+                            <h2>{{course.name}}</h2>
+                            <label>{{course.type}}</label>
+                        </div>
+                        <span>学生数: {{course.students.length}}</span>
+                    </div>
+                </a>
+                <div class="list-divider" ng-if="!$last"></div>
+            </div>
+            <div ng-if="!vm.user.courses || vm.user.courses.length === 0">
+                <md-button ng-click="vm.addCourse($event)">没有课程，点此添加</md-button>
+            </div>
+        </div>
+    </md-content>
+
+    <md-content layout="column" style="margin-top: 20px" ng-if="vm.user.type === 1">
+        <md-toolbar>
+            <div class="md-toolbar-tools" flex>题目</div>
+        </md-toolbar>
+        <div >
+            <div layout="column" ng-repeat="title in vm.user.titles | limitTo:10">
+                <a ng-href="/#/main/title/info?id={{title.id}}" class="link container-padding" flex>
+                    <div layout="row" layout-align="center center">
+                        <h3>{{$index+1}}</h3>
+                        <span class="split-30"></span>
+                        <div layout="column" flex>
+                            <span><h2>{{title.content}}</h2></span>
+                            <label>{{title.description}}</label>
+                        </div>
+
+                    </div>
+                </a>
+                <div class="list-divider" ng-if="!$last"></div>
+            </div>
+            <div ng-if="!vm.user.titles || vm.user.titles.length === 0">
+                <md-button ng-href="/#/main/title/add">没有出过题目，点此添加</md-button>
+            </div>
+        </div>
+    </md-content>
+
+    <md-content layout="column" style="margin-top: 20px" ng-if="vm.user.type === 0">
+        <md-toolbar>
+            <div class="md-toolbar-tools" flex>我的作业</div>
+        </md-toolbar>
+        <div >
+            <div layout="column" ng-repeat="title in vm.arranges | filter:{status:0} | limitTo:10">
+                <a ng-href="/#/main/work/info?id={{title.id}}" class="link container-padding" flex>
+                    <div layout="row" layout-align="center center">
+                        <h3>{{$index+1}}</h3>
+                        <span class="split-30"></span>
+                        <div layout="row" layout-align="center center" flex>
+                            <span flex><h2>{{title.arrange.name}}</h2></span>
+                            <label>教师: {{title.teach.name}}</label>
+                        </div>
+                    </div>
+                </a>
+                <div class="list-divider" ng-if="!$last"></div>
+            </div>
+            <div ng-if="!vm.arranges || vm.arranges.length === 0">
+                <label>你很棒,所有试题都组完了</label>
+            </div>
+        </div>
+    </md-content>
+    <md-content layout="column" style="margin-top: 20px" ng-if="vm.user.type === 0">
+        <md-toolbar>
+            <div class="md-toolbar-tools" flex>已提交作业</div>
+        </md-toolbar>
+        <div >
+            <div layout="column" ng-repeat="title in vm.arranges | filter:{status:1}| limitTo:10">
+                <a ng-href="/#/main/work/info?id={{title.id}}" class="link container-padding" flex>
+                    <div layout="row" layout-align="center center">
+                        <h3>{{$index+1}}</h3>
+                        <span class="split-30"></span>
+                        <div layout="row" layout-align="center center" flex>
+                            <span flex><h2>{{title.arrange.name}}</h2></span>
+                            <label>教师: {{title.teach.name}}</label>
+                        </div>
+                    </div>
+                </a>
+                <div class="list-divider" ng-if="!$last"></div>
+            </div>
+            <div ng-if="!vm.arranges || vm.arranges.length === 0">
+                <label>你很棒,所有试题都组完了</label>
+            </div>
+        </div>
+    </md-content>
+    <md-content layout="column" style="margin-top: 20px" ng-if="vm.user.type === 0">
+        <md-toolbar>
+            <div class="md-toolbar-tools" flex>作业历史</div>
+        </md-toolbar>
+        <div >
+            <div layout="column" ng-repeat="title in vm.arranges | filter:{status:2}| limitTo:10">
+                <a ng-href="/#/main/work/info?id={{title.id}}" class="link container-padding" flex>
+                    <div layout="row" layout-align="center center">
+                        <h3>{{$index+1}}</h3>
+                        <span class="split-30"></span>
+                        <div layout="row" layout-align="center center" flex>
+                            <span flex><h2>{{title.arrange.name}}</h2></span>
+                            <label>教师: {{title.teach.name}}</label>
+                        </div>
+                    </div>
+                </a>
+                <div class="list-divider" ng-if="!$last"></div>
+            </div>
+            <div ng-if="!vm.arranges || vm.arranges.length === 0">
+                <label>你很棒,所有试题都组完了</label>
+            </div>
+        </div>
+    </md-content>
+</div>
